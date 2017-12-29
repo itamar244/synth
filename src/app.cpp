@@ -5,8 +5,8 @@
 namespace synth {
 
 void App::init() {
-  lcd.begin(0);
-  lcdtouch.InitTypeTouch(2);
+  lcd.begin();
+  lcdtouch.InitTypeTouch(1);
 }
 
 void App::tick() {
@@ -14,7 +14,7 @@ void App::tick() {
   if (digitalRead(2) == 0) {
     lcdtouch.readxy();
     const uint16_t x = lcdtouch.readx(), y = lcdtouch.ready();
-    screen.tap(x, y);
+    screen.tap(WIDTH - x, y);
   }
 }
 

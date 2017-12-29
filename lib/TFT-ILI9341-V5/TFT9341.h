@@ -38,30 +38,30 @@
 #define WIDTH			320
 #define HEIGHT			240
 
-// enum class Color {
-// 	BLACK = 0x0000,
-// 	GRAY = 0x8410,
-// 	BLUE = 0x001F,
-// 	RED = 0xF800,
-// 	GREEN = 0x07E0,
-// 	CYAN = 0x07FF,
-// 	MAGENTA = 0xF81F,
-// 	PURPLE = 0x7194,
-// 	ORANGE = 0xFE00,
-// 	YELLOW = 0xFFE0,
-// 	WHITE = 0xFFFF,
-// };
-#define	BLACK		0x0000
-#define	GRAY			0x8410
-#define	BLUE			0x001F
-#define	RED				0xF800
-#define	GREEN		0x07E0
-#define	CYAN			0x07FF
-#define	MAGENTA 0xF81F
-#define	PURPLE		0x7194
-#define	ORANGE	0xFE00
-#define	YELLOW	0xFFE0
-#define	WHITE		0xFFFF
+enum class Color: uint16_t {
+	BLACK = 0x0000,
+	GRAY = 0x8410,
+	BLUE = 0x001F,
+	RED = 0xF800,
+	GREEN = 0x07E0,
+	CYAN = 0x07FF,
+	MAGENTA = 0xF81F,
+	PURPLE = 0x7194,
+	ORANGE = 0xFE00,
+	YELLOW = 0xFFE0,
+	WHITE = 0xFFFF,
+};
+// #define	BLACK		0x0000
+// #define	GRAY			0x8410
+// #define	BLUE			0x001F
+// #define	RED				0xF800
+// #define	GREEN		0x07E0
+// #define	CYAN			0x07FF
+// #define	MAGENTA 0xF81F
+// #define	PURPLE		0x7194
+// #define	ORANGE	0xFE00
+// #define	YELLOW	0xFFE0
+// #define	WHITE		0xFFFF
 
 #define up2down		0x08
 #define down2up		0xc8
@@ -108,9 +108,12 @@ class tft9341 {
 	inline void setFont (uint8_t fontSize) { this->fontSize = fontSize; }
 	inline uint16_t getColor () { return (this->color); }
 	inline void setColor (uint16_t color) { this->color = color;}
-	inline void setColor (uint16_t color, uint16_t background) {this->color=color; this->background=background;};
+	inline void setColor (Color color) { this->color = static_cast<uint16_t>(color);}
+	inline void setColor (Color color, Color background) {
+		this->color=static_cast<uint16_t>(color); this->background=static_cast<uint16_t>(background);
+	}
 	inline uint16_t getBackground () {	return (this->background); }
-	inline void setBackground (uint16_t background) { this->background = background; }
+	inline void setBackground (Color background) { this->background = static_cast<uint16_t>(background); }
 	inline uint16_t getHeight() { return (this->height); }
 	inline uint16_t getWidth() { return (this->width); }
 	inline uint8_t	 getRotation() { return (this->rotation); }
@@ -121,7 +124,7 @@ class tft9341 {
 	void begin();
 	void begin(uint8_t r){begin(); setRotation (r);}
 	void clrscr();
-	void clrscr(uint16_t background) {setBackground (background); clrscr();};
+	void clrscr(Color background) {setBackground (background); clrscr();};
 
 	void write (char c);
 	void print (int16_t num) {print(num,DEC);};
@@ -151,37 +154,37 @@ class tft9341 {
 	void println (double fnum) {print (fnum,2);};
 
 	void drawPixel (int16_t x,int16_t y);
-	void drawPixel (int16_t x,int16_t y, uint16_t color) { setColor (color); drawPixel (x,y);};
+	void drawPixel (int16_t x,int16_t y, Color color) { setColor (color); drawPixel (x,y);};
 	void drawHLine (int16_t x,int16_t y, int16_t w);
-	void drawHLine (int16_t x,int16_t y, int16_t w, uint16_t color) { setColor (color); drawHLine (x,y,w);};
+	void drawHLine (int16_t x,int16_t y, int16_t w, Color color) { setColor (color); drawHLine (x,y,w);};
 	void drawVLine (int16_t x,int16_t y, int16_t h);
-	void drawVLine (int16_t x,int16_t y, int16_t h, uint16_t color) { setColor (color); drawVLine (x,y,h);};
+	void drawVLine (int16_t x,int16_t y, int16_t h, Color color) { setColor (color); drawVLine (x,y,h);};
 	void drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1);
-	void drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color) { setColor (color); drawLine(x0,y0,x1,y1);};
+	void drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, Color color) { setColor (color); drawLine(x0,y0,x1,y1);};
 	void drawLinePolar (int16_t x0, int16_t y0, int16_t r, int16_t angle);
-	void drawLinePolar (int16_t x0, int16_t y0, int16_t r, int16_t angle, uint16_t color) { setColor (color); drawLinePolar (x0,y0,r,angle);};
+	void drawLinePolar (int16_t x0, int16_t y0, int16_t r, int16_t angle, Color color) { setColor (color); drawLinePolar (x0,y0,r,angle);};
 
 	void drawRect (int16_t x, int16_t y, int16_t w, int16_t h);
-	void drawRect (int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){ setColor (color); drawRect (x,y,w,h);};
+	void drawRect (int16_t x, int16_t y, int16_t w, int16_t h, Color color){ setColor (color); drawRect (x,y,w,h);};
 	void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2);
-	void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color){setColor(color); drawTriangle(x0,y0,x1,y1,x2,y2);};
+	void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, Color color){setColor(color); drawTriangle(x0,y0,x1,y1,x2,y2);};
 	void drawCircle(int16_t x0, int16_t y0, int16_t r);
-	void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color){setColor(color); drawCircle(x0,y0,r);};
+	void drawCircle(int16_t x0, int16_t y0, int16_t r, Color color){setColor(color); drawCircle(x0,y0,r);};
 	void drawCircleHelper(int16_t x0, int16_t y0, int16_t r, int8_t cornername);
-	void drawCircleHelper(int16_t x0, int16_t y0, int16_t r, int8_t cornername, uint16_t color){setColor(color); drawCircleHelper(x0,y0,r,cornername);};
+	void drawCircleHelper(int16_t x0, int16_t y0, int16_t r, int8_t cornername, Color color){setColor(color); drawCircleHelper(x0,y0,r,cornername);};
 	void drawRoundRect(int16_t x, int16_t y, int16_t w,int16_t h, int16_t r) ;
-	void drawRoundRect(int16_t x, int16_t y, int16_t w,int16_t h, int16_t r, uint16_t color){setColor(color); drawRoundRect(x,y,w,h,r) ;};
+	void drawRoundRect(int16_t x, int16_t y, int16_t w,int16_t h, int16_t r, Color color){setColor(color); drawRoundRect(x,y,w,h,r) ;};
 
 	void fillRect(int16_t x, int16_t y, int16_t w, int16_t h);
-	void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color){setColor(color); fillRect(x,y,w,h);};
+	void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, Color color){setColor(color); fillRect(x,y,w,h);};
 	void fillTriangle ( int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2);
-	void fillTriangle ( int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color){setColor(color); fillTriangle (x0,y0,x1,y1,x2,y2);};
+	void fillTriangle ( int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, Color color){setColor(color); fillTriangle (x0,y0,x1,y1,x2,y2);};
 	void fillCircle(int16_t x0, int16_t y0, int16_t r);
-	void fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color){setColor(color); fillCircle(x0,y0,r);};
+	void fillCircle(int16_t x0, int16_t y0, int16_t r, Color color){setColor(color); fillCircle(x0,y0,r);};
 	void fillCircleHelper(int16_t x0, int16_t y0, int16_t r,uint8_t cornername, int16_t delta) ;
-	void fillCircleHelper(int16_t x0, int16_t y0, int16_t r,uint8_t cornername, int16_t delta, uint16_t color){setColor(color); fillCircleHelper(x0,y0,r,cornername,delta) ;};
+	void fillCircleHelper(int16_t x0, int16_t y0, int16_t r,uint8_t cornername, int16_t delta, Color color){setColor(color); fillCircleHelper(x0,y0,r,cornername,delta) ;};
 	void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r);
-	void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color){setColor(color); fillRoundRect(x,y,w,h,r);};
+	void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, Color color){setColor(color); fillRoundRect(x,y,w,h,r);};
 
 	void invertDisplay(uint8_t i);
 

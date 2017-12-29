@@ -5,7 +5,6 @@ synth::App app;
 
 void setup() {
   Serial.begin(9600);
-  Serial.println(sizeof(app));
   app.init();
 }
 

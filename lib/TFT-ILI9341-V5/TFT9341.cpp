@@ -1,6 +1,6 @@
 // last update 24/06/17
 
-#define F_CPU 16000000UL
+// #define F_CPU 16000000UL
 //#define CAV 1
 #include <avr/io.h>
 #include <avr/pgmspace.h>
@@ -20,8 +20,8 @@ tft9341::tft9341()
 	this->height   = HEIGHT;
 	this->fontSize = 2;
 	this->rotation  = 2;
-	this->color = BLACK;
-	this->background = WHITE;
+	setColor(Color::BLACK);
+	setBackground(Color::WHITE);
 	numbera = 0;
 	numberb = 0;
 	number1 = 1;
@@ -864,7 +864,7 @@ uint16_t touch::getY()
 
 void touch::readxy()
 {
-	uint8_t rotation = lcd.getRotation();
+	// uint8_t rotation = lcd.getRotation();
 	PDD2 = 1;//lock irq
 	_delay_ms(10);
 	SPI.setClockDivider(SPI_CLOCK_DIV8);

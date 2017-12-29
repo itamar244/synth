@@ -8,17 +8,25 @@
 namespace synth {
 
 using utils::Button;
+using std::vector;
+
+enum class Page {
+  INDEX,
+  KEYBOARD,
+};
 
 class Screen {
 private:
-  std::vector<Button> buttons;
-  uint8_t screen_index = 0;
+  vector<Button> buttons;
+  Page current_page = Page::INDEX;
   bool painted = false;
 
 public:
+  const inline vector<Button>& get_buttons() { return buttons; }
+
   void paint();
   void tap(uint16_t x, uint16_t y);
-  void switch_screen();
+  void switch_page(Page to);
 };
 
 }  // namespace synth

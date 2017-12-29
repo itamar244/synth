@@ -1,0 +1,9 @@
+{
+  "terminal.integrated.env.linux": {
+    "PATH": "/home/itamar/.platformio/penv/bin:/home/itamar/.cargo/bin:/usr/lib/dart/bin:/home/itamar/buck/bin:/usr/lib/java/jdk1.8.0_144/bin:/home/itamar/.nvm/versions/node/v9.1.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+  },
+  "files.associations": {
+    "iomanip": "cpp",
+    "ios": "cpp"
+  }
+}
