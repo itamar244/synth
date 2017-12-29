@@ -1,21 +1,17 @@
 #pragma once
 
-namespace synth {
-namespace utils {
+#include <Arduino.h>
 
-class Point {
+namespace synth {
+namespace screen {
+
+class Button {
 public:
   uint16_t x, y;
-};
-
-class Button: public Point {
-public:
   int16_t width, height;
-  
+
   Button(uint16_t x, uint16_t y, int16_t width, int16_t height)
-    : Point{x, y}
-    , width(width)
-    , height(height) {}
+    : x(x), y(y), width(width), height(height) {}
 
   inline bool is_clicked(uint16_t given_x, uint16_t given_y) const {
     const int diff_x = given_x - x, diff_y = given_y - y;
@@ -24,5 +20,5 @@ public:
   }
 };
 
-}  // namespace utils
+}  // namespace screen
 }  // namespace synth

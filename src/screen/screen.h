@@ -3,30 +3,25 @@
 #include <Arduino.h>
 #include <StandardCplusplus.h>
 #include <vector>
-#include "utils.h"
+#include "screen/pages.h"
+#include "screen/button.h"
 
 namespace synth {
+namespace screen {
 
-using utils::Button;
-using std::vector;
-
-enum class Page {
-  INDEX,
-  KEYBOARD,
-};
-
-class Screen {
+class Controller {
 private:
-  vector<Button> buttons;
+  std::vector<Button> buttons;
   Page current_page = Page::INDEX;
   bool painted = false;
 
 public:
-  const inline vector<Button>& get_buttons() { return buttons; }
+  const inline std::vector<Button>& get_buttons() { return buttons; }
 
   void paint();
   void tap(uint16_t x, uint16_t y);
   void switch_page(Page to);
 };
 
+}  // namespace screen
 }  // namespace synth

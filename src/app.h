@@ -1,12 +1,13 @@
 #pragma once
 
-#include "screen.h"
+#include "screen/screen.h"
 
 namespace synth {
 
+
 class App {
 private:
-  Screen screen;
+  screen::Controller screen;
   
 public:
   void init();
