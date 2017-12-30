@@ -8,10 +8,6 @@
 namespace synth {
 namespace screen {
 
-Controller::~Controller() {
-  if (buttons != nullptr) delete buttons;
-}
-
 void Controller::paint(AppState& state) {
   if (state.should_paint_screen()) {
     state.screen_painted();
@@ -22,7 +18,7 @@ void Controller::paint(AppState& state) {
     switch (state.get_page()) {
 #define PAINT_SCREEN(page_name)                                                \
       case Page::page_name:                                                    \
-        screen_ ## page_name(this);                                            \
+        buttons = screen_ ## page_name();                                      \
         break;
       PAGE_TYPES(PAINT_SCREEN)
 #undef PAINT_SCREEN
@@ -32,9 +28,9 @@ void Controller::paint(AppState& state) {
 
 void Controller::tap(AppState& state, uint16_t x, uint16_t y) {
   switch (state.get_page()) {
-#define TAP_SCREEN(page_name)                                                \
-    case Page::page_name:                                                    \
-      tap_ ## page_name(this, state, x, y);                                         \
+#define TAP_SCREEN(page_name)                                                  \
+    case Page::page_name:                                                      \
+      tap_ ## page_name(this, state, x, y);                                    \
       break;
     PAGE_TYPES(TAP_SCREEN)
 #undef TAP_SCREEN

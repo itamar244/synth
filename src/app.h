@@ -5,7 +5,6 @@
 
 namespace synth {
 
-
 class App {
 private:
   AppState state;

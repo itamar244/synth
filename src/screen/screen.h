@@ -5,6 +5,8 @@
 #pragma once
 
 #include <Arduino.h>
+#include <StandardCplusplus.h>
+#include <vector>
 #include "app-state.h"
 #include "screen/button.h"
 
@@ -13,18 +15,10 @@ namespace screen {
 
 class Controller {
 private:
-  Button* buttons = nullptr;
-  int buttons_size = 0;
+  std::vector<Button> buttons;
 
 public:
-  ~Controller();
-
-  inline Button* get_buttons() { return buttons; }
-  const inline void set_buttons(Button* buttons, int buttons_size) {
-    if (buttons != nullptr) delete buttons;
-    this->buttons = buttons;
-    this->buttons_size = buttons_size;
-  }
+  inline std::vector<Button>& get_buttons() { return buttons; }
 
   void paint(AppState& state);
   void tap(AppState& state, uint16_t x, uint16_t y);

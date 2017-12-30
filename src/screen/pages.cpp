@@ -23,10 +23,7 @@ PAGE_SCREEN(INDEX) {
   lcd.setColor(Color::WHITE, Color::BLUE);
   lcd.print("continue");
 
-  controller->set_buttons(
-    new Button[1]{{ x, y, width, height }},
-    1
-  );
+  return {{ x, y, width, height }};
 }
 
 PAGE_TAP(INDEX) {
@@ -38,7 +35,8 @@ PAGE_TAP(INDEX) {
 
 PAGE_SCREEN(KEYBOARD) {
   uint8_t size = strlen_P(NOTE_VALUES);
-  Button* buttons = new Button[size];
+  std::vector<Button> buttons;
+  buttons.reserve(size);
 
   for (uint8_t i = 0; i < size; i++) {
     const uint16_t x = (i % 3) * 100 + 30;
@@ -46,20 +44,19 @@ PAGE_SCREEN(KEYBOARD) {
     const int width = 50, height = 40;
     const char key = pgm_read_byte_near(NOTE_VALUES + i);
 
-    buttons[i] = { x, y, width, height };
+    buttons.push_back({ x, y, width, height });
     lcd.fillRoundRect(x, y, width, height, 5, Color::RED);
     lcd.gotoxy(x + 18, y + 10);
     lcd.setColor(Color::WHITE, Color::RED);
     lcd.write(key);
   }
 
-
-  controller->set_buttons(buttons, size);
+  return buttons;
 }
 
 PAGE_TAP(KEYBOARD) {
   uint8_t size = strlen_P(NOTE_VALUES);
-  auto buttons = controller->get_buttons();
+  auto& buttons = controller->get_buttons();
   // Serial.println("Tapped: " + String(x) + ", " + String(y));
   for (unsigned i = 0; i < size; i++) {
     Button& button = buttons[i];

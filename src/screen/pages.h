@@ -6,11 +6,14 @@
 #pragma once
 
 #include <Arduino.h>
+#include <StandardCplusplus.h>
+#include <vector>
 #include "app-state.h"
+#include "screen/button.h"
 #include "screen/screen.h"
 
 #define PAGE_SCREEN(page)                                                      \
-  void screen_ ## page(Controller* controller)
+  std::vector<Button> screen_ ## page()
 #define PAGE_TAP(page)                                                         \
   void tap_ ## page(                                                           \
     Controller* controller, AppState& state, uint16_t x, uint16_t y)
