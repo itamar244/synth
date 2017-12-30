@@ -1,9 +1,11 @@
+/** 
+ * the main logic of the screen module.
+ * Controller is the screen controller
+ */
 #pragma once
 
 #include <Arduino.h>
-#include <StandardCplusplus.h>
-#include <vector>
-#include "screen/pages.h"
+#include "app-state.h"
 #include "screen/button.h"
 
 namespace synth {
@@ -11,16 +13,21 @@ namespace screen {
 
 class Controller {
 private:
-  std::vector<Button> buttons;
-  Page current_page = Page::INDEX;
-  bool painted = false;
+  Button* buttons = nullptr;
+  int buttons_size = 0;
 
 public:
-  const inline std::vector<Button>& get_buttons() { return buttons; }
+  ~Controller();
 
-  void paint();
-  void tap(uint16_t x, uint16_t y);
-  void switch_page(Page to);
+  const inline Button* get_buttons() const{ return buttons; }
+  const inline void set_buttons(Button* buttons, int buttons_size) {
+    if (buttons != nullptr) delete buttons;
+    this->buttons = buttons;
+    this->buttons_size = buttons_size;
+  }
+
+  void paint(AppState& state);
+  void tap(AppState& state, uint16_t x, uint16_t y);
 };
 
 }  // namespace screen
