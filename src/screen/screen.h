@@ -19,7 +19,7 @@ private:
 public:
   ~Controller();
 
-  const inline Button* get_buttons() const{ return buttons; }
+  inline Button* get_buttons() { return buttons; }
   const inline void set_buttons(Button* buttons, int buttons_size) {
     if (buttons != nullptr) delete buttons;
     this->buttons = buttons;

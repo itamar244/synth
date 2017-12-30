@@ -16,9 +16,11 @@ PAGE_SCREEN(INDEX) {
   const uint16_t y = lcd.getHeight() / 2 - height / 2;
 
   lcd.gotoxy(x - 60, y - 20);
+  lcd.setColor(Color::WHITE, Color::BLACK);
   lcd.print("Itamar Yatom Project");
-  lcd.fillRoundRect(x, y, width, height, 5, Color::RED);
-  lcd.gotoxy(x + 5, y + 5);
+  lcd.fillRoundRect(x, y, width, height, 5, Color::BLUE);
+  lcd.gotoxy(x + 12, y + 10);
+  lcd.setColor(Color::WHITE, Color::BLUE);
   lcd.print("continue");
 
   controller->set_buttons(
@@ -28,7 +30,7 @@ PAGE_SCREEN(INDEX) {
 }
 
 PAGE_TAP(INDEX) {
-  if (controller->get_buttons()[0].is_clicked(x, y)) {
+  if (controller->get_buttons()[0].is_tapped(x, y)) {
     // Serial.println(String(x) + ", " + String(y));
     state.switch_page(Page::KEYBOARD);
   }
@@ -39,14 +41,15 @@ PAGE_SCREEN(KEYBOARD) {
   Button* buttons = new Button[size];
 
   for (uint8_t i = 0; i < size; i++) {
-    const int x = (i % 3) * 100;
-    const int y = (i / 3) * 100;
+    const uint16_t x = (i % 3) * 100 + 30;
+    const uint16_t y = (i / 3) * 50 + 40;
     const int width = 50, height = 40;
     const char key = pgm_read_byte_near(NOTE_VALUES + i);
 
     buttons[i] = { x, y, width, height };
-    lcd.fillRoundRect(x, y, width, height, 5, Color::YELLOW);
-    lcd.gotoxy(x + 5, y + 5);
+    lcd.fillRoundRect(x, y, width, height, 5, Color::RED);
+    lcd.gotoxy(x + 18, y + 10);
+    lcd.setColor(Color::WHITE, Color::RED);
     lcd.write(key);
   }
 
@@ -59,12 +62,18 @@ PAGE_TAP(KEYBOARD) {
   auto buttons = controller->get_buttons();
   // Serial.println("Tapped: " + String(x) + ", " + String(y));
   for (unsigned i = 0; i < size; i++) {
-    const Button& button = buttons[i];
+    Button& button = buttons[i];
 
-    if (button.is_clicked(x, y)) {
-      // TODO: should connect this to Audio module to make sounds
-      Serial.println((char)pgm_read_byte_near(NOTE_VALUES + i));
+    if (button.is_tapped(x, y)) {
+      if (!button.is_pressed) {
+        button.is_pressed = true;
+        // TODO: should connect this to Audio module to make sounds
+        Serial.println("p" + String((char)pgm_read_byte_near(NOTE_VALUES + i)));
+      }
       return;
+    } else if (button.is_pressed) {
+      button.is_pressed = false;
+      Serial.println("u" + String((char)pgm_read_byte_near(NOTE_VALUES + i)));
     }
   }
 }
