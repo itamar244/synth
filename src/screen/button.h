@@ -10,6 +10,8 @@ public:
   uint16_t x, y;
   int16_t width, height;
 
+  Button() {}
+
   Button(uint16_t x, uint16_t y, int16_t width, int16_t height)
     : x(x), y(y), width(width), height(height) {}
 

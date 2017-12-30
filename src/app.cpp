@@ -10,12 +10,12 @@ void App::init() {
 }
 
 void App::tick() {
-  screen.paint();
+  screen.paint(state);
   if (digitalRead(2) == 0) {
     lcdtouch.readxy();
     const uint16_t x = lcdtouch.readx(), y = lcdtouch.ready();
-    screen.tap(WIDTH - x, y);
+    screen.tap(state, WIDTH - x, y);
   }
 }
 
-}  // namespace synth
+} // namespace synth

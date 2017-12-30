@@ -1,5 +1,6 @@
 #pragma once
 
+#include "app-state.h"
 #include "screen/screen.h"
 
 namespace synth {
@@ -7,6 +8,7 @@ namespace synth {
 
 class App {
 private:
+  AppState state;
   screen::Controller screen;
   
 public:

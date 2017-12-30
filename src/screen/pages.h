@@ -1,25 +1,22 @@
+/**
+ * responsible for screen painting and tap responses.
+ * screen_<PAGE_NAME> and tap_<PAGE_NAME> are generated and are being used
+ * in "screen/screen.cpp"
+ */
 #pragma once
 
 #include <Arduino.h>
-#include <StandardCplusplus.h>
-#include <vector>
-#include "screen/button.h"
-// #include "screen/screen.h"
-// not included because it will cause circular reference and many issues
+#include "app-state.h"
+#include "screen/screen.h"
 
-#define PAGE_SCREEN(page) std::vector<Button> screen_ ## page()
-#define PAGE_TAP(page) \
-  void tap_ ## page(uint16_t x, uint16_t y, Controller* controller)
+#define PAGE_SCREEN(page)                                                      \
+  void screen_ ## page(Controller* controller)
+#define PAGE_TAP(page)                                                         \
+  void tap_ ## page(                                                           \
+    Controller* controller, AppState& state, uint16_t x, uint16_t y)
 
 namespace synth {
 namespace screen {
-
-class Controller; // forward declare Controller
-
-enum class Page {
-  INDEX,
-  KEYBOARD,
-};
 
 PAGE_SCREEN(INDEX);
 PAGE_TAP(INDEX);
