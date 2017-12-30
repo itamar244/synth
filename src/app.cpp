@@ -10,12 +10,12 @@ void App::init() {
 }
 
 void App::tick() {
-  screen.paint(state);
+  screen_.paint(state_);
   if (digitalRead(2) == 0) {
     lcdtouch.readxy();
     const uint16_t x = lcdtouch.readx(), y = lcdtouch.ready();
-    screen.tap(
-      state, 
+    screen_.tap(
+      state_, 
       static_cast<uint16_t>((WIDTH - x - 80) * 1.3), 
       (y - 13) / 1.3
     );

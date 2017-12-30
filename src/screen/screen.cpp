@@ -18,7 +18,7 @@ void Controller::paint(AppState& state) {
     switch (state.get_page()) {
 #define PAINT_SCREEN(page_name)                                                \
       case Page::page_name:                                                    \
-        buttons = screen_ ## page_name();                                      \
+        buttons_ = screen_ ## page_name();                                      \
         break;
       PAGE_TYPES(PAINT_SCREEN)
 #undef PAINT_SCREEN

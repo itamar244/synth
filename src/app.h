@@ -7,8 +7,8 @@ namespace synth {
 
 class App {
 private:
-  AppState state;
-  screen::Controller screen;
+  AppState state_;
+  screen::Controller screen_;
   
 public:
   void init();

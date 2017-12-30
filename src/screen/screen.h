@@ -15,10 +15,10 @@ namespace screen {
 
 class Controller {
 private:
-  std::vector<Button> buttons;
+  std::vector<Button> buttons_;
 
 public:
-  inline std::vector<Button>& get_buttons() { return buttons; }
+  inline std::vector<Button>& get_buttons() { return buttons_; }
 
   void paint(AppState& state);
   void tap(AppState& state, uint16_t x, uint16_t y);
