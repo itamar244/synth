@@ -5,7 +5,8 @@
 #include "screen/page.h"
 #include "screen/screen.h"
 
-const char NOTE_VALUES[] PROGMEM = { 'C', 'D', 'E', 'F', 'G', 'A', 'B' };
+#define NOTE_ITEMS 7
+const char NOTE_VALUES[NOTE_ITEMS] = { 'C', 'D', 'E', 'F', 'G', 'A', 'B' };
 
 namespace synth {
 namespace screen {
@@ -34,15 +35,14 @@ PAGE_TAP(INDEX) {
 }
 
 PAGE_SCREEN(KEYBOARD) {
-  uint8_t size = strlen_P(NOTE_VALUES);
   std::vector<Button> buttons;
-  buttons.reserve(size);
+  buttons.reserve(NOTE_ITEMS);
 
-  for (uint8_t i = 0; i < size; i++) {
+  for (uint8_t i = 0; i < NOTE_ITEMS; i++) {
     const uint16_t x = (i % 3) * 100 + 30;
     const uint16_t y = (i / 3) * 50 + 40;
     const int width = 50, height = 40;
-    const char key = pgm_read_byte_near(NOTE_VALUES + i);
+    const char key = NOTE_VALUES[i];
 
     buttons.push_back({ x, y, width, height });
     lcd.fillRoundRect(x, y, width, height, 5, Color::RED);
@@ -55,25 +55,24 @@ PAGE_SCREEN(KEYBOARD) {
 }
 
 PAGE_TAP(KEYBOARD) {
-  uint8_t size = strlen_P(NOTE_VALUES);
   auto& buttons = controller->get_buttons();
   // Serial.println("Tapped: " + String(x) + ", " + String(y));
-  for (unsigned i = 0; i < size; i++) {
+  for (unsigned i = 0; i < buttons.size(); i++) {
     Button& button = buttons[i];
 
     if (button.is_tapped(x, y)) {
       if (!button.is_pressed) {
         button.is_pressed = true;
         // TODO: should connect this to Audio module to make sounds
-        Serial.println("p" + String((char)pgm_read_byte_near(NOTE_VALUES + i)));
+        Serial.println("p" + String(NOTE_VALUES[i]));
       }
       return;
     } else if (button.is_pressed) {
       button.is_pressed = false;
-      Serial.println("u" + String((char)pgm_read_byte_near(NOTE_VALUES + i)));
+      Serial.println("u" + String(NOTE_VALUES[i]));
     }
   }
 }
 
 } // namespace screen
-} // namespace synth
+} // namespace synt
