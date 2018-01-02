@@ -64,12 +64,12 @@ PAGE_TAP(KEYBOARD) {
       if (!button.is_pressed) {
         button.is_pressed = true;
         // TODO: should connect this to Audio module to make sounds
-        Serial.println("p" + String(NOTE_VALUES[i]));
+        state.start_note(NOTE_VALUES[i]);
       }
       return;
     } else if (button.is_pressed) {
       button.is_pressed = false;
-      Serial.println("u" + String(NOTE_VALUES[i]));
+      state.stop_note(NOTE_VALUES[i]);
     }
   }
 }
