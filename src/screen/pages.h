@@ -15,8 +15,7 @@
 #define PAGE_SCREEN(page)                                                      \
   std::vector<Button> screen_ ## page()
 #define PAGE_TAP(page)                                                         \
-  void tap_ ## page(                                                           \
-    Controller* controller, AppState& state, uint16_t x, uint16_t y)
+  void tap_ ## page(Controller* controller, AppState& state, const Point& point)
 
 namespace synth {
 namespace screen {

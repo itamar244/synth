@@ -9,6 +9,7 @@
 #include <vector>
 #include "app-state.h"
 #include "screen/button.h"
+#include "screen/point.h"
 
 namespace synth {
 namespace screen {
@@ -21,7 +22,7 @@ public:
   inline std::vector<Button>& get_buttons() { return buttons_; }
 
   void paint(AppState& state);
-  void tap(AppState& state, uint16_t x, uint16_t y);
+  void tap(AppState& state, Point point);
 };
 
 }  // namespace screen

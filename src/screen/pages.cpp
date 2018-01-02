@@ -28,7 +28,7 @@ PAGE_SCREEN(INDEX) {
 }
 
 PAGE_TAP(INDEX) {
-  if (controller->get_buttons()[0].is_tapped(x, y)) {
+  if (controller->get_buttons()[0].is_tapped(point)) {
     // Serial.println(String(x) + ", " + String(y));
     state.switch_page(Page::KEYBOARD);
   }
@@ -60,7 +60,7 @@ PAGE_TAP(KEYBOARD) {
   for (unsigned i = 0; i < buttons.size(); i++) {
     Button& button = buttons[i];
 
-    if (button.is_tapped(x, y)) {
+    if (button.is_tapped(point)) {
       if (!button.is_pressed) {
         button.is_pressed = true;
         // TODO: should connect this to Audio module to make sounds

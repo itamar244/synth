@@ -26,11 +26,16 @@ void Controller::paint(AppState& state) {
   }
 }
 
-void Controller::tap(AppState& state, uint16_t x, uint16_t y) {
+void Controller::tap(AppState& state, Point point) {
+  Point calibrated_point{
+    (WIDTH - point.x - 80) * 1.3,
+    (point.y - 13) / 1.3,
+  };
+
   switch (state.get_page()) {
 #define TAP_SCREEN(page_name)                                                  \
     case Page::page_name:                                                      \
-      tap_ ## page_name(this, state, x, y);                                    \
+      tap_ ## page_name(this, state, calibrated_point);  \
       break;
     PAGE_TYPES(TAP_SCREEN)
 #undef TAP_SCREEN
