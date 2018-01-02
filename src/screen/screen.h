@@ -14,6 +14,8 @@
 namespace synth {
 namespace screen {
 
+Point get_clicked_point();
+
 class Controller {
 private:
   std::vector<Button> buttons_;
@@ -22,7 +24,7 @@ public:
   inline std::vector<Button>& get_buttons() { return buttons_; }
 
   void paint(AppState& state);
-  void tap(AppState& state, Point point);
+  void tap(AppState& state);
 };
 
 }  // namespace screen

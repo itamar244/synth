@@ -1,6 +1,8 @@
 #include "screen/pages.h"
+#include <Arduino.h>
+#include <StandardCplusplus.h>
+#include <vector>
 #include <TFT9341.h>
-#include "app-state.h"
 #include "screen/button.h"
 #include "screen/page.h"
 #include "screen/screen.h"
@@ -56,23 +58,30 @@ PAGE_SCREEN(KEYBOARD) {
 
 PAGE_TAP(KEYBOARD) {
   auto& buttons = controller->get_buttons();
-  // Serial.println("Tapped: " + String(x) + ", " + String(y));
+  
   for (unsigned i = 0; i < buttons.size(); i++) {
     Button& button = buttons[i];
 
     if (button.is_tapped(point)) {
       if (!button.is_pressed) {
         button.is_pressed = true;
-        // TODO: should connect this to Audio module to make sounds
         state.start_note(NOTE_VALUES[i]);
       }
+      // doesn't need to continue checking because multitouching isn't supported
       return;
-    } else if (button.is_pressed) {
-      button.is_pressed = false;
-      state.stop_note(NOTE_VALUES[i]);
+    }
+
+    if (button.is_pressed) {
+      // solves some quirks that the screen is pressed in another place.
+      // waits a milisecond and rechecks if the button is held
+      delay(1);
+      if (digitalRead(2) != 0 && !button.is_tapped(get_clicked_point())) {
+        button.is_pressed = false;
+        state.stop_note(NOTE_VALUES[i]);
+      }
     }
   }
 }
 
 } // namespace screen
-} // namespace synt
+} // namespace synth
