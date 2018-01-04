@@ -3,12 +3,10 @@
 #include "app-state.h"
 #include "screen/pages.h"
 
-#define PAGE_TYPES(V) V(INDEX) V(KEYBOARD)
-
 namespace synth {
 namespace screen {
 
-Point get_clicked_point() {
+inline Point get_clicked_point() {
   lcdtouch.readxy();
   const uint16_t x = lcdtouch.readx(), y = lcdtouch.ready();
 
@@ -26,26 +24,36 @@ void Controller::paint(AppState& state) {
     lcd.setColor(Color::RED);
 
     switch (state.get_page()) {
-#define PAINT_SCREEN(page_name)                                                \
+#define V(page_name)                                                           \
       case Page::page_name:                                                    \
         buttons_ = screen_ ## page_name();                                     \
         break;
-      PAGE_TYPES(PAINT_SCREEN)
-#undef PAINT_SCREEN
+      PAGE_TYPES(V)
+#undef V
     }
   }
 }
 
-void Controller::tap(AppState& state) {
-  Point point = get_clicked_point();
-
+void Controller::touch(AppState& state) {
+  const Point point = get_clicked_point();
   switch (state.get_page()) {
-#define TAP_SCREEN(page_name)                                                  \
+#define V(page_name)                                                           \
     case Page::page_name:                                                      \
-      tap_ ## page_name(this, state, point);                                   \
+      page_touch_ ## page_name(this, state, point);                            \
       break;
-    PAGE_TYPES(TAP_SCREEN)
-#undef TAP_SCREEN
+    PAGE_TYPES(V)
+#undef V
+  }
+}
+
+void Controller::touchend(AppState& state) {
+    switch (state.get_page()) {
+#define V(page_name)                                                           \
+    case Page::page_name:                                                      \
+      page_touchend_ ## page_name(this, state);                                \
+      break;
+    PAGE_TYPES(V)
+#undef V
   }
 }
 

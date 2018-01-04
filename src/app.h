@@ -7,9 +7,10 @@ namespace synth {
 
 class App {
 private:
-  AppState state_;
   screen::Controller screen_;
-  
+  AppState state_;
+  bool screen_pressed_ = false;
+
 public:
   void init();
   void tick();

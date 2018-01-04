@@ -12,7 +12,11 @@ void App::init() {
 void App::tick() {
   screen_.paint(state_);
   if (digitalRead(2) == 0) {
-    screen_.tap(state_);
+    screen_pressed_ = true;
+    screen_.touch(state_);
+  } else if (screen_pressed_) {
+    screen_pressed_ = false;
+    screen_.touchend(state_);
   }
 }
 
