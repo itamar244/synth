@@ -1,12 +1,11 @@
-#include "screen/pages.h"
 #include <Arduino.h>
 #include <TFT9341.h>
-#include "screen/page.h"
+#include "screen/pages.h"
 
 namespace synth {
 namespace screen {
 
-PAGE_SCREEN(INDEX) {
+PAGE_PAINT(INDEX) {
   const int width = 120, height = 40;
   const uint16_t x = lcd.getWidth() / 2 - width / 2;
   const uint16_t y = lcd.getHeight() / 2 - height / 2;

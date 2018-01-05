@@ -1,17 +1,21 @@
 #pragma once
 
 #include "audio.h"
-#include "screen/page.h"
 
 namespace synth {
+
+namespace screen {
+enum class Page;
+} // namespace screen
 
 class AppState {
 private:
   Audio* audio_ = new SerialPortAudio();
-  screen::Page page_ = screen::Page::INDEX;
+  screen::Page page_;
   bool is_screen_painted_ = false;
 
 public:
+  AppState();
   ~AppState();
 
   // Audio

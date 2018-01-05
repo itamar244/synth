@@ -24,9 +24,9 @@ void Controller::paint(AppState& state) {
     lcd.setColor(Color::RED);
 
     switch (state.get_page()) {
-#define V(page_name)                                                           \
-      case Page::page_name:                                                    \
-        buttons_ = screen_ ## page_name();                                     \
+#define V(PAGE)                                                                \
+      case Page::PAGE:                                                         \
+        buttons_ = page_paint_ ## PAGE();                                      \
         break;
       PAGE_TYPES(V)
 #undef V
@@ -37,9 +37,9 @@ void Controller::paint(AppState& state) {
 void Controller::touch(AppState& state) {
   const Point point = get_clicked_point();
   switch (state.get_page()) {
-#define V(page_name)                                                           \
-    case Page::page_name:                                                      \
-      page_touch_ ## page_name(buttons_, state, point);                            \
+#define V(PAGE)                                                                \
+    case Page::PAGE:                                                           \
+      page_touch_ ## PAGE(buttons_, state, point);                             \
       break;
     PAGE_TYPES(V)
 #undef V
@@ -48,9 +48,9 @@ void Controller::touch(AppState& state) {
 
 void Controller::touchend(AppState& state) {
     switch (state.get_page()) {
-#define V(page_name)                                                           \
-    case Page::page_name:                                                      \
-      page_touchend_ ## page_name(buttons_, state);                                \
+#define V(PAGE)                                                                \
+    case Page::PAGE:                                                           \
+      page_touchend_ ## PAGE(buttons_, state);                                 \
       break;
     PAGE_TYPES(V)
 #undef V
@@ -59,3 +59,4 @@ void Controller::touchend(AppState& state) {
 
 }  // namespace screen
 }  // namespace synth
+

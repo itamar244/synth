@@ -1,7 +1,8 @@
 /**
- * responsible for screen painting and tap responses.
- * screen_<PAGE_NAME> and tap_<PAGE_NAME> are generated and are being used
- * in "screen/screen.cpp"
+ * responsible for screen painting and touch responses.
+ * page_paint_<PAGE> and page_touch<TYPE>_<PAGE> are generated and are being used
+ * in "screen/screen.cc".
+ * each PAGE is implemented in `screen/pages/PAGE.cc`.
  */
 #pragma once
 
@@ -15,22 +16,28 @@
   V(INDEX)                                                                     \
   V(KEYBOARD)
 
-#define PAGE_SCREEN(page)                                                      \
-  std::vector<Button> screen_ ## page()
+#define PAGE_PAINT(PAGE)                                                       \
+  std::vector<Button> page_paint_ ## PAGE()
 
-#define PAGE_TOUCH(page)                                                       \
-  void page_touch_ ## page(                                                    \
+#define PAGE_TOUCH(PAGE)                                                       \
+  void page_touch_ ## PAGE(                                                    \
     std::vector<Button>& buttons, AppState& state, const Point& point)
 
-#define PAGE_TOUCHEND(page)                                                    \
-  void page_touchend_ ## page(                                                 \
+#define PAGE_TOUCHEND(PAGE)                                                    \
+  void page_touchend_ ## PAGE(                                                 \
     std::vector<Button>& buttons, AppState& state)
 
 namespace synth {
+
 namespace screen {
+enum class Page {
+#define V(PAGE) PAGE,
+PAGE_TYPES(V)
+#undef V
+};
 
 #define V(PAGE)                                                                \
-  PAGE_SCREEN(PAGE);                                                           \
+  PAGE_PAINT(PAGE);                                                            \
   PAGE_TOUCH(PAGE);                                                            \
   PAGE_TOUCHEND(PAGE);
   PAGE_TYPES(V)

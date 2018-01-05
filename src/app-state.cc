@@ -1,7 +1,11 @@
 #include "app-state.h"
 #include "audio.h"
+#include "screen/pages.h"
 
 namespace synth {
+
+AppState::AppState()
+  : page_(screen::Page::INDEX) {}
 
 AppState::~AppState() {
   delete audio_;

@@ -1,9 +1,9 @@
-#include "screen/pages.h"
 #include <Arduino.h>
 #include <StandardCplusplus.h>
 #include <vector>
 #include <TFT9341.h>
 #include "screen/button.h"
+#include "screen/pages.h"
 
 #define NOTE_ITEMS 7
 const char NOTE_VALUES[NOTE_ITEMS] = { 'C', 'D', 'E', 'F', 'G', 'A', 'B' };
@@ -11,7 +11,7 @@ const char NOTE_VALUES[NOTE_ITEMS] = { 'C', 'D', 'E', 'F', 'G', 'A', 'B' };
 namespace synth {
 namespace screen {
 
-PAGE_SCREEN(KEYBOARD) {
+PAGE_PAINT(KEYBOARD) {
   std::vector<Button> buttons;
   buttons.reserve(NOTE_ITEMS);
 
