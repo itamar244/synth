@@ -7,8 +7,7 @@ namespace synth {
 
 class AppState {
 private:
-  Audio* audio_controller_ = new SerialPortAudio();
-  AudioMode audio_mode_ = AudioMode::SERIALPORT;
+  Audio* audio_ = new SerialPortAudio();
   screen::Page page_ = screen::Page::INDEX;
   bool is_screen_painted_ = false;
 
@@ -16,9 +15,8 @@ public:
   ~AppState();
 
   // Audio
-  void change_audio_controller(AudioMode mode);
-  inline void start_note(char note) { audio_controller_->start_note(note); }
-  inline void stop_note(char note) { audio_controller_->stop_note(note); }
+  inline Audio* audio() const { return audio_; }
+  void change_audio_controller(AudioType mode);
 
   // Screen
   inline const screen::Page& get_page() const { return page_; }

@@ -4,18 +4,18 @@
 namespace synth {
 
 AppState::~AppState() {
-  delete audio_controller_;
+  delete audio_;
 }
 
-void AppState::change_audio_controller(AudioMode mode) {
-  delete audio_controller_;
+void AppState::change_audio_controller(AudioType type) {
+  delete audio_;
 
-  switch (mode) {
-    case AudioMode::BUILTIN:
-      audio_controller_ = new BuiltinAudio();
+  switch (type) {
+    case AudioType::BUILTIN:
+      audio_ = new BuiltinAudio();
       break;
-    case AudioMode::SERIALPORT:
-      audio_controller_ = new SerialPortAudio();
+    case AudioType::SERIALPORT:
+      audio_ = new SerialPortAudio();
       break;
   }
 }

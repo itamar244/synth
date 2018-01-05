@@ -1,12 +1,14 @@
 #pragma once
 
 #include <Arduino.h>
+#include <StandardCplusplus.h>
+#include <list>
 
 #define SYNTH_MAX_PLAYED_NOTES 4
 
 namespace synth {
 
-enum class AudioMode {
+enum class AudioType {
   BUILTIN,
   SERIALPORT,
 };
@@ -14,24 +16,31 @@ enum class AudioMode {
 class Audio {
 public:
   virtual ~Audio() {};
-  virtual void start_note(char note) = 0;
-  virtual void stop_note(char note) = 0;
+
+  virtual AudioType type() const = 0;
+
+  virtual void play() const {};
+  
+  virtual void add_note(char note) = 0;
+  virtual void remove_note(char note) = 0;
 };
 
 class BuiltinAudio: public Audio {
 private:
-  char current_notes_[SYNTH_MAX_PLAYED_NOTES];
-  uint8_t current_notes_size_ = 0;
+  std::list<char> current_notes_;
 
 public:
-  void start_note(char note);
-  void stop_note(char note);
+  AudioType type() const { return AudioType::BUILTIN; }
+  void play() const;
+  void add_note(char note);
+  void remove_note(char note);
 };
 
 class SerialPortAudio: public Audio {
 public:
-  void start_note(char note);
-  void stop_note(char note);
+  AudioType type() const { return AudioType::SERIALPORT; }
+  void add_note(char note);
+  void remove_note(char note);
 };
 
 } // namespace synth

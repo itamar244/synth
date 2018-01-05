@@ -10,7 +10,12 @@ void App::init() {
 }
 
 void App::tick() {
+  if (state_.audio()->type() == AudioType::BUILTIN) {
+    state_.audio()->play();
+  }
+
   screen_.paint(state_);
+  
   if (digitalRead(2) == 0) {
     screen_pressed_ = true;
     screen_.touch(state_);
