@@ -32,15 +32,13 @@ PAGE_SCREEN(KEYBOARD) {
 }
 
 PAGE_TOUCH(KEYBOARD) {
-  auto& buttons = controller->get_buttons();
-  
   for (unsigned i = 0; i < buttons.size(); i++) {
     Button& button = buttons[i];
 
     if (button.is_tapped(point)) {
       if (!button.is_pressed) {
         button.is_pressed = true;
-        state.start_note(NOTE_VALUES[i]);
+        state.audio()->add_note(NOTE_VALUES[i]);
       }
       // doesn't need to continue checking because multitouching isn't supported
       return;
@@ -49,14 +47,12 @@ PAGE_TOUCH(KEYBOARD) {
 }
 
 PAGE_TOUCHEND(KEYBOARD) {
-  auto& buttons = controller->get_buttons();
-
   for (unsigned i = 0; i < buttons.size(); i++) {
     Button& button = buttons[i];
     
     if (button.is_pressed) {
       button.is_pressed = false;
-      state.stop_note(NOTE_VALUES[i]);
+      state.audio()->remove_note(NOTE_VALUES[i]);
     }
   }
 }

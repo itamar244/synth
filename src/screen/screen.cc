@@ -39,7 +39,7 @@ void Controller::touch(AppState& state) {
   switch (state.get_page()) {
 #define V(page_name)                                                           \
     case Page::page_name:                                                      \
-      page_touch_ ## page_name(this, state, point);                            \
+      page_touch_ ## page_name(buttons_, state, point);                            \
       break;
     PAGE_TYPES(V)
 #undef V
@@ -50,7 +50,7 @@ void Controller::touchend(AppState& state) {
     switch (state.get_page()) {
 #define V(page_name)                                                           \
     case Page::page_name:                                                      \
-      page_touchend_ ## page_name(this, state);                                \
+      page_touchend_ ## page_name(buttons_, state);                                \
       break;
     PAGE_TYPES(V)
 #undef V

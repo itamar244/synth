@@ -10,7 +10,6 @@
 #include <vector>
 #include "app-state.h"
 #include "screen/button.h"
-#include "screen/screen.h"
 
 #define PAGE_TYPES(V)                                                          \
   V(INDEX)                                                                     \
@@ -21,11 +20,11 @@
 
 #define PAGE_TOUCH(page)                                                       \
   void page_touch_ ## page(                                                    \
-    Controller* controller, AppState& state, const Point& point)
+    std::vector<Button>& buttons, AppState& state, const Point& point)
 
 #define PAGE_TOUCHEND(page)                                                    \
   void page_touchend_ ## page(                                                 \
-    Controller* controller, AppState& state)
+    std::vector<Button>& buttons, AppState& state)
 
 namespace synth {
 namespace screen {

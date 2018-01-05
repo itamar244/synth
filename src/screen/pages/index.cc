@@ -23,7 +23,7 @@ PAGE_SCREEN(INDEX) {
 }
 
 PAGE_TOUCH(INDEX) {
-  if (controller->get_buttons()[0].is_tapped(point)) {
+  if (buttons[0].is_tapped(point)) {
     // Serial.println(String(x) + ", " + String(y));
     state.switch_page(Page::KEYBOARD);
   }
