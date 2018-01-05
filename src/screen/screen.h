@@ -7,7 +7,7 @@
 #include <Arduino.h>
 #include <StandardCplusplus.h>
 #include <vector>
-#include "app-state.h"
+#include "env.h"
 #include "screen/button.h"
 #include "screen/point.h"
 
@@ -21,9 +21,9 @@ private:
 public:
   inline std::vector<Button>& get_buttons() { return buttons_; }
 
-  void paint(AppState& state);
-  void touch(AppState& state);
-  void touchend(AppState& state);
+  void paint(Environment& env);
+  void touch(Environment& env);
+  void touchend(Environment& env);
 };
 
 }  // namespace screen

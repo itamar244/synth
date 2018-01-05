@@ -1,6 +1,6 @@
 #pragma once
 
-#include "app-state.h"
+#include "env.h"
 #include "screen/screen.h"
 
 namespace synth {
@@ -8,7 +8,7 @@ namespace synth {
 class App {
 private:
   screen::Controller screen_;
-  AppState state_;
+  Environment env_;
   bool screen_pressed_ = false;
 
 public:

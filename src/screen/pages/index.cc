@@ -24,7 +24,7 @@ PAGE_PAINT(INDEX) {
 PAGE_TOUCH(INDEX) {
   if (buttons[0].is_tapped(point)) {
     // Serial.println(String(x) + ", " + String(y));
-    state.switch_page(Page::KEYBOARD);
+    env.switch_page(Page::KEYBOARD);
   }
 }
 

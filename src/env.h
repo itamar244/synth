@@ -6,21 +6,21 @@ namespace synth {
 
 namespace screen {
 enum class Page;
-} // namespace screen
+}
 
-class AppState {
+class Environment {
 private:
   Audio* audio_ = new SerialPortAudio();
   screen::Page page_;
   bool is_screen_painted_ = false;
 
 public:
-  AppState();
-  ~AppState();
+  Environment();
+  ~Environment();
 
   // Audio
   inline Audio* audio() const { return audio_; }
-  void change_audio_controller(AudioType mode);
+  void set_audio_type(AudioType type);
 
   // Screen
   inline const screen::Page& get_page() const { return page_; }

@@ -1,17 +1,17 @@
-#include "app-state.h"
+#include "env.h"
 #include "audio.h"
 #include "screen/pages.h"
 
 namespace synth {
 
-AppState::AppState()
+Environment::Environment()
   : page_(screen::Page::INDEX) {}
 
-AppState::~AppState() {
+Environment::~Environment() {
   delete audio_;
 }
 
-void AppState::change_audio_controller(AudioType type) {
+void Environment::set_audio_type(AudioType type) {
   delete audio_;
 
   switch (type) {

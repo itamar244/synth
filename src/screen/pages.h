@@ -9,7 +9,7 @@
 #include <Arduino.h>
 #include <StandardCplusplus.h>
 #include <vector>
-#include "app-state.h"
+#include "env.h"
 #include "screen/button.h"
 
 #define PAGE_TYPES(V)                                                          \
@@ -25,11 +25,11 @@
 
 #define PAGE_TOUCH(PAGE)                                                       \
   void page_touch_ ## PAGE(                                                    \
-    std::vector<Button>& buttons, AppState& state, const Point& point)
+    std::vector<Button>& buttons, Environment& env, const Point& point)
 
 #define PAGE_TOUCHEND(PAGE)                                                    \
   void page_touchend_ ## PAGE(                                                 \
-    std::vector<Button>& buttons, AppState& state)
+    std::vector<Button>& buttons, Environment& env)
 
 namespace synth {
 namespace screen {

@@ -1,6 +1,6 @@
 #include "screen/screen.h"
 #include <TFT9341.h>
-#include "app-state.h"
+#include "env.h"
 #include "screen/pages.h"
 
 #define CASE_PAGE_TYPES(V, PAGE)                                               \
@@ -9,7 +9,7 @@
     break;
 
 #define SWITCH_PAGE_TYPES(V)                                                   \
-  switch (state.get_page()) {                                                  \
+  switch (env.get_page()) {                                                    \
     WRAPPED_PAGE_TYPES(CASE_PAGE_TYPES, V)                                     \
   }
 
@@ -26,9 +26,9 @@ inline Point get_clicked_point() {
   };
 }
 
-void Controller::paint(AppState& state) {
-  if (state.should_paint_screen()) {
-    state.screen_painted();
+void Controller::paint(Environment& env) {
+  if (env.should_paint_screen()) {
+    env.screen_painted();
     lcd.setBackground(Color::BLACK);
     lcd.clrscr();
     lcd.setColor(Color::RED);
@@ -39,16 +39,16 @@ void Controller::paint(AppState& state) {
   }
 }
 
-void Controller::touch(AppState& state) {
+void Controller::touch(Environment& env) {
   const Point point = get_clicked_point();
-  
-#define V(PAGE) page_touch_ ## PAGE(buttons_, state, point);
+
+#define V(PAGE) page_touch_ ## PAGE(buttons_, env, point);
   SWITCH_PAGE_TYPES(V)
 #undef V
 }
 
-void Controller::touchend(AppState& state) {
-#define V(PAGE) page_touchend_ ## PAGE(buttons_, state);
+void Controller::touchend(Environment& env) {
+#define V(PAGE) page_touchend_ ## PAGE(buttons_, env);
   SWITCH_PAGE_TYPES(V)
 #undef V
 }

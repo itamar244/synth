@@ -10,18 +10,18 @@ void App::init() {
 }
 
 void App::tick() {
-  if (state_.audio()->type() == AudioType::BUILTIN) {
-    state_.audio()->play();
+  if (env_.audio()->type() == AudioType::BUILTIN) {
+    env_.audio()->play();
   }
 
-  screen_.paint(state_);
+  screen_.paint(env_);
   
   if (digitalRead(2) == 0) {
     screen_pressed_ = true;
-    screen_.touch(state_);
+    screen_.touch(env_);
   } else if (screen_pressed_) {
     screen_pressed_ = false;
-    screen_.touchend(state_);
+    screen_.touchend(env_);
   }
 }
 

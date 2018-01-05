@@ -38,7 +38,7 @@ PAGE_TOUCH(KEYBOARD) {
     if (button.is_tapped(point)) {
       if (!button.is_pressed) {
         button.is_pressed = true;
-        state.audio()->add_note(NOTE_VALUES[i]);
+        env.audio()->add_note(NOTE_VALUES[i]);
       }
       // doesn't need to continue checking because multitouching isn't supported
       return;
@@ -52,7 +52,7 @@ PAGE_TOUCHEND(KEYBOARD) {
     
     if (button.is_pressed) {
       button.is_pressed = false;
-      state.audio()->remove_note(NOTE_VALUES[i]);
+      env.audio()->remove_note(NOTE_VALUES[i]);
     }
   }
 }
