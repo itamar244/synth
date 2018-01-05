@@ -16,6 +16,10 @@
   V(INDEX)                                                                     \
   V(KEYBOARD)
 
+#define WRAPPED_PAGE_TYPES(WRAPPER, V)                                         \
+  WRAPPER(V, INDEX)                                                            \
+  WRAPPER(V, KEYBOARD)
+
 #define PAGE_PAINT(PAGE)                                                       \
   std::vector<Button> page_paint_ ## PAGE()
 
@@ -28,8 +32,8 @@
     std::vector<Button>& buttons, AppState& state)
 
 namespace synth {
-
 namespace screen {
+
 enum class Page {
 #define V(PAGE) PAGE,
 PAGE_TYPES(V)

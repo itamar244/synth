@@ -3,6 +3,16 @@
 #include "app-state.h"
 #include "screen/pages.h"
 
+#define CASE_PAGE_TYPES(V, PAGE)                                               \
+  case Page::PAGE:                                                             \
+    V(PAGE)                                                                    \
+    break;
+
+#define SWITCH_PAGE_TYPES(V)                                                   \
+  switch (state.get_page()) {                                                  \
+    WRAPPED_PAGE_TYPES(CASE_PAGE_TYPES, V)                                     \
+  }
+
 namespace synth {
 namespace screen {
 
@@ -23,40 +33,25 @@ void Controller::paint(AppState& state) {
     lcd.clrscr();
     lcd.setColor(Color::RED);
 
-    switch (state.get_page()) {
-#define V(PAGE)                                                                \
-      case Page::PAGE:                                                         \
-        buttons_ = page_paint_ ## PAGE();                                      \
-        break;
-      PAGE_TYPES(V)
+#define V(PAGE) buttons_ = page_paint_ ## PAGE();
+  SWITCH_PAGE_TYPES(V)
 #undef V
-    }
   }
 }
 
 void Controller::touch(AppState& state) {
   const Point point = get_clicked_point();
-  switch (state.get_page()) {
-#define V(PAGE)                                                                \
-    case Page::PAGE:                                                           \
-      page_touch_ ## PAGE(buttons_, state, point);                             \
-      break;
-    PAGE_TYPES(V)
+  
+#define V(PAGE) page_touch_ ## PAGE(buttons_, state, point);
+  SWITCH_PAGE_TYPES(V)
 #undef V
-  }
 }
 
 void Controller::touchend(AppState& state) {
-    switch (state.get_page()) {
-#define V(PAGE)                                                                \
-    case Page::PAGE:                                                           \
-      page_touchend_ ## PAGE(buttons_, state);                                 \
-      break;
-    PAGE_TYPES(V)
+#define V(PAGE) page_touchend_ ## PAGE(buttons_, state);
+  SWITCH_PAGE_TYPES(V)
 #undef V
-  }
 }
 
 }  // namespace screen
 }  // namespace synth
-

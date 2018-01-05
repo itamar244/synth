@@ -4,8 +4,6 @@
 #include <StandardCplusplus.h>
 #include <list>
 
-#define SYNTH_MAX_PLAYED_NOTES 4
-
 namespace synth {
 
 enum class AudioType {
@@ -25,22 +23,25 @@ public:
   virtual void remove_note(char note) = 0;
 };
 
+#define AUDIO_IMP_METHODS(TYPE)                                                \
+  AudioType type() const { return AudioType::TYPE; }                           \
+  void add_note(char note);                                                    \
+  void remove_note(char note);
+
 class BuiltinAudio: public Audio {
 private:
   std::list<char> current_notes_;
 
 public:
-  AudioType type() const { return AudioType::BUILTIN; }
+  AUDIO_IMP_METHODS(BUILTIN)
   void play() const;
-  void add_note(char note);
-  void remove_note(char note);
 };
 
 class SerialPortAudio: public Audio {
 public:
-  AudioType type() const { return AudioType::SERIALPORT; }
-  void add_note(char note);
-  void remove_note(char note);
+  AUDIO_IMP_METHODS(SERIALPORT)
 };
+
+#undef AUDIO_IMP_METHODS
 
 } // namespace synth

@@ -14,7 +14,7 @@ void BuiltinAudio::play() const {
 }
 
 void BuiltinAudio::add_note(char note) {
-  if (current_notes_.size() == SYNTH_MAX_PLAYED_NOTES) return;
+  if (current_notes_.size() == 4) return;
   auto notes_end = current_notes_.end();
   if (std::find(current_notes_.begin(), notes_end, note) == notes_end) {
     current_notes_.push_back(note);
