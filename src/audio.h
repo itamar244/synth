@@ -34,12 +34,12 @@ public:
   void remove_note(const SoundPhrase& phrase) { remove_note(phrase.note); }
 
 class BuiltinAudio: public Audio {
-private:
-  std::list<char> current_notes_;
-
 public:
   AUDIO_IMP_METHODS(BUILTIN)
   void play() const;
+
+private:
+  std::list<char> current_notes_;
 };
 
 class SerialPortAudio: public Audio {

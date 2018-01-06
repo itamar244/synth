@@ -10,14 +10,6 @@ enum class Page;
 }
 
 class Environment {
-private:
-  Audio* audio_ = new SerialPortAudio();
-  SongPlayer song_player_;
-  screen::Page page_;
-
-  bool is_screen_painted_ = false;
-  bool is_song_played_ = false;
-
 public:
   Environment();
   ~Environment();
@@ -43,6 +35,14 @@ public:
     song_player_.init(song);
     is_song_played_ = true;
   }
+
+private:
+  Audio* audio_ = new SerialPortAudio();
+  SongPlayer song_player_;
+  screen::Page page_;
+
+  bool is_screen_painted_ = false;
+  bool is_song_played_ = false;
 };
 
 } // namespace synth
