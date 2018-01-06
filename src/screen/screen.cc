@@ -9,14 +9,14 @@
     break;
 
 #define SWITCH_PAGE_TYPES(V)                                                   \
-  switch (env.get_page()) {                                                    \
+  switch (env.page()) {                                                        \
     WRAPPED_PAGE_TYPES(CASE_PAGE_TYPES, V)                                     \
   }
 
 namespace synth {
 namespace screen {
 
-inline Point get_clicked_point() {
+inline Point GetClickedPoint() {
   lcdtouch.readxy();
   const uint16_t x = lcdtouch.readx(), y = lcdtouch.ready();
 
@@ -26,29 +26,29 @@ inline Point get_clicked_point() {
   };
 }
 
-void Controller::paint(Environment& env) {
-  if (env.should_paint_screen()) {
-    env.screen_painted();
+void Controller::Paint(Environment& env) {
+  if (env.ShouldPaintScreen()) {
+    env.ScreenPainted();
     lcd.setBackground(Color::BLACK);
     lcd.clrscr();
     lcd.setColor(Color::RED);
 
-#define V(PAGE) buttons_ = page_paint_ ## PAGE();
+#define V(PAGE) buttons_ = PagePaint_ ## PAGE();
   SWITCH_PAGE_TYPES(V)
 #undef V
   }
 }
 
-void Controller::touch(Environment& env) {
-  const Point point = get_clicked_point();
+void Controller::Touch(Environment& env) {
+  const Point point = GetClickedPoint();
 
-#define V(PAGE) page_touch_ ## PAGE(buttons_, env, point);
+#define V(PAGE) PageTouch_ ## PAGE(buttons_, env, point);
   SWITCH_PAGE_TYPES(V)
 #undef V
 }
 
-void Controller::touchend(Environment& env) {
-#define V(PAGE) page_touchend_ ## PAGE(buttons_, env);
+void Controller::Touchend(Environment& env) {
+#define V(PAGE) PageTouchend_ ## PAGE(buttons_, env);
   SWITCH_PAGE_TYPES(V)
 #undef V
 }

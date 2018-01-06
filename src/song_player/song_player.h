@@ -13,6 +13,8 @@ public:
 
   void init(const Song& song);
   bool play(Audio* audio);
+  void Init(const Song& song);
+  bool Play(Audio* audio);
 
 private:
   Song song_;

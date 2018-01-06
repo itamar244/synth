@@ -14,25 +14,25 @@ public:
   Environment();
   ~Environment();
 
-  void tick();
+  void Tick();
 
   // Audio
   inline Audio* audio() const { return audio_; }
-  void set_audio_type(AudioType type);
+  void SetAudioType(AudioType type);
 
   // Screen
-  inline const screen::Page& get_page() const { return page_; }
-  inline void switch_page(screen::Page next) {
+  inline const screen::Page& page() const { return page_; }
+  inline void set_page(screen::Page next) {
     page_ = next;
     is_screen_painted_ = false;
   }
 
-  inline bool should_paint_screen() const { return !is_screen_painted_; }
-  inline void screen_painted() { is_screen_painted_ = true; }
+  inline bool ShouldPaintScreen() const { return !is_screen_painted_; }
+  inline void ScreenPainted() { is_screen_painted_ = true; }
 
   // Song
-  inline void play_song(const SongPlayer::Song& song) {
-    song_player_.init(song);
+  inline void PlaySong(SongPlayer::Song song, uint16_t size) {
+    song_player_.Init(song, size);
     is_song_played_ = true;
   }
 

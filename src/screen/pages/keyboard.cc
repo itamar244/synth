@@ -35,10 +35,10 @@ PAGE_TOUCH(KEYBOARD) {
   for (unsigned i = 0; i < buttons.size(); i++) {
     Button& button = buttons[i];
 
-    if (button.is_tapped(point)) {
+    if (button.IsTapped(point)) {
       if (!button.is_pressed) {
         button.is_pressed = true;
-        env.audio()->add_note(NOTE_VALUES[i]);
+        env.audio()->AddNote(NOTE_VALUES[i]);
       }
       // doesn't need to continue checking because multitouching isn't supported
       return;
@@ -52,7 +52,7 @@ PAGE_TOUCHEND(KEYBOARD) {
     
     if (button.is_pressed) {
       button.is_pressed = false;
-      env.audio()->remove_note(NOTE_VALUES[i]);
+      env.audio()->RemoveNote(NOTE_VALUES[i]);
     }
   }
 }

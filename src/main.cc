@@ -5,9 +5,9 @@ synth::App app;
 
 void setup() {
   Serial.begin(9600);
-  app.init();
+  app.Init();
 }
 
 void loop() {
-  app.tick();
+  app.Tick();
 }

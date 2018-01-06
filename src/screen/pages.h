@@ -21,14 +21,14 @@
   WRAPPER(V, KEYBOARD)
 
 #define PAGE_PAINT(PAGE)                                                       \
-  std::vector<Button> page_paint_ ## PAGE()
+  std::vector<Button> PagePaint_ ## PAGE()
 
 #define PAGE_TOUCH(PAGE)                                                       \
-  void page_touch_ ## PAGE(                                                    \
+  void PageTouch_ ## PAGE(                                                    \
     std::vector<Button>& buttons, Environment& env, const Point& point)
 
 #define PAGE_TOUCHEND(PAGE)                                                    \
-  void page_touchend_ ## PAGE(                                                 \
+  void PageTouchend_ ## PAGE(                                                 \
     std::vector<Button>& buttons, Environment& env)
 
 namespace synth {

@@ -13,7 +13,7 @@ struct Button: public Point {
   Button(uint16_t x, uint16_t y, int16_t width, int16_t height)
     : Point(x, y), width(width), height(height) {}
 
-  inline bool is_tapped(const Point& point) const {
+  inline bool IsTapped(const Point& point) const {
     const int diff_x = point.x - x, diff_y = point.y - y;
 
     return diff_x < width && diff_x > 0 && diff_y < height && diff_y > 0;

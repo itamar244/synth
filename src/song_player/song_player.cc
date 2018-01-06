@@ -5,19 +5,19 @@
 
 namespace synth {
 
-void SongPlayer::init(const Song& song) {
+void SongPlayer::Init(Song song, uint16_t size) {
   song_ = song;
   pos_ = 0;
   started_ = false;
 }
 
-bool SongPlayer::play(Audio* audio) {
   const auto& size = song_.size();
   if (pos_ >= size) return false;
   SoundPhrase& phrase = song_[pos_];
   if (!started_) {
     audio->add_note(phrase);
     started_ = true;
+bool SongPlayer::Play(Audio* audio) {
     prev_play_millis_ = millis();
   } else if (millis() - prev_play_millis_ >= phrase.length * 60) {
     if (phrase.note != 'H') audio->remove_note(phrase);

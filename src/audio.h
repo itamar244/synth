@@ -16,38 +16,41 @@ class Audio {
 public:
   virtual ~Audio() {};
 
-  virtual AudioType type() const = 0;
+  virtual AudioType Type() const = 0;
 
-  virtual void play() const {};
+  virtual void Play() const {};
   
-  virtual bool add_note(char note);
-  virtual bool remove_note(char note);
+  virtual bool AddNote(char note);
+  virtual bool RemoveNote(char note);
   
 
-  inline bool has_note(char note) {
+  inline bool HasNote(char note) {
     auto end = current_notes_.end();
     return std::find(current_notes_.begin(), end, note) != end;
   }
-  inline bool add_note(const SoundPhrase& phrase) { 
-    return add_note(phrase.note); 
+#define CALL_WITH_PHRASE(FUNC)                                                 \
+  inline bool FUNC ## Phrase(const SoundPhrase& phrase) {                      \
+    for (auto& note : phrase.notes) {                                          \
+      if (!FUNC ## Note(note)) return false;                                   \
+    }                                                                          \
+    return true;                                                               \
   }
-  inline bool remove_note(const SoundPhrase& phrase) { 
-    return remove_note(phrase.note); 
-  }
+  CALL_WITH_PHRASE(Add) CALL_WITH_PHRASE(Remove)
+#undef CALL_WITH_PHRASE
 
 protected:
   std::list<char> current_notes_;
 };
 
 #define AUDIO_IMP_METHODS(TYPE)                                                \
-  AudioType type() const { return AudioType::TYPE; }                           \
-  bool add_note(char note);                                                    \
-  bool remove_note(char note);
+  AudioType Type() const { return AudioType::TYPE; }                           \
+  bool AddNote(char note);                                                     \
+  bool RemoveNote(char note);
 
 class BuiltinAudio: public Audio {
 public:
   AUDIO_IMP_METHODS(BUILTIN)
-  void play() const;
+  void Play() const;
 };
 
 class SerialPortAudio: public Audio {

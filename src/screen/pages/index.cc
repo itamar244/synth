@@ -22,9 +22,9 @@ PAGE_PAINT(INDEX) {
 }
 
 PAGE_TOUCH(INDEX) {
-  if (buttons[0].is_tapped(point)) {
+  if (buttons[0].IsTapped(point)) {
     // Serial.println(String(x) + ", " + String(y));
-    env.switch_page(Page::KEYBOARD);
+    env.set_page(Page::KEYBOARD);
   }
 }
 

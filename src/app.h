@@ -7,8 +7,8 @@ namespace synth {
 
 class App {
 public:
-  void init();
-  void tick();
+  void Init();
+  void Tick();
 
 private:
   Environment env_;

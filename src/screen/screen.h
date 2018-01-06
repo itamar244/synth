@@ -13,11 +13,11 @@ namespace screen {
 
 class Controller {
 public:
-  inline std::vector<Button>& get_buttons() { return buttons_; }
+  inline std::vector<Button>& buttons() { return buttons_; }
 
-  void paint(Environment& env);
-  void touch(Environment& env);
-  void touchend(Environment& env);
+  void Paint(Environment& env);
+  void Touch(Environment& env);
+  void Touchend(Environment& env);
 
 private:
   std::vector<Button> buttons_;
