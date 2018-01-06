@@ -9,18 +9,20 @@ namespace synth {
 
 class SongPlayer {
 public:
-  typedef std::vector<SoundPhrase> Song;
+  typedef const uint8_t* Song;
 
-  void init(const Song& song);
-  bool play(Audio* audio);
-  void Init(const Song& song);
+  ~SongPlayer();
+  void Init(Song song, uint16_t size);
   bool Play(Audio* audio);
 
 private:
   Song song_;
+  SoundPhrase* current_phrase_ = nullptr;
   uint16_t pos_;
+  uint16_t size_;
   uint32_t prev_play_millis_;
-  bool started_;
+
+  void ReadCurrentPhrase();
 };
 
 } // namespace synth

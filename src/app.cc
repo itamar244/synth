@@ -1,12 +1,16 @@
 #include "app.h"
-#include <Arduino.h>
 #include <TFT9341.h>
+#include <Arduino.h>
+#include "song_player/songs.h"
 
 namespace synth {
 
 void App::Init() {
   lcd.begin();
   lcdtouch.InitTypeTouch(1);
+  env_.PlaySong(
+    songs::SEVEN_NATION_ARMY,
+    SONG_SIZE(SEVEN_NATION_ARMY));
 }
 
 void App::Tick() {

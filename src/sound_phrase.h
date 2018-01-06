@@ -1,11 +1,12 @@
 #pragma once
 
+#include <vector>
 #include <stdint.h>
 
 namespace synth {
 
 struct SoundPhrase {
-  char note;
+  std::vector<char> notes;
   uint8_t length;
 };
 
