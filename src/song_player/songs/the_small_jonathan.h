@@ -1,36 +1,34 @@
-#include <avr/pgmspace.h>
-
 #define MAIN                                                                   \
-  1, 5, 7,                                                                     \
+  1, TONE_G4, 7,                                                                     \
   0, 1,                                                                        \
-  1, 3, 7,                                                                     \
+  1, TONE_E4, 7,                                                                     \
   0, 1,                                                                        \
-  1, 3, 16,                                                                    \
-  1, 4, 7,                                                                     \
+  1, TONE_E4, 16,                                                                    \
+  1, TONE_F4, 7,                                                                     \
   0, 1,                                                                        \
-  1, 2, 7,                                                                     \
+  1, TONE_D4, 7,                                                                     \
   0, 1,                                                                        \
-  1, 2, 16,                                                                    \
-  1, 1, 8,
+  1, TONE_D4, 16,                                                                    \
+  1, TONE_C4, 8,
 
 const uint8_t THE_SMALL_JONATHAN[] PROGMEM = {
   MAIN
-  1, 2, 8,
-  1, 3, 8,
-  1, 4, 8,
-  1, 5, 7,
+  1, TONE_D4, 8,
+  1, TONE_E4, 8,
+  1, TONE_F4, 8,
+  1, TONE_G4, 7,
   0, 1,
-  1, 5, 7,
+  1, TONE_G4, 7,
   0, 1,
-  1, 5, 15,
+  1, TONE_G4, 15,
   0, 1,
   MAIN
-  1, 3, 8,
-  1, 5, 7,
+  1, TONE_E4, 8,
+  1, TONE_G4, 7,
   0, 1,
-  1, 5, 7,
+  1, TONE_G4, 7,
   0, 1,
-  1, 1, 16,
+  1, TONE_C4, 16,
 };
 
 #undef MAIN

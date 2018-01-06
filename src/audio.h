@@ -1,9 +1,8 @@
 #pragma once
 
-#include <Arduino.h>
+#include <stdint.h>
 #include <StandardCplusplus.h>
 #include <list>
-#include "sound_phrase.h"
 
 namespace synth {
 
@@ -20,32 +19,32 @@ public:
 
   virtual void Play() const {};
   
-  virtual bool AddNote(char note);
-  virtual bool RemoveNote(char note);
+  virtual bool AddTone(uint8_t note);
+  virtual bool RemoveTone(uint8_t note);
   
 
-  inline bool HasNote(char note) {
-    auto end = current_notes_.end();
-    return std::find(current_notes_.begin(), end, note) != end;
+  inline std::list<uint8_t>::iterator GetTone(uint8_t tone) {
+    return std::find(current_tones_.begin(), current_tones_.end(), tone);
   }
-#define CALL_WITH_PHRASE(FUNC)                                                 \
-  inline bool FUNC ## Phrase(const SoundPhrase& phrase) {                      \
-    for (auto& note : phrase.notes) {                                          \
-      if (!FUNC ## Note(note)) return false;                                   \
+#define CALL_WITH_VECTOR(FUNC)                                                 \
+  template<class List>                                                         \
+  inline bool FUNC ## Tones(const List& tones) {                               \
+    for (uint8_t tone : tones) {                                               \
+      if (!FUNC ## Tone(tone)) return false;                                   \
     }                                                                          \
     return true;                                                               \
   }
-  CALL_WITH_PHRASE(Add) CALL_WITH_PHRASE(Remove)
-#undef CALL_WITH_PHRASE
+  CALL_WITH_VECTOR(Add) CALL_WITH_VECTOR(Remove)
+#undef CALL_WITH_VECTOR
 
 protected:
-  std::list<char> current_notes_;
+  std::list<uint8_t> current_tones_;
 };
 
 #define AUDIO_IMP_METHODS(TYPE)                                                \
   AudioType Type() const { return AudioType::TYPE; }                           \
-  bool AddNote(char note);                                                     \
-  bool RemoveNote(char note);
+  bool AddTone(uint8_t note);                                                  \
+  bool RemoveTone(uint8_t note);
 
 class BuiltinAudio: public Audio {
 public:

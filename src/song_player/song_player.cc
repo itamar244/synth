@@ -1,53 +1,41 @@
 #include "song_player/song_player.h"
 #include <vector>
+#include <Arduino.h>
 #include <avr/pgmspace.h>
 #include "audio.h"
 
 namespace synth {
 
-inline char NoteFromPos(uint8_t pos) {
-  return pos > 5 ? 'A' + pos - 6 : 'C' + (pos - 1);
-}
-
-SongPlayer::~SongPlayer() {
-  if (current_phrase_ != nullptr) {
-    delete current_phrase_;
-  }
-}
-
 void SongPlayer::Init(Song song, uint16_t size) {
   song_ = song;
   pos_ = 0;
   size_ = size;
+  started_ = false;
 }
 
 void SongPlayer::ReadCurrentPhrase() {
   uint8_t notes_count = pgm_read_word_near(song_ + pos_);
-  std::vector<char> notes;
-  notes.reserve(notes_count);
+  phrase_tones_.clear();
+  phrase_tones_.reserve(notes_count);
   for (unsigned i = 0; i < notes_count; i++) {
-    notes.push_back(
-      NoteFromPos(pgm_read_word_near(song_ + pos_ + i + 1)));
+    phrase_tones_.push_back(pgm_read_word_near(song_ + pos_ + i + 1));
   }
-  if (current_phrase_ != nullptr) delete current_phrase_;
-  current_phrase_ = new SoundPhrase{
-    notes,
-    pgm_read_word_near(song_ + pos_ + notes_count + 1),
-  };
+  phrase_length_ = pgm_read_word_near(song_ + pos_ + notes_count + 1);
 }
 
 bool SongPlayer::Play(Audio* audio) {
   if (pos_ >= size_) return false;
-  if (current_phrase_ == nullptr) {
+  if (!started_) {
     ReadCurrentPhrase();
-    audio->AddPhrase(*current_phrase_);
+    audio->AddTones(phrase_tones_);
     prev_play_millis_ = millis();
-  } else if (millis() - prev_play_millis_ >= current_phrase_->length * 60) {
-    audio->RemovePhrase(*current_phrase_);
-    pos_ += current_phrase_->notes.size() + 2;
+    started_ = true;
+  } else if (millis() - prev_play_millis_ >= phrase_length_ * 60) {
+    audio->RemoveTones(phrase_tones_);
+    pos_ += phrase_tones_.size() + 2;
     if (pos_ < size_) {
       ReadCurrentPhrase();
-      audio->AddPhrase(*current_phrase_);
+      audio->AddTones(phrase_tones_);
       prev_play_millis_ = millis();
     }
   }

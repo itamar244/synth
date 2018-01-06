@@ -31,6 +31,8 @@ public:
   inline void ScreenPainted() { is_screen_painted_ = true; }
 
   // Song
+  inline uint8_t GetOctaveDif() { return higher_octave_ ? 12 : 0; }
+  inline void ToggleOctaveLevel() { higher_octave_ = !higher_octave_; }
   inline void PlaySong(SongPlayer::Song song, uint16_t size) {
     song_player_.Init(song, size);
     is_song_played_ = true;
@@ -43,6 +45,7 @@ private:
 
   bool is_screen_painted_ = false;
   bool is_song_played_ = false;
+  bool higher_octave_ = true;
 };
 
 } // namespace synth

@@ -6,20 +6,19 @@
 
 namespace synth {
 
-bool Audio::AddNote(char note) {
-  if (current_notes_.size() == 4) return false;
-  if (!HasNote(note)) {
-    current_notes_.push_back(note);
+bool Audio::AddTone(uint8_t note) {
+  if (current_tones_.size() == 4) return false;
+  if (GetTone(note) != current_tones_.end()) {
+    current_tones_.push_back(note);
     return true;
   }
   return false;
 }
 
-bool Audio::RemoveNote(char note) {
-  auto end = current_notes_.end();
-  auto searched_note = std::find(current_notes_.begin(), end, note);
-  if (searched_note != end) {
-    current_notes_.erase(searched_note);
+bool Audio::RemoveTone(uint8_t note) {
+  auto searched_note = GetTone(note);
+  if (searched_note != current_tones_.end()) {
+    current_tones_.erase(searched_note);
     return true;
   }
   return false;
@@ -27,23 +26,23 @@ bool Audio::RemoveNote(char note) {
 
 // TODO: actually implement this after getting the part for the arduino
 void BuiltinAudio::Play() const {
-  if (current_notes_.empty()) return;
-  for (auto& note : current_notes_) {
+  if (current_tones_.empty()) return;
+  for (auto& note : current_tones_) {
     Serial.print(note);
   }
   Serial.println();
 }
 
-bool SerialPortAudio::AddNote(char note) {
-  bool is_added = Audio::AddNote(note);
+bool SerialPortAudio::AddTone(uint8_t note) {
+  bool is_added = Audio::AddTone(note);
   if (is_added) {
     Serial.println("1" + String(note));
   }
   return is_added;
 }
 
-bool SerialPortAudio::RemoveNote(char note) {
-  bool is_removed = Audio::RemoveNote(note);
+bool SerialPortAudio::RemoveTone(uint8_t note) {
+  bool is_removed = Audio::RemoveTone(note);
   if (is_removed) {
     Serial.println("0" + String(note));
   }
