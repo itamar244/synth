@@ -11,6 +11,15 @@ Environment::~Environment() {
   delete audio_;
 }
 
+void Environment::tick() {
+  if (is_song_played_ && !song_player_.play(audio_)) {
+    is_song_played_ = false;
+  }
+  if (audio_->type() == AudioType::BUILTIN) {
+    audio_->play();
+  }
+}
+
 void Environment::set_audio_type(AudioType type) {
   delete audio_;
 

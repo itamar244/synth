@@ -7,8 +7,8 @@ namespace synth {
 
 class App {
 private:
-  screen::Controller screen_;
   Environment env_;
+  screen::Controller screen_;
   bool screen_pressed_ = false;
 
 public:

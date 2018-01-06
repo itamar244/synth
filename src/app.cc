@@ -10,9 +10,7 @@ void App::init() {
 }
 
 void App::tick() {
-  if (env_.audio()->type() == AudioType::BUILTIN) {
-    env_.audio()->play();
-  }
+  env_.tick();
 
   screen_.paint(env_);
   
