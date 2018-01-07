@@ -13,31 +13,31 @@
 #include "screen/button.h"
 
 #define PAGE_TYPES(V)                                                          \
-  V(INDEX)                                                                     \
-  V(KEYBOARD)                                                                  \
-  V(SETTINGS)
+  V(Index)                                                                     \
+  V(Keyboard)                                                                  \
+  V(Settings)
 
 #define WRAPPED_PAGE_TYPES(WRAPPER, V)                                         \
-  WRAPPER(V, INDEX)                                                            \
-  WRAPPER(V, KEYBOARD)                                                        \
-  WRAPPER(V, SETTINGS)
+  WRAPPER(V, Index)                                                            \
+  WRAPPER(V, Keyboard)                                                         \
+  WRAPPER(V, Settings)
 
 #define PAGE_PAINT(PAGE)                                                       \
-  std::vector<Button> PagePaint_ ## PAGE()
+  std::vector<Button> PagePaint ## PAGE()
 
 #define PAGE_TOUCH(PAGE)                                                       \
-  void PageTouch_ ## PAGE(                                                    \
+  void PageTouch ## PAGE(                                                      \
     std::vector<Button>& buttons, Environment& env, const Point& point)
 
 #define PAGE_TOUCHEND(PAGE)                                                    \
-  void PageTouchend_ ## PAGE(                                                 \
+  void PageTouchend ## PAGE(                                                   \
     std::vector<Button>& buttons, Environment& env)
 
 namespace synth {
 namespace screen {
 
 enum class Page {
-#define V(PAGE) PAGE,
+#define V(PAGE) k ## PAGE,
 PAGE_TYPES(V)
 #undef V
 };

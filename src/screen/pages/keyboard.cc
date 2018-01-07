@@ -12,7 +12,7 @@ const uint8_t TONE_VALUES[TONE_ITEMS] = { 0, 2, 4, 5, 7, 9, 11 };
 namespace synth {
 namespace screen {
 
-PAGE_PAINT(KEYBOARD) {
+PAGE_PAINT(Keyboard) {
   std::vector<Button> buttons;
   buttons.reserve(TONE_ITEMS + 1);
 
@@ -32,7 +32,7 @@ PAGE_PAINT(KEYBOARD) {
   Button settings = { lcd.getWidth() - 140, lcd.getHeight() - 50, 140, 40 };
   buttons.push_back(settings);
   lcd.fillRoundRect(
-    settings.x, settings.y, 
+    settings.x, settings.y,
     settings.width, settings.height, 5, Color::RED);
   lcd.gotoxy(settings.x + 18, settings.y + 10);
   lcd.setColor(Color::WHITE, Color::RED);
@@ -41,7 +41,7 @@ PAGE_PAINT(KEYBOARD) {
   return buttons;
 }
 
-PAGE_TOUCH(KEYBOARD) {
+PAGE_TOUCH(Keyboard) {
   const auto& size = buttons.size() - 1;
   for (unsigned i = 0; i < size; i++) {
     Button& button = buttons[i];
@@ -56,13 +56,12 @@ PAGE_TOUCH(KEYBOARD) {
     }
   }
   Button& toggle = buttons.back();
-  if (toggle.IsTapped(point) && !toggle.is_pressed) {
-    toggle.is_pressed = true;
-    env.ToggleOctaveLevel();
+  if (toggle.IsTapped(point)) {
+    env.set_page(Page::kSettings);
   }
 }
 
-PAGE_TOUCHEND(KEYBOARD) {
+PAGE_TOUCHEND(Keyboard) {
   const auto& size = buttons.size();
   for (unsigned i = 0; i < size; i++) {
     Button& button = buttons[i];

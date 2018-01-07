@@ -5,7 +5,7 @@
 namespace synth {
 namespace screen {
 
-PAGE_PAINT(INDEX) {
+PAGE_PAINT(Index) {
   const int width = 120, height = 40;
   const uint16_t x = lcd.getWidth() / 2 - width / 2;
   const uint16_t y = lcd.getHeight() / 2 - height / 2;
@@ -21,14 +21,14 @@ PAGE_PAINT(INDEX) {
   return {{ x, y, width, height }};
 }
 
-PAGE_TOUCH(INDEX) {
+PAGE_TOUCH(Index) {
   if (buttons[0].IsTapped(point)) {
     // Serial.println(String(x) + ", " + String(y));
-    env.set_page(Page::KEYBOARD);
+    env.set_page(Page::kKeyboard);
   }
 }
 
-PAGE_TOUCHEND(INDEX) {}
+PAGE_TOUCHEND(Index) {}
 
 } // namespace screen
 } // namespace synth

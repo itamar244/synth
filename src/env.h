@@ -18,7 +18,7 @@ public:
 
   // Audio
   inline Audio* audio() const { return audio_; }
-  void SetAudioType(AudioType type);
+  void SetAudioType(Audio::Type type);
 
   // Screen
   inline const screen::Page& page() const { return page_; }

@@ -7,19 +7,20 @@
 
 namespace synth {
 
-enum class AudioType {
-  BUILTIN,
-  SERIALPORT,
-};
 
 class Audio {
 public:
+  enum Type {
+    kBuiltin,
+    kSerialPort,
+  };
+
   typedef uint8_t Tone;
 
   virtual ~Audio() {};
-  virtual AudioType Type() const = 0;
-  inline bool IsType(AudioType type) {
-    return Type() == type;
+  virtual Type AudioType() const = 0;
+  inline bool IsType(Type type) {
+    return AudioType() == type;
   }
   virtual void Play() const {};
   
@@ -46,13 +47,13 @@ protected:
 
 class BuiltinAudio: public Audio {
 public:
-  AudioType Type() const override { return AudioType::BUILTIN; }
+  Type AudioType() const override { return kBuiltin; }
   void Play() const override;
 };
 
 class SerialPortAudio: public Audio {
 public:
-  AudioType Type() const override { return AudioType::SERIALPORT; }
+  Type AudioType() const override { return kSerialPort; }
   bool AddTone(Tone tone) override;
   bool RemoveTone(Tone tone) override;
 };

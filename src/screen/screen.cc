@@ -4,7 +4,7 @@
 #include "screen/pages.h"
 
 #define CASE_PAGE_TYPES(V, PAGE)                                               \
-  case Page::PAGE:                                                             \
+  case Page::k ## PAGE:                                                        \
     V(PAGE)                                                                    \
     break;
 
@@ -34,7 +34,7 @@ void Controller::Paint(Environment& env) {
     lcd.setColor(Color::RED);
 
     Touchend(env);
-#define V(PAGE) buttons_ = PagePaint_ ## PAGE();
+#define V(PAGE) buttons_ = PagePaint ## PAGE();
     SWITCH_PAGE_TYPES(V)
 #undef V
   }
@@ -43,13 +43,13 @@ void Controller::Paint(Environment& env) {
 void Controller::Touch(Environment& env) {
   const Point point = GetClickedPoint();
 
-#define V(PAGE) PageTouch_ ## PAGE(buttons_, env, point);
+#define V(PAGE) PageTouch ## PAGE(buttons_, env, point);
   SWITCH_PAGE_TYPES(V)
 #undef V
 }
 
 void Controller::Touchend(Environment& env) {
-#define V(PAGE) PageTouchend_ ## PAGE(buttons_, env);
+#define V(PAGE) PageTouchend ## PAGE(buttons_, env);
   SWITCH_PAGE_TYPES(V)
 #undef V
 }

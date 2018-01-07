@@ -5,7 +5,7 @@
 namespace synth {
 
 Environment::Environment()
-  : page_(screen::Page::INDEX) {}
+  : page_(screen::Page::kIndex) {}
 
 Environment::~Environment() {
   delete audio_;
@@ -15,19 +15,19 @@ void Environment::Tick() {
   if (is_song_played_ && !song_player_.Play(audio_)) {
     is_song_played_ = false;
   }
-  if (audio_->IsType(AudioType::BUILTIN)) {
+  if (audio_->IsType(Audio::kBuiltin)) {
     audio_->Play();
   }
 }
 
-void Environment::SetAudioType(AudioType type) {
+void Environment::SetAudioType(Audio::Type type) {
   delete audio_;
 
   switch (type) {
-    case AudioType::BUILTIN:
+    case Audio::kBuiltin:
       audio_ = new BuiltinAudio();
       break;
-    case AudioType::SERIALPORT:
+    case Audio::kSerialPort:
       audio_ = new SerialPortAudio();
       break;
   }

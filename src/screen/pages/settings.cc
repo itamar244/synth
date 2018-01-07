@@ -21,7 +21,7 @@ const char* BUTTON_NAMES[BUTTON_ITEMS] = {
 #undef V
 
 #define V(TYPE) k ## TYPE,
-enum Setting: uint8_t {
+enum Setting {
   SYNTH_SETTING_TYPES(V)
 };
 #undef V
@@ -29,25 +29,25 @@ enum Setting: uint8_t {
 inline void HandleButtonPress(Environment& env, uint8_t index) {
   switch (static_cast<Setting>(index)) {
     case kBack:
-      env.set_page(Page::KEYBOARD);
+      env.set_page(Page::kKeyboard);
       break;
     case kOctave:
       env.ToggleOctaveLevel();
       break;
     case kAudio:
       env.SetAudioType(
-        env.audio()->IsType(AudioType::BUILTIN)
-          ? AudioType::SERIALPORT : AudioType::BUILTIN);
+        env.audio()->IsType(Audio::kBuiltin)
+          ? Audio::kSerialPort : Audio::kBuiltin);
       break;
   }
 }
 
-PAGE_PAINT(SETTINGS) {
+PAGE_PAINT(Settings) {
   std::vector<Button> buttons;
   buttons.reserve(BUTTON_ITEMS + 1);
 
   for (uint8_t i = 0; i < BUTTON_ITEMS; i++) {
-    const uint16_t x = i * 100 + 30;
+    const uint16_t x = 30;
     const uint16_t y = i * 50 + 40;
     const int width = 150, height = 40;
 
@@ -61,8 +61,8 @@ PAGE_PAINT(SETTINGS) {
   return buttons;
 }
 
-PAGE_TOUCH(SETTINGS) {
-  const auto& size = buttons.size() - 1;
+PAGE_TOUCH(Settings) {
+  const auto& size = buttons.size();
   for (unsigned i = 0; i < size; i++) {
     Button& button = buttons[i];
 
@@ -77,7 +77,7 @@ PAGE_TOUCH(SETTINGS) {
   }
 }
 
-PAGE_TOUCHEND(SETTINGS) {
+PAGE_TOUCHEND(Settings) {
   for (auto& button : buttons) {
     if (button.is_pressed) {
       button.is_pressed = false;
