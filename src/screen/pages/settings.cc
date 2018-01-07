@@ -26,22 +26,6 @@ enum Setting {
 };
 #undef V
 
-inline void HandleButtonPress(Environment& env, uint8_t index) {
-  switch (static_cast<Setting>(index)) {
-    case kBack:
-      env.set_page(Page::kKeyboard);
-      break;
-    case kOctave:
-      env.ToggleOctaveLevel();
-      break;
-    case kAudio:
-      env.SetAudioType(
-        env.audio()->IsType(Audio::kBuiltin)
-          ? Audio::kSerialPort : Audio::kBuiltin);
-      break;
-  }
-}
-
 PAGE_PAINT(Settings) {
   std::vector<Button> buttons;
   buttons.reserve(BUTTON_ITEMS + 1);
@@ -62,14 +46,25 @@ PAGE_PAINT(Settings) {
 }
 
 PAGE_TOUCH(Settings) {
-  const auto& size = buttons.size();
-  for (unsigned i = 0; i < size; i++) {
+  for (unsigned i = 0; i < buttons.size(); i++) {
     Button& button = buttons[i];
 
     if (button.IsTapped(point)) {
       if (!button.is_pressed) {
         button.is_pressed = true;
-        HandleButtonPress(env, i);
+        switch (i) {
+          case kBack:
+            controller->set_page(Page::kKeyboard);
+            break;
+          case kOctave:
+            env.ToggleOctaveLevel();
+            break;
+          case kAudio:
+            env.SetAudioType(
+              env.audio()->IsType(Audio::kBuiltin)
+                ? Audio::kSerialPort : Audio::kBuiltin);
+            break;
+        }
       }
       // doesn't need to continue checking because multitouching isn't supported
       return;

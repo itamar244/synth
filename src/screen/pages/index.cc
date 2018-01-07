@@ -23,8 +23,7 @@ PAGE_PAINT(Index) {
 
 PAGE_TOUCH(Index) {
   if (buttons[0].IsTapped(point)) {
-    // Serial.println(String(x) + ", " + String(y));
-    env.set_page(Page::kKeyboard);
+    controller->set_page(Page::kKeyboard);
   }
 }
 

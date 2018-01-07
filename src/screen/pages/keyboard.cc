@@ -57,7 +57,7 @@ PAGE_TOUCH(Keyboard) {
   }
   Button& toggle = buttons.back();
   if (toggle.IsTapped(point)) {
-    env.set_page(Page::kSettings);
+    controller->set_page(Page::kSettings);
   }
 }
 

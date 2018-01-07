@@ -1,11 +1,7 @@
 #include "env.h"
 #include "audio.h"
-#include "screen/pages.h"
 
 namespace synth {
-
-Environment::Environment()
-  : page_(screen::Page::kIndex) {}
 
 Environment::~Environment() {
   delete audio_;

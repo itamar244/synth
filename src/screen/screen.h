@@ -11,9 +11,17 @@
 namespace synth {
 namespace screen {
 
+enum class Page;
+
 class Controller {
 public:
-  inline std::vector<Button>& buttons() { return buttons_; }
+  Controller();
+
+  inline Page page() const { return page_; }
+  inline void set_page(screen::Page next) {
+    page_ = next;
+    is_painted_ = false;
+  }
 
   void Paint(Environment& env);
   void Touch(Environment& env);
@@ -21,6 +29,8 @@ public:
 
 private:
   std::vector<Button> buttons_;
+  Page page_;
+  bool is_painted_ = false;
 };
 
 }  // namespace screen

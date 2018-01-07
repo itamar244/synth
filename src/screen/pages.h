@@ -11,6 +11,7 @@
 #include <vector>
 #include "env.h"
 #include "screen/button.h"
+#include "screen/screen.h"
 
 #define PAGE_TYPES(V)                                                          \
   V(Index)                                                                     \
@@ -27,7 +28,8 @@
 
 #define PAGE_TOUCH(PAGE)                                                       \
   void PageTouch ## PAGE(                                                      \
-    std::vector<Button>& buttons, Environment& env, const Point& point)
+    Controller* controller, std::vector<Button>& buttons,                      \
+    Environment& env, const Point& point)
 
 #define PAGE_TOUCHEND(PAGE)                                                    \
   void PageTouchend ## PAGE(                                                   \

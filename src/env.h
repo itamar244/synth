@@ -11,7 +11,6 @@ enum class Page;
 
 class Environment {
 public:
-  Environment();
   ~Environment();
 
   void Tick();
@@ -19,16 +18,6 @@ public:
   // Audio
   inline Audio* audio() const { return audio_; }
   void SetAudioType(Audio::Type type);
-
-  // Screen
-  inline const screen::Page& page() const { return page_; }
-  inline void set_page(screen::Page next) {
-    page_ = next;
-    is_screen_painted_ = false;
-  }
-
-  inline bool ShouldPaintScreen() const { return !is_screen_painted_; }
-  inline void ScreenPainted() { is_screen_painted_ = true; }
 
   // Song
   inline uint8_t AddOctaveDiff(uint8_t note) {
@@ -43,9 +32,7 @@ public:
 private:
   Audio* audio_ = new SerialPortAudio();
   SongPlayer song_player_;
-  screen::Page page_;
 
-  bool is_screen_painted_ = false;
   bool is_song_played_ = false;
   int8_t octave_diff_ = 0;
 };

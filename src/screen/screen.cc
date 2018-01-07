@@ -9,7 +9,7 @@
     break;
 
 #define SWITCH_PAGE_TYPES(V)                                                   \
-  switch (env.page()) {                                                        \
+  switch (page_) {                                                             \
     WRAPPED_PAGE_TYPES(CASE_PAGE_TYPES, V)                                     \
   }
 
@@ -26,9 +26,12 @@ inline Point GetClickedPoint() {
   };
 }
 
+Controller::Controller()
+  : page_(Page::kIndex) {}
+
 void Controller::Paint(Environment& env) {
-  if (env.ShouldPaintScreen()) {
-    env.ScreenPainted();
+  if (!is_painted_) {
+    is_painted_ = true;
     lcd.setBackground(Color::BLACK);
     lcd.clrscr();
     lcd.setColor(Color::RED);
@@ -43,7 +46,7 @@ void Controller::Paint(Environment& env) {
 void Controller::Touch(Environment& env) {
   const Point point = GetClickedPoint();
 
-#define V(PAGE) PageTouch ## PAGE(buttons_, env, point);
+#define V(PAGE) PageTouch ## PAGE(this, buttons_, env, point);
   SWITCH_PAGE_TYPES(V)
 #undef V
 }
