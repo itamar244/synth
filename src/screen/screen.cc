@@ -33,8 +33,9 @@ void Controller::Paint(Environment& env) {
     lcd.clrscr();
     lcd.setColor(Color::RED);
 
+    Touchend(env);
 #define V(PAGE) buttons_ = PagePaint_ ## PAGE();
-  SWITCH_PAGE_TYPES(V)
+    SWITCH_PAGE_TYPES(V)
 #undef V
   }
 }

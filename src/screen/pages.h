@@ -14,11 +14,13 @@
 
 #define PAGE_TYPES(V)                                                          \
   V(INDEX)                                                                     \
-  V(KEYBOARD)
+  V(KEYBOARD)                                                                  \
+  V(SETTINGS)
 
 #define WRAPPED_PAGE_TYPES(WRAPPER, V)                                         \
   WRAPPER(V, INDEX)                                                            \
-  WRAPPER(V, KEYBOARD)
+  WRAPPER(V, KEYBOARD)                                                        \
+  WRAPPER(V, SETTINGS)
 
 #define PAGE_PAINT(PAGE)                                                       \
   std::vector<Button> PagePaint_ ## PAGE()

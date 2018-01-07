@@ -29,35 +29,36 @@ PAGE_PAINT(KEYBOARD) {
     lcd.write(key);
   }
 
-  Button toggle_button = { lcd.getWidth() - 120, lcd.getHeight() - 50, 110, 40 };
-  buttons.push_back(toggle_button);
+  Button settings = { lcd.getWidth() - 140, lcd.getHeight() - 50, 140, 40 };
+  buttons.push_back(settings);
   lcd.fillRoundRect(
-    toggle_button.x, toggle_button.y, 
-    toggle_button.width, toggle_button.height, 5, Color::RED);
-  lcd.gotoxy(toggle_button.x + 18, toggle_button.y + 10);
+    settings.x, settings.y, 
+    settings.width, settings.height, 5, Color::RED);
+  lcd.gotoxy(settings.x + 18, settings.y + 10);
   lcd.setColor(Color::WHITE, Color::RED);
-  lcd.print("TOGGLE");
+  lcd.print("SETTINGS");
 
   return buttons;
 }
 
 PAGE_TOUCH(KEYBOARD) {
-  const auto& size = buttons.size();
+  const auto& size = buttons.size() - 1;
   for (unsigned i = 0; i < size; i++) {
     Button& button = buttons[i];
 
     if (button.IsTapped(point)) {
       if (!button.is_pressed) {
         button.is_pressed = true;
-        if (i != size - 1) {
-          env.audio()->AddTone(TONE_VALUES[i] + env.GetOctaveDif());
-        } else {
-          env.ToggleOctaveLevel();
-        }
+        env.audio()->AddTone(env.AddOctaveDiff(TONE_VALUES[i]));
       }
       // doesn't need to continue checking because multitouching isn't supported
       return;
     }
+  }
+  Button& toggle = buttons.back();
+  if (toggle.IsTapped(point) && !toggle.is_pressed) {
+    toggle.is_pressed = true;
+    env.ToggleOctaveLevel();
   }
 }
 
@@ -69,7 +70,7 @@ PAGE_TOUCHEND(KEYBOARD) {
     if (button.is_pressed) {
       button.is_pressed = false;
       if (i != size - 1) {
-        env.audio()->RemoveTone(TONE_VALUES[i] + env.GetOctaveDif());
+        env.audio()->RemoveTone(env.AddOctaveDiff(TONE_VALUES[i]));
       }
     }
   }
