@@ -15,7 +15,7 @@ void Environment::Tick() {
   if (is_song_played_ && !song_player_.Play(audio_)) {
     is_song_played_ = false;
   }
-  if (audio_->Type() == AudioType::BUILTIN) {
+  if (audio_->IsType(AudioType::BUILTIN)) {
     audio_->Play();
   }
 }

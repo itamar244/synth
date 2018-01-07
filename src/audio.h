@@ -1,8 +1,9 @@
 #pragma once
 
-#include <stdint.h>
 #include <StandardCplusplus.h>
 #include <list>
+#include <algorithm>
+#include <stdint.h>
 
 namespace synth {
 
@@ -13,50 +14,47 @@ enum class AudioType {
 
 class Audio {
 public:
+  typedef uint8_t Tone;
+
   virtual ~Audio() {};
-
   virtual AudioType Type() const = 0;
-
+  inline bool IsType(AudioType type) {
+    return Type() == type;
+  }
   virtual void Play() const {};
   
-  virtual bool AddTone(uint8_t note);
-  virtual bool RemoveTone(uint8_t note);
+  virtual bool AddTone(Tone tone);
+  virtual bool RemoveTone(Tone tone);
   
-
-  inline std::list<uint8_t>::iterator GetTone(uint8_t tone) {
+  inline std::list<Tone>::iterator GetTone(Tone tone) {
     return std::find(current_tones_.begin(), current_tones_.end(), tone);
   }
-#define CALL_WITH_VECTOR(FUNC)                                                 \
-  template<class List>                                                         \
-  inline bool FUNC ## Tones(const List& tones) {                               \
-    for (uint8_t tone : tones) {                                               \
-      if (!FUNC ## Tone(tone)) return false;                                   \
-    }                                                                          \
-    return true;                                                               \
-  }
-  CALL_WITH_VECTOR(Add) CALL_WITH_VECTOR(Remove)
-#undef CALL_WITH_VECTOR
+  
+  #define CALL_WITH_ITERABLE(FUNC)                                               \
+    template<class Iterable>                                                     \
+    inline void FUNC ## Tones(const Iterable& tones) {                           \
+      for (Tone tone : tones) {                                                  \
+        FUNC ## Tone(tone);                                                      \
+      }                                                                          \
+    }
+    CALL_WITH_ITERABLE(Add) CALL_WITH_ITERABLE(Remove)
+  #undef CALL_WITH_ITERABLE
 
 protected:
-  std::list<uint8_t> current_tones_;
+  std::list<Tone> current_tones_;
 };
-
-#define AUDIO_IMP_METHODS(TYPE)                                                \
-  AudioType Type() const { return AudioType::TYPE; }                           \
-  bool AddTone(uint8_t note);                                                  \
-  bool RemoveTone(uint8_t note);
 
 class BuiltinAudio: public Audio {
 public:
-  AUDIO_IMP_METHODS(BUILTIN)
-  void Play() const;
+  AudioType Type() const override { return AudioType::BUILTIN; }
+  void Play() const override;
 };
 
 class SerialPortAudio: public Audio {
 public:
-  AUDIO_IMP_METHODS(SERIALPORT)
+  AudioType Type() const override { return AudioType::SERIALPORT; }
+  bool AddTone(Tone tone) override;
+  bool RemoveTone(Tone tone) override;
 };
-
-#undef AUDIO_IMP_METHODS
 
 } // namespace synth

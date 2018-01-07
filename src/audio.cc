@@ -1,8 +1,6 @@
 #include "audio.h"
 #include <Arduino.h>
-#include <StandardCplusplus.h>
-#include <algorithm>
-#include <list>
+#include <stdint.h>
 
 namespace synth {
 
@@ -24,7 +22,7 @@ bool Audio::RemoveTone(uint8_t note) {
   return false;
 }
 
-// TODO: actually implement this after getting the part for the arduino
+// TODO: implement this after getting the part for the arduino
 void BuiltinAudio::Play() const {
   if (current_tones_.empty()) return;
   for (auto& note : current_tones_) {
@@ -34,19 +32,19 @@ void BuiltinAudio::Play() const {
 }
 
 bool SerialPortAudio::AddTone(uint8_t note) {
-  bool is_added = Audio::AddTone(note);
-  if (is_added) {
+  if (Audio::AddTone(note)) {
     Serial.println("1" + String(note));
+    return true;
   }
-  return is_added;
+  return false;
 }
 
 bool SerialPortAudio::RemoveTone(uint8_t note) {
-  bool is_removed = Audio::RemoveTone(note);
-  if (is_removed) {
+  if (Audio::RemoveTone(note)) {
     Serial.println("0" + String(note));
+    return true;
   }
-  return is_removed;
+  return false;
 }
 
 } // namespace synth
