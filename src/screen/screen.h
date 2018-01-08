@@ -4,6 +4,7 @@
  */
 #pragma once
 
+#include <StandardCplusplus.h>
 #include <vector>
 #include "env.h"
 #include "screen/button.h"
@@ -17,6 +18,7 @@ class Controller {
 public:
   Controller();
 
+	inline bool is_touched() const { return is_touched_; }
   inline Page page() const { return page_; }
   inline void set_page(screen::Page next) {
     page_ = next;
@@ -30,7 +32,7 @@ public:
 private:
   std::vector<Button> buttons_;
   Page page_;
-  bool is_painted_ = false;
+  bool is_painted_ = false, is_touched_ = false;
 };
 
 }  // namespace screen

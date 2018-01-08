@@ -45,6 +45,7 @@ void Controller::Paint(Environment& env) {
 
 void Controller::Touch(Environment& env) {
   const Point point = GetClickedPoint();
+	is_touched_ = true;
 
 #define V(PAGE) PageTouch ## PAGE(this, buttons_, env, point);
   SWITCH_PAGE_TYPES(V)
@@ -52,6 +53,7 @@ void Controller::Touch(Environment& env) {
 }
 
 void Controller::Touchend(Environment& env) {
+	is_touched_ = false;
 #define V(PAGE) PageTouchend ## PAGE(buttons_, env);
   SWITCH_PAGE_TYPES(V)
 #undef V
