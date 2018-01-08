@@ -1,38 +1,41 @@
 #define ENTRY                                                                  \
-  2, TONE_E4, TONE_G4, 12,                                                     \
-  0, 4,                                                                        \
-  2, TONE_E4, TONE_G4, 8,                                                      \
-  2, TONE_G4, TONE_B4, 8,
+  1, TONE(E, 4), Q4,                                                              \
+  0, Q8,                                                                       \
+  1, TONE(E, 4), Q8,                                                              \
+  1, TONE(G, 4), Q8 + Q16,                                                        \
+  1, TONE(E, 4), Q8 + Q16,                                                        \
+  1, TONE(D, 4), Q8,                                                              \
 
-#define RIFF1                                                                  \
+#define RIFF                                                                   \
   ENTRY                                                                        \
-  1, TONE_E4, 8,                                                               \
-  1, TONE_D4, 8,                                                               \
-  1, TONE_C4, 16,                                                              \
-  1, TONE_B3, 16,
+  1, TONE(C, 4), Q2,                                                              \
+  1, TONE(B, 3), Q2,
 
-#define RIFF2                                                                  \
-  1, TONE_E4, 12,                                                              \
-  0, 4,                                                                        \
-  1, TONE_E4, 8,                                                               \
-  1, TONE_G4, 8,                                                               \
-  1, TONE_E4, 8,                                                               \
-  1, TONE_D4, 8,                                                               \
-  1, TONE_C4, 8,                                                               \
-  1, TONE_D4, 8,                                                               \
-  1, TONE_C4, 8,                                                               \
-  1, TONE_B3, 8,                                                               \
-  1, TONE_A3, 8,
+#define BREAK                                                                  \
+  1, TONE(G, 4), Q8, 1, TONE(G, 4), Q8, 1, TONE(G, 4), Q8, 1, TONE(G, 4), Q8,              \
+  1, TONE(G, 4), Q8, 1, TONE(G, 4), Q8, 1, TONE(G, 4), Q8, 1, TONE(G, 4), Q8,              \
+  1, TONE(A, 4), Q8, 1, TONE(A, 4), Q8, 1, TONE(A, 4), Q8, 1, TONE(A, 4), Q8,              \
+  1, TONE(A, 4), Q8, 1, TONE(A, 4), Q8, 1, TONE(A, 4), Q8, 1, TONE(A, 4), Q8,
+
+#define CHORUS                                                                 \
+  RIFF                                                                         \
+  ENTRY                                                                        \
+  1, TONE(C, 4), Q8 + Q16,                                                        \
+  1, TONE(D, 4), Q8 + Q16,                                                        \
+  1, TONE(C, 4), Q8,                                                              \
+  1, TONE(B, 3), Q4,                                                              \
+  1, TONE(A, 3), Q8 + Q16,                                                        \
+  0, Q16,
 
 const uint8_t SEVEN_NATION_ARMY[] PROGMEM = {
-  RIFF1
-  RIFF2
-  RIFF1
-  RIFF2
-  RIFF1
-  RIFF2
+  RIFF
+  RIFF
+  BREAK
+  CHORUS
+  CHORUS
 };
 
 #undef ENTRY
-#undef RIFF1
-#undef RIFF2
+#undef RIFF
+#undef CHORUS
+#undef BREAK

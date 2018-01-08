@@ -1,34 +1,25 @@
 #define MAIN                                                                   \
-  1, TONE_G4, 7,                                                                     \
-  0, 1,                                                                        \
-  1, TONE_E4, 7,                                                                     \
-  0, 1,                                                                        \
-  1, TONE_E4, 16,                                                                    \
-  1, TONE_F4, 7,                                                                     \
-  0, 1,                                                                        \
-  1, TONE_D4, 7,                                                                     \
-  0, 1,                                                                        \
-  1, TONE_D4, 16,                                                                    \
-  1, TONE_C4, 8,
+  1, TONE(G, 4), Q4,                                                              \
+  1, TONE(E, 4), Q4,                                                              \
+  1, TONE(E, 4), Q2,                                                              \
+  1, TONE(F, 4), Q4,                                                              \
+  1, TONE(D, 4), Q4,                                                              \
+  1, TONE(D, 4), Q2,                                                              \
+  1, TONE(C, 4), Q4,
 
 const uint8_t THE_SMALL_JONATHAN[] PROGMEM = {
   MAIN
-  1, TONE_D4, 8,
-  1, TONE_E4, 8,
-  1, TONE_F4, 8,
-  1, TONE_G4, 7,
-  0, 1,
-  1, TONE_G4, 7,
-  0, 1,
-  1, TONE_G4, 15,
-  0, 1,
+  1, TONE(D, 4), Q4,
+  1, TONE(E, 4), Q4,
+  1, TONE(F, 4), Q4,
+  1, TONE(G, 4), Q4,
+  1, TONE(G, 4), Q4,
+  1, TONE(G, 4), Q2,
   MAIN
-  1, TONE_E4, 8,
-  1, TONE_G4, 7,
-  0, 1,
-  1, TONE_G4, 7,
-  0, 1,
-  1, TONE_C4, 16,
+  1, TONE(E, 4), Q4,
+  1, TONE(G, 4), Q4,
+  1, TONE(G, 4), Q4,
+  1, TONE(C, 4), Q2,
 };
 
 #undef MAIN
