@@ -10,6 +10,8 @@ struct Button: public Point {
   uint8_t width, height;
   bool is_pressed = false;
 
+  Button();
+
   Button(uint16_t x, uint16_t y, int16_t width, int16_t height)
     : Point(x, y), width(width), height(height) {}
 
