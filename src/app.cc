@@ -17,7 +17,7 @@ void App::Tick() {
   env_.Tick();
 
   screen_.Paint(env_);
-  
+
   if (digitalRead(2) == 0) {
     screen_pressed_ = true;
     screen_.Touch(env_);

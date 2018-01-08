@@ -23,14 +23,14 @@ public:
     return AudioType() == type;
   }
   virtual void Play() const {};
-  
+
   virtual bool AddTone(Tone tone);
   virtual bool RemoveTone(Tone tone);
-  
+
   inline std::list<Tone>::iterator GetTone(Tone tone) {
     return std::find(current_tones_.begin(), current_tones_.end(), tone);
   }
-  
+
   #define CALL_WITH_ITERABLE(FUNC)                                               \
     template<class Iterable>                                                     \
     inline void FUNC ## Tones(const Iterable& tones) {                           \

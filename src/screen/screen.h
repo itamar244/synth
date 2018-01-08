@@ -1,4 +1,4 @@
-/** 
+/**
  * the main logic of the screen module.
  * Controller is the screen controller
  */
