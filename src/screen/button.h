@@ -7,7 +7,7 @@ namespace synth {
 namespace screen {
 
 struct Button: public Point {
-  int16_t width, height;
+  uint8_t width, height;
   bool is_pressed = false;
 
   Button(uint16_t x, uint16_t y, int16_t width, int16_t height)
