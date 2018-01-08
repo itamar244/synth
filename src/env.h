@@ -5,10 +5,6 @@
 
 namespace synth {
 
-namespace screen {
-enum class Page;
-}
-
 class Environment {
 public:
   ~Environment();
@@ -17,12 +13,15 @@ public:
 
   // Audio
   inline Audio* audio() const { return audio_; }
+  inline void AddToneWithOctave(uint8_t tone) {
+    audio_->AddTone(tone + current_octave_ * 12);
+  }
+  inline void RemoveToneWithOctave(uint8_t tone) {
+    audio_->RemoveTone(tone + current_octave_ * 12);
+  }
   void SetAudioType(Audio::Type type);
 
   // Song
-  inline uint8_t AddOctaveDiff(uint8_t tone) {
-    return tone + current_octave_ * 12;
-  }
   inline void IncrementOctave() { current_octave_++; }
   inline void DecrementOctave() {
     if (current_octave_ > 0) current_octave_--;

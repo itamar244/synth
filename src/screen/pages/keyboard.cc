@@ -50,19 +50,21 @@ PAGE_TOUCH(Keyboard) {
       if (!button.is_pressed) {
         button.is_pressed = true;
         if (i < size - 2) {
-          env.audio()->AddTone(env.AddOctaveDiff(TONE_VALUES[i]));
-        } else if (BUTTON_NAMES[i] == '-') {
-          env.DecrementOctave();
-        } else {
-          env.IncrementOctave();
-        }
+          env.AddToneWithOctave(TONE_VALUES[i]);
+        } else if (env.audio()->PlayedTonesCount() == 0) {
+					if (BUTTON_NAMES[i] == '-') {
+						env.DecrementOctave();
+					} else {
+						env.IncrementOctave();
+					}
+				}
       }
       // doesn't need to continue checking because multitouching isn't supported
       return;
     }
   }
-  Button& toggle = buttons.back();
-  if (toggle.IsTapped(point)) {
+
+  if (buttons.back().IsTapped(point)) {
     controller->set_page(Page::kSettings);
   }
 }
@@ -71,11 +73,11 @@ PAGE_TOUCHEND(Keyboard) {
   const auto& size = buttons.size();
   for (unsigned i = 0; i < size; i++) {
     Button& button = buttons[i];
-    
+
     if (button.is_pressed) {
       button.is_pressed = false;
-      if (i != size - 3) {
-        env.audio()->RemoveTone(env.AddOctaveDiff(TONE_VALUES[i]));
+      if (i < TONE_ITEMS) {
+        env.RemoveToneWithOctave(TONE_VALUES[i]);
       }
     }
   }

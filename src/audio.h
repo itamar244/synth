@@ -30,16 +30,17 @@ public:
   inline std::list<Tone>::iterator GetTone(Tone tone) {
     return std::find(current_tones_.begin(), current_tones_.end(), tone);
   }
+	inline uint8_t PlayedTonesCount() const { return current_tones_.size(); }
 
-  #define CALL_WITH_ITERABLE(FUNC)                                               \
-    template<class Iterable>                                                     \
-    inline void FUNC ## Tones(const Iterable& tones) {                           \
-      for (Tone tone : tones) {                                                  \
-        FUNC ## Tone(tone);                                                      \
-      }                                                                          \
-    }
-    CALL_WITH_ITERABLE(Add) CALL_WITH_ITERABLE(Remove)
-  #undef CALL_WITH_ITERABLE
+#define CALL_WITH_ITERABLE(FUNC)                                               \
+	template<class Iterable>                                                     \
+	inline void FUNC ## Tones(const Iterable& tones) {                           \
+		for (Tone tone : tones) {                                                  \
+			FUNC ## Tone(tone);                                                      \
+		}                                                                          \
+	}
+	CALL_WITH_ITERABLE(Add) CALL_WITH_ITERABLE(Remove)
+#undef CALL_WITH_ITERABLE
 
 protected:
   std::list<Tone> current_tones_;

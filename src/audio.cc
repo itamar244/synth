@@ -32,12 +32,12 @@ void BuiltinAudio::Play() const {
 }
 
 bool SerialPortAudio::AddTone(uint8_t tone) {
-  if (Audio::AddTone(tone)) {
-    char stream[] = {1, char(tone)};
-    Serial.write(stream, 2);
-    return true;
-  }
-  return false;
+	if (Audio::AddTone(tone)) {
+		char stream[] = {1, char(tone)};
+		Serial.write(stream, 2);
+		return true;
+	}
+	return false;
 }
 
 bool SerialPortAudio::RemoveTone(uint8_t tone) {
