@@ -20,10 +20,13 @@ public:
   void SetAudioType(Audio::Type type);
 
   // Song
-  inline uint8_t AddOctaveDiff(uint8_t note) {
-    return note + octave_diff_ * 12;
+  inline uint8_t AddOctaveDiff(uint8_t tone) {
+    return tone + current_octave_ * 12;
   }
-  inline void ToggleOctaveLevel() { octave_diff_ = !octave_diff_; }
+  inline void IncrementOctave() { current_octave_++; }
+  inline void DecrementOctave() {
+    if (current_octave_ > 0) current_octave_--;
+  }
   inline void PlaySong(SongPlayer::Song song, uint16_t size) {
     song_player_.Init(song, size);
     is_song_played_ = true;
@@ -34,7 +37,7 @@ private:
   SongPlayer song_player_;
 
   bool is_song_played_ = false;
-  int8_t octave_diff_ = 0;
+  int8_t current_octave_ = 4;
 };
 
 } // namespace synth

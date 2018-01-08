@@ -5,8 +5,9 @@
 #include "screen/button.h"
 #include "screen/pages.h"
 
-#define TONE_ITEMS 7
-const char TONE_NAMES[TONE_ITEMS] = { 'C', 'D', 'E', 'F', 'G', 'A', 'B' };
+#define BUTTON_ITEMS 9
+#define TONE_ITEMS BUTTON_ITEMS - 2
+const char BUTTON_NAMES[BUTTON_ITEMS] = { 'C', 'D', 'E', 'F', 'G', 'A', 'B', '-', '+' };
 const uint8_t TONE_VALUES[TONE_ITEMS] = { 0, 2, 4, 5, 7, 9, 11 };
 
 namespace synth {
@@ -14,22 +15,21 @@ namespace screen {
 
 PAGE_PAINT(Keyboard) {
   std::vector<Button> buttons;
-  buttons.reserve(TONE_ITEMS + 1);
+  buttons.reserve(BUTTON_ITEMS + 1);
 
-  for (uint8_t i = 0; i < TONE_ITEMS; i++) {
+  for (uint8_t i = 0; i < BUTTON_ITEMS; i++) {
     const uint16_t x = (i % 3) * 100 + 30;
     const uint16_t y = (i / 3) * 50 + 40;
     const int width = 50, height = 40;
-    const char key = TONE_NAMES[i];
 
     buttons.push_back({ x, y, width, height });
     lcd.fillRoundRect(x, y, width, height, 5, Color::RED);
     lcd.gotoxy(x + 18, y + 10);
     lcd.setColor(Color::WHITE, Color::RED);
-    lcd.write(key);
+    lcd.write(BUTTON_NAMES[i]);
   }
 
-  Button settings = { lcd.getWidth() - 140, lcd.getHeight() - 50, 140, 40 };
+  Button settings = { lcd.getWidth() - 120, lcd.getHeight() - 50, 120, 40 };
   buttons.push_back(settings);
   lcd.fillRoundRect(
     settings.x, settings.y,
@@ -49,7 +49,13 @@ PAGE_TOUCH(Keyboard) {
     if (button.IsTapped(point)) {
       if (!button.is_pressed) {
         button.is_pressed = true;
-        env.audio()->AddTone(env.AddOctaveDiff(TONE_VALUES[i]));
+        if (i < size - 2) {
+          env.audio()->AddTone(env.AddOctaveDiff(TONE_VALUES[i]));
+        } else if (BUTTON_NAMES[i] == '-') {
+          env.DecrementOctave();
+        } else {
+          env.IncrementOctave();
+        }
       }
       // doesn't need to continue checking because multitouching isn't supported
       return;
@@ -68,7 +74,7 @@ PAGE_TOUCHEND(Keyboard) {
     
     if (button.is_pressed) {
       button.is_pressed = false;
-      if (i != size - 1) {
+      if (i != size - 3) {
         env.audio()->RemoveTone(env.AddOctaveDiff(TONE_VALUES[i]));
       }
     }

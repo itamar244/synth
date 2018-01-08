@@ -5,10 +5,9 @@
 #include "screen/button.h"
 #include "screen/pages.h"
 
-#define BUTTON_ITEMS 3
+#define BUTTON_ITEMS 2
 #define SYNTH_SETTING_TYPES(V)                                                 \
   V(Back)                                                                      \
-  V(Octave)                                                                    \
   V(Audio)
 
 namespace synth {
@@ -55,9 +54,6 @@ PAGE_TOUCH(Settings) {
         switch (i) {
           case kBack:
             controller->set_page(Page::kKeyboard);
-            break;
-          case kOctave:
-            env.ToggleOctaveLevel();
             break;
           case kAudio:
             env.SetAudioType(

@@ -28,7 +28,8 @@
 #define TONE_A   9
 #define TONE_AS 10
 #define TONE_B  11
-#define TONE(NAME, OCTAVE) TONE_## NAME + (OCTAVE - 3) * 12
+#define TONE(NAME, OCTAVE) TONE_## NAME + (OCTAVE + 1) * 12
+
 // NUMBER / quarter
 #define Q32 1
 #define Q16 2
