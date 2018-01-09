@@ -15,11 +15,13 @@
 
 #define PAGE_TYPES(V)                                                          \
   V(Index)                                                                     \
+  V(Menu)                                                                      \
   V(Keyboard)                                                                  \
   V(Settings)
 
 #define WRAPPED_PAGE_TYPES(WRAPPER, V)                                         \
   WRAPPER(V, Index)                                                            \
+  WRAPPER(V, Menu)                                                             \
   WRAPPER(V, Keyboard)                                                         \
   WRAPPER(V, Settings)
 
@@ -43,6 +45,8 @@ enum class Page {
 PAGE_TYPES(V)
 #undef V
 };
+
+std::vector<Button> PaintMenu(const char* button_names[], uint8_t size);
 
 #define V(PAGE)                                                                \
   PAGE_PAINT(PAGE);                                                            \

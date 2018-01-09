@@ -7,11 +7,14 @@
 
 #define BUTTON_ITEMS 9
 #define TONE_ITEMS BUTTON_ITEMS - 2
-const char BUTTON_NAMES[BUTTON_ITEMS] = { 'C', 'D', 'E', 'F', 'G', 'A', 'B', '-', '+' };
-const uint8_t TONE_VALUES[TONE_ITEMS] = { 0, 2, 4, 5, 7, 9, 11 };
 
 namespace synth {
 namespace screen {
+
+const char kKeyboardButtonNames[BUTTON_ITEMS] = {
+	'C', 'D', 'E', 'F', 'G', 'A', 'B', '-', '+'
+};
+const uint8_t kToneValues[TONE_ITEMS] = { 0, 2, 4, 5, 7, 9, 11 };
 
 PAGE_PAINT(Keyboard) {
   std::vector<Button> buttons;
@@ -26,17 +29,17 @@ PAGE_PAINT(Keyboard) {
     lcd.fillRoundRect(x, y, width, height, 5, Color::RED);
     lcd.gotoxy(x + 18, y + 10);
     lcd.setColor(Color::WHITE, Color::RED);
-    lcd.write(BUTTON_NAMES[i]);
+    lcd.write(kKeyboardButtonNames[i]);
   }
 
-  Button settings = { lcd.getWidth() - 120, lcd.getHeight() - 50, 120, 40 };
-  buttons.push_back(settings);
+  Button menu = { lcd.getWidth() - 100, lcd.getHeight() - 50, 100, 40 };
+  buttons.push_back(menu);
   lcd.fillRoundRect(
-    settings.x, settings.y,
-    settings.width, settings.height, 5, Color::RED);
-  lcd.gotoxy(settings.x + 18, settings.y + 10);
+    menu.x, menu.y,
+    menu.width, menu.height, 5, Color::RED);
+  lcd.gotoxy(menu.x + 18, menu.y + 10);
   lcd.setColor(Color::WHITE, Color::RED);
-  lcd.print("SETTINGS");
+  lcd.print("Back");
 
   return buttons;
 }
@@ -50,13 +53,11 @@ PAGE_TOUCH(Keyboard) {
       if (!button.is_pressed) {
         button.is_pressed = true;
         if (i < size - 2) {
-          env.AddToneWithOctave(TONE_VALUES[i]);
-        } else if (env.audio()->PlayedTonesCount() == 0) {
-					if (BUTTON_NAMES[i] == '-') {
-						env.DecrementOctave();
-					} else {
-						env.IncrementOctave();
-					}
+          env.AddToneWithOctave(kToneValues[i]);
+        } else if (kKeyboardButtonNames[i] == '-') {
+					env.DecrementOctave();
+				} else {
+					env.IncrementOctave();
 				}
       }
       // doesn't need to continue checking because multitouching isn't supported
@@ -65,7 +66,7 @@ PAGE_TOUCH(Keyboard) {
   }
 
   if (buttons.back().IsTapped(point)) {
-    controller->set_page(Page::kSettings);
+    controller->set_page(Page::kMenu);
   }
 }
 
@@ -77,7 +78,7 @@ PAGE_TOUCHEND(Keyboard) {
     if (button.is_pressed) {
       button.is_pressed = false;
       if (i < TONE_ITEMS) {
-        env.RemoveToneWithOctave(TONE_VALUES[i]);
+        env.RemoveToneWithOctave(kToneValues[i]);
       }
     }
   }

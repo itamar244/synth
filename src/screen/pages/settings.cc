@@ -14,7 +14,7 @@ namespace synth {
 namespace screen {
 
 #define V(TYPE) #TYPE,
-const char* BUTTON_NAMES[BUTTON_ITEMS] = {
+const char* kSettingsButtonNames[BUTTON_ITEMS] = {
   SYNTH_SETTING_TYPES(V)
 };
 #undef V
@@ -26,22 +26,7 @@ enum Setting {
 #undef V
 
 PAGE_PAINT(Settings) {
-  std::vector<Button> buttons;
-  buttons.reserve(BUTTON_ITEMS + 1);
-
-  for (uint8_t i = 0; i < BUTTON_ITEMS; i++) {
-    const uint16_t x = 30;
-    const uint16_t y = i * 50 + 40;
-    const int width = 150, height = 40;
-
-    buttons.push_back({ x, y, width, height });
-    lcd.fillRoundRect(x, y, width, height, 5, Color::RED);
-    lcd.gotoxy(x + 18, y + 10);
-    lcd.setColor(Color::WHITE, Color::RED);
-    lcd.print(BUTTON_NAMES[i]);
-  }
-
-  return buttons;
+  return PaintMenu(kSettingsButtonNames, BUTTON_ITEMS);
 }
 
 PAGE_TOUCH(Settings) {
@@ -53,7 +38,7 @@ PAGE_TOUCH(Settings) {
         button.is_pressed = true;
         switch (i) {
           case kBack:
-            controller->set_page(Page::kKeyboard);
+            controller->set_page(Page::kMenu);
             break;
           case kAudio:
             env.SetAudioType(
