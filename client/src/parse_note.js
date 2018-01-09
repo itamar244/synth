@@ -1,5 +1,6 @@
+// @flow
 const NOTES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
-export default function parseNote(num) {
+export default function parseNote(num: number): string {
   return NOTES[num % 12] + Math.floor(num / 12);
 }
