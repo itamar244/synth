@@ -1,27 +1,30 @@
 #include <Arduino.h>
 #include <TFT9341.h>
-#include "screen/screen.h"
-#include "song_player/songs.h"
 #include "env.h"
+#include "screen/pages.h"
+#include "screen/screen.h"
+#include "serial_communication.h"
 
-using namespace synth;
+using synth::Environment;
+using ScreenController = synth::screen::Controller;
+using Page = synth::screen::Page;
 
 Environment env;
-screen::Controller screen_controller;
+ScreenController screen_controller;
 
 void setup() {
   Serial.begin(9600);
   lcd.begin();
   lcdtouch.InitTypeTouch(1);
-  env.PlaySong(
-    songs::SEVEN_NATION_ARMY,
-    SONG_SIZE(SEVEN_NATION_ARMY));
 }
 
 void loop() {
   env.Tick();
 
-  screen_controller.Paint(env);
+	if (screen_controller.page() != Page::kIndex && Serial.peek() != 0xFF) {
+		HandleSerialCommunication(env);
+	}
+	screen_controller.Paint(env);
 
   if (digitalRead(2) == 0) {
     screen_controller.Touch(env);

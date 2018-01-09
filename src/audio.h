@@ -30,7 +30,6 @@ public:
   inline std::list<Tone>::iterator GetTone(Tone tone) {
     return std::find(current_tones_.begin(), current_tones_.end(), tone);
   }
-	inline uint8_t PlayedTonesCount() const { return current_tones_.size(); }
 
 #define CALL_WITH_ITERABLE(FUNC)                                               \
 	template<class Iterable>                                                     \
