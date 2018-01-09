@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <avr/pgmspace.h>
 
+// EXPORTS
 #define SONG_SIZE(NAME)                                                        \
   sizeof(songs::NAME) / sizeof(songs::NAME[0])
 
@@ -41,7 +42,7 @@
 namespace synth {
 namespace songs {
 
-// #include "song_player/songs/the_small_jonathan.h"
+#include "song_player/songs/the_small_jonathan.h"
 #include "song_player/songs/seven_nation_army.h"
 
 } // namespace songs
