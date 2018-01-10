@@ -8,7 +8,7 @@ Environment::~Environment() {
 }
 
 void Environment::Tick() {
-  if (is_song_played_ && !song_player_.Play(audio_)) {
+  if (is_song_played_ && !comparator_.Play(audio_)) {
     is_song_played_ = false;
   }
   if (audio_->IsType(Audio::kBuiltin)) {
