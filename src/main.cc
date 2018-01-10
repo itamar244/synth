@@ -21,7 +21,7 @@ void setup() {
 void loop() {
   env.Tick();
 
-	if (screen_controller.page() != Page::kIndex && Serial.peek() != 0xFF) {
+	if (screen_controller.page() != Page::kIndex && Serial.available()) {
 		HandleSerialCommunication(env);
 	}
 	screen_controller.Paint(env);
