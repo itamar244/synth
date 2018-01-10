@@ -1,6 +1,4 @@
 #include <Arduino.h>
-#include <StandardCplusplus.h>
-#include <vector>
 #include <TFT9341.h>
 #include "screen/button.h"
 #include "screen/pages.h"
@@ -54,11 +52,7 @@ PAGE_TOUCH(Settings) {
 }
 
 PAGE_TOUCHEND(Settings) {
-  for (auto& button : buttons) {
-    if (button.is_pressed) {
-      button.is_pressed = false;
-    }
-  }
+  ClearButtonClicks(buttons);
 }
 
 } // namespace screen

@@ -17,12 +17,14 @@
   V(Index)                                                                     \
   V(Menu)                                                                      \
   V(Keyboard)                                                                  \
+  V(PracticePlayer)                                                            \
   V(Settings)
 
 #define WRAPPED_PAGE_TYPES(WRAPPER, V)                                         \
   WRAPPER(V, Index)                                                            \
   WRAPPER(V, Menu)                                                             \
   WRAPPER(V, Keyboard)                                                         \
+  WRAPPER(V, PracticePlayer)                                                   \
   WRAPPER(V, Settings)
 
 #define PAGE_PAINT(PAGE)                                                       \
@@ -46,6 +48,8 @@ PAGE_TYPES(V)
 #undef V
 };
 
+// pages definition's utilities
+void ClearButtonClicks(std::vector<Button>& buttons);
 std::vector<Button> PaintMenu(const char* button_names[], uint8_t size);
 
 #define V(PAGE)                                                                \

@@ -13,10 +13,6 @@
 #include <stdint.h>
 #include <avr/pgmspace.h>
 
-// EXPORTS
-#define SONG_SIZE(NAME)                                                        \
-  sizeof(songs::NAME) / sizeof(songs::NAME[0])
-
 #define TONE_C   0
 #define TONE_CS  1
 #define TONE_D   2
