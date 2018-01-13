@@ -16,6 +16,7 @@ public:
   };
 
   typedef uint8_t Tone;
+  typedef std::list<Tone> ToneList;
 
   virtual ~Audio() {};
   virtual Type AudioType() const = 0;
@@ -27,7 +28,10 @@ public:
   virtual bool AddTone(Tone tone);
   virtual bool RemoveTone(Tone tone);
 
-  inline std::list<Tone>::iterator GetTone(Tone tone) {
+	inline const ToneList& current_tones() const {
+		return current_tones_;
+	}
+  inline ToneList::iterator GetTone(Tone tone) {
     return std::find(current_tones_.begin(), current_tones_.end(), tone);
   }
 
@@ -42,7 +46,7 @@ public:
 #undef CALL_WITH_ITERABLE
 
 protected:
-  std::list<Tone> current_tones_;
+  ToneList current_tones_;
 };
 
 class BuiltinAudio: public Audio {
