@@ -10,6 +10,8 @@
  */
 #pragma once
 
+#include <StandardCplusplus.h>
+#include <vector>
 #include <stdint.h>
 #include <avr/pgmspace.h>
 

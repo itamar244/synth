@@ -30,10 +30,10 @@ PAGE_TOUCH(PracticePlayerList) {
 					break;
 #define SYNTH_PLAY_SONG_CASE(INDEX, SONG)                                      \
 				case INDEX:                                                            \
-					env.SetSong(                                                         \
+					env.SetCurrentSong(                                                  \
 						songs::SONG,                                                       \
-						sizeof(songs::SONG) / sizeof(songs::SONG[0])/*,*/                  \
-						/* songs::SONG ## _PRACTICE_SECTIONS */);                          \
+						sizeof(songs::SONG) / sizeof(songs::SONG[0]),                      \
+						songs::SONG ## _PRACTICE_SECTIONS);                                \
 					break;
 				SYNTH_PLAY_SONG_CASE(1, THE_SMALL_JONATHAN)
 				SYNTH_PLAY_SONG_CASE(2, SEVEN_NATION_ARMY)

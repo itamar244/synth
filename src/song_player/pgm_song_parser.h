@@ -3,6 +3,7 @@
 #include <StandardCplusplus.h>
 #include <vector>
 #include <stdint.h>
+#include "song_player/song_container.h"
 
 namespace synth {
 
@@ -14,7 +15,7 @@ public:
   	uint8_t length;
 	};
 
-  void Init(Song song, uint16_t size);
+  PGMSongParser(const SongContainer& container);
 
 	inline bool HasNextPhrase() const {
 		return pos_ < size_;
@@ -26,11 +27,11 @@ public:
 protected:
   Song song_;
   PGMPhrase phrase_;
-  uint16_t pos_;
   uint16_t size_;
+  uint16_t pos_;
 
   void ParseNextPhrase();
-  PGMPhrase ParsePhraseAt(uint8_t pos);
+  PGMPhrase ParsePhraseAt(uint16_t pos);
 };
 
 } // namespace synth
