@@ -45,43 +45,28 @@ PAGE_PAINT(Keyboard) {
 }
 
 PAGE_TOUCH(Keyboard) {
-  const auto& size = buttons.size() - 1;
-  for (unsigned i = 0; i < size; i++) {
-    Button& button = buttons[i];
-
-    if (button.IsTapped(point)) {
-      if (!button.is_pressed) {
-        button.is_pressed = true;
-        if (i < size - 2) {
-          env.AddToneWithOctave(kToneValues[i]);
-        } else if (kKeyboardButtonNames[i] == '-') {
-					env.DecrementOctave();
-				} else {
-					env.IncrementOctave();
-				}
-      }
-      // doesn't need to continue checking because multitouching isn't supported
-      return;
-    }
-  }
-
-  if (buttons.back().IsTapped(point)) {
-    controller->set_page(Page::kMenu);
-  }
+	const uint8_t size = buttons.size();
+  IterateThroughPressedButtons(buttons, point,
+		[&](uint8_t index) {
+			if (index < size - 2) {
+				env.AddToneWithOctave(kToneValues[index]);
+			} else if (index == size - 1) {
+    		controller->set_page(Page::kMenu);
+			} else if (kKeyboardButtonNames[index] == '-') {
+				env.DecrementOctave();
+			} else {
+				env.IncrementOctave();
+			}
+  	});
 }
 
 PAGE_TOUCHEND(Keyboard) {
-  const auto& size = buttons.size();
-  for (unsigned i = 0; i < size; i++) {
-    Button& button = buttons[i];
-
-    if (button.is_pressed) {
-      button.is_pressed = false;
-      if (i < TONE_ITEMS) {
-        env.RemoveToneWithOctave(kToneValues[i]);
-      }
-    }
-  }
+  IteratethroughUnPressedButtons(buttons,
+		[&env](uint8_t index) {
+			if (index < BUTTON_ITEMS) {
+				env.RemoveToneWithOctave(kToneValues[index]);
+			}
+		});
 }
 
 } // namespace screen

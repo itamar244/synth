@@ -5,10 +5,16 @@ namespace synth {
 
 Environment::~Environment() {
   delete audio_;
+	if (cur_song_ != nullptr) {
+		delete cur_song_;
+	}
 }
 
 void Environment::Tick() {
-  if (is_song_played_ && !song_player_.Play(audio_)) {
+  if (
+			is_song_played_
+			&& comparator_ != nullptr
+			&& !comparator_->Play(audio_)) {
     is_song_played_ = false;
   }
   if (audio_->IsType(Audio::kBuiltin)) {

@@ -17,14 +17,16 @@
   V(Index)                                                                     \
   V(Menu)                                                                      \
   V(Keyboard)                                                                  \
-  V(PracticePlayer)                                                            \
+  V(PracticePlayerList)                                                        \
+  V(PracticePlayerPlaying)                                                     \
   V(Settings)
 
 #define WRAPPED_PAGE_TYPES(WRAPPER, V)                                         \
   WRAPPER(V, Index)                                                            \
   WRAPPER(V, Menu)                                                             \
   WRAPPER(V, Keyboard)                                                         \
-  WRAPPER(V, PracticePlayer)                                                   \
+  WRAPPER(V, PracticePlayerList)                                               \
+  WRAPPER(V, PracticePlayerPlaying)                                            \
   WRAPPER(V, Settings)
 
 #define PAGE_PAINT(PAGE)                                                       \
@@ -44,12 +46,45 @@ namespace screen {
 
 enum class Page {
 #define V(PAGE) k ## PAGE,
-PAGE_TYPES(V)
+	PAGE_TYPES(V)
 #undef V
 };
 
 // pages definition's utilities
-void ClearButtonClicks(std::vector<Button>& buttons);
+void ClearButtonClicks(std::vector<Button>&);
+
+template<class Cb>
+void IterateThroughPressedButtons(
+		std::vector<Button>& buttons,
+		const Point& point,
+		const Cb& callback) {
+	for (unsigned i = 0; i < buttons.size(); i++) {
+    Button& button = buttons[i];
+
+    if (button.IsTapped(point)) {
+      if (!button.is_pressed) {
+        button.is_pressed = true;
+				callback(i);
+      }
+      return;
+    }
+	}
+}
+
+template<class Cb>
+void IteratethroughUnPressedButtons(
+		std::vector<Button>& buttons,
+		Cb callback) {
+  for (unsigned i = 0; i < buttons.size(); i++) {
+    Button& button = buttons[i];
+
+    if (button.is_pressed) {
+      button.is_pressed = false;
+      callback(i);
+    }
+  }
+}
+
 std::vector<Button> PaintMenu(const char* button_names[], uint8_t size);
 
 #define V(PAGE)                                                                \

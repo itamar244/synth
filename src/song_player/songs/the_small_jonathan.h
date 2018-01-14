@@ -22,4 +22,6 @@ const uint8_t THE_SMALL_JONATHAN[] PROGMEM = {
   1, TONE(C, 4), Q2,
 };
 
+const std::vector<uint8_t> THE_SMALL_JONATHAN_PRACTICE_SECTIONS;
+
 #undef MAIN

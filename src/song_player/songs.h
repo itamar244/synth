@@ -10,6 +10,8 @@
  */
 #pragma once
 
+#include <StandardCplusplus.h>
+#include <vector>
 #include <stdint.h>
 #include <avr/pgmspace.h>
 
@@ -25,7 +27,7 @@
 #define TONE_A   9
 #define TONE_AS 10
 #define TONE_B  11
-#define TONE(NAME, OCTAVE) TONE_## NAME + (OCTAVE + 1) * 12
+#define TONE(NAME, OCTAVE) TONE_ ## NAME + (OCTAVE + 1) * 12
 
 // NUMBER / quarter
 #define Q32 1

@@ -28,27 +28,19 @@ PAGE_PAINT(Settings) {
 }
 
 PAGE_TOUCH(Settings) {
-  for (unsigned i = 0; i < buttons.size(); i++) {
-    Button& button = buttons[i];
-
-    if (button.IsTapped(point)) {
-      if (!button.is_pressed) {
-        button.is_pressed = true;
-        switch (i) {
-          case kBack:
-            controller->set_page(Page::kMenu);
-            break;
-          case kAudio:
-            env.SetAudioType(
-              env.audio()->IsType(Audio::kBuiltin)
-                ? Audio::kSerialPort : Audio::kBuiltin);
-            break;
-        }
-      }
-      // doesn't need to continue checking because multitouching isn't supported
-      return;
-    }
-  }
+  IterateThroughPressedButtons(buttons, point,
+		[&](uint8_t index) {
+			switch (index) {
+				case kBack:
+					controller->set_page(Page::kMenu);
+					break;
+				case kAudio:
+					env.SetAudioType(
+						env.audio()->IsType(Audio::kBuiltin)
+							? Audio::kSerialPort : Audio::kBuiltin);
+					break;
+			}
+  	});
 }
 
 PAGE_TOUCHEND(Settings) {

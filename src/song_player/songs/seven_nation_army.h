@@ -35,6 +35,10 @@ const uint8_t SEVEN_NATION_ARMY[] PROGMEM = {
   CHORUS
 };
 
+const std::vector<uint8_t> SEVEN_NATION_ARMY_PRACTICE_SECTIONS = {
+	4, 2, 2, 2, 4
+};
+
 #undef ENTRY
 #undef RIFF
 #undef CHORUS

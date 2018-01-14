@@ -8,7 +8,7 @@
 #define MENU_ITEMS 3
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
   V(Keyboard)                                                                  \
-  V(PracticePlayer)                                                            \
+  V(PracticePlayerList)                                                        \
   V(Settings)
 
 namespace synth {
@@ -31,25 +31,17 @@ PAGE_PAINT(Menu) {
 }
 
 PAGE_TOUCH(Menu) {
-  for (unsigned i = 0; i < buttons.size(); i++) {
-    Button& button = buttons[i];
-
-    if (button.IsTapped(point)) {
-      if (!button.is_pressed) {
-        button.is_pressed = true;
-        switch (i) {
-#define V(PAGE)                                                \
-          case k ## PAGE:                                                      \
-            controller->set_page(Page::k ## PAGE);                             \
-            break;
-					SYNTH_MENU_ITEM_TYPES(V)
+  IterateThroughPressedButtons(buttons, point,
+		[&](uint8_t index) {
+			switch (index) {
+#define V(PAGE)                                                              \
+				case k ## PAGE:                                                      \
+					controller->set_page(Page::k ## PAGE);                             \
+					break;
+				SYNTH_MENU_ITEM_TYPES(V)
 #undef V
-        }
-      }
-      // doesn't need to continue checking because multitouching isn't supported
-      return;
-    }
-  }
+			}
+  	});
 }
 
 PAGE_TOUCHEND(Menu) {
