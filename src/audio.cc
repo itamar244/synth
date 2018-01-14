@@ -31,22 +31,18 @@ void BuiltinAudio::Play() const {
   Serial.println();
 }
 
-bool SerialPortAudio::AddTone(uint8_t tone) {
-	if (Audio::AddTone(tone)) {
-		char stream[] = {1, char(tone)};
-		Serial.write(stream, 2);
-		return true;
-	}
-	return false;
-}
 
-bool SerialPortAudio::RemoveTone(uint8_t tone) {
-  if (Audio::RemoveTone(tone)) {
-    char stream[] = {0, char(tone)};
-    Serial.write(stream, 2);
-    return true;
-  }
-  return false;
-}
+#define SERIALPORT_CALL_TONE_CHANGE(FUNC, STATE)                               \
+	bool SerialPortAudio::FUNC ## Tone(uint8_t tone) {                           \
+		if (Audio::FUNC ## Tone(tone)) {                                           \
+			char buffer[] = {STATE, char(tone)};                                     \
+			Serial.write(buffer, 2);                                                 \
+			return true;                                                             \
+		}                                                                          \
+		return false;                                                              \
+	}
+	SERIALPORT_CALL_TONE_CHANGE(Add, 1)
+	SERIALPORT_CALL_TONE_CHANGE(Remove, 0)
+#undef SERIALPORT_CALL_TONE_CHANGE
 
 } // namespace synth

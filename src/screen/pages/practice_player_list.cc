@@ -16,7 +16,7 @@ const char* kSongButtonNames[SONG_ITEMS] = {
 };
 
 PAGE_PAINT(PracticePlayerList) {
-  return PaintMenu(kSongButtonNames, SONG_ITEMS);
+	return PaintMenu(kSongButtonNames, SONG_ITEMS);
 }
 
 PAGE_TOUCH(PracticePlayerList) {

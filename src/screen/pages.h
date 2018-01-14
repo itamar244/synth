@@ -51,7 +51,7 @@ enum class Page {
 };
 
 // pages definition's utilities
-void ClearButtonClicks(std::vector<Button>&);
+void ClearButtonClicks(std::vector<Button>& buttons);
 
 template<class Cb>
 void IterateThroughPressedButtons(
