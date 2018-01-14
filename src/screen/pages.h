@@ -57,7 +57,7 @@ template<class Cb>
 void IterateThroughPressedButtons(
 		std::vector<Button>& buttons,
 		const Point& point,
-		Cb callback) {
+		const Cb& callback) {
 	for (unsigned i = 0; i < buttons.size(); i++) {
     Button& button = buttons[i];
 
