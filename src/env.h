@@ -11,24 +11,24 @@ namespace synth {
 
 class Environment {
 public:
-  ~Environment();
+	~Environment();
 
-  void Tick();
+	void Tick();
 
-  // Audio
-  inline Audio* audio() const { return audio_; }
+	// Audio
+	inline Audio* audio() const { return audio_; }
 	inline void IncrementOctave() { current_octave_++; }
-  inline void DecrementOctave() {
-    if (current_octave_ > 0) current_octave_--;
-  }
+	inline void DecrementOctave() {
+		if (current_octave_ > 0) current_octave_--;
+	}
 
 #define V(FUNC)                                                                \
-  inline void FUNC ## ToneWithOctave(uint8_t tone) {                           \
+	inline void FUNC ## ToneWithOctave(uint8_t tone) {                           \
 		if (comparator_ != nullptr && comparator_->comparing()) {                  \
 			comparator_->AddTonesToCompare(audio_->current_tones());                 \
 		}                                                                          \
-    audio_->FUNC ## Tone(tone + current_octave_ * 12);                         \
-  }
+		audio_->FUNC ## Tone(tone + current_octave_ * 12);                         \
+	}
 	V(Add) V(Remove)
 #undef V
 
@@ -44,7 +44,7 @@ public:
 		if (cur_song_ != nullptr) delete cur_song_;
 		cur_song_ = new SongContainer{song, size, sections};
   }
-	inline SongContainer* song_container() const {
+	inline const SongContainer* cur_song() const {
 		return cur_song_;
 	}
 	inline void SetMelodyComparator(MelodyComparator* comparator) {

@@ -1,16 +1,16 @@
 #include "screen/screen.h"
 #include <TFT9341.h>
 #include "env.h"
-#include "screen/pages.h"
+#include "screen/routes.h"
 
-#define CASE_PAGE_TYPES(V, PAGE)                                               \
-  case Page::k ## PAGE:                                                        \
-    V(PAGE)                                                                    \
+#define CASE_ROUTE_TYPES(V, ROUTE)                                             \
+  case Route::k ## ROUTE:                                                      \
+    V(ROUTE)                                                                   \
     break;
 
-#define SWITCH_PAGE_TYPES(V)                                                   \
-  switch (page_) {                                                             \
-    WRAPPED_PAGE_TYPES(CASE_PAGE_TYPES, V)                                     \
+#define SWITCH_ROUTE_TYPES(V)                                                  \
+  switch (route_) {                                                            \
+    WRAPPED_ROUTE_TYPES(CASE_ROUTE_TYPES, V)                                   \
   }
 
 namespace synth {
@@ -27,7 +27,7 @@ inline Point GetClickedPoint() {
 }
 
 Controller::Controller()
-  : page_(Page::kIndex) {}
+  : route_(Route::kIndex) {}
 
 void Controller::Paint(Environment& env) {
   if (!is_painted_) {
@@ -37,8 +37,8 @@ void Controller::Paint(Environment& env) {
     lcd.setColor(Color::RED);
 
     Touchend(env);
-#define V(PAGE) buttons_ = PagePaint ## PAGE();
-    SWITCH_PAGE_TYPES(V)
+#define V(ROUTE) buttons_ = RouteInit ## ROUTE();
+    SWITCH_ROUTE_TYPES(V)
 #undef V
   }
 }
@@ -47,15 +47,15 @@ void Controller::Touch(Environment& env) {
   const Point point = GetClickedPoint();
 	is_touched_ = true;
 
-#define V(PAGE) PageTouch ## PAGE(this, buttons_, env, point);
-  SWITCH_PAGE_TYPES(V)
+#define V(ROUTE) RouteTouch ## ROUTE(this, buttons_, env, point);
+  SWITCH_ROUTE_TYPES(V)
 #undef V
 }
 
 void Controller::Touchend(Environment& env) {
 	is_touched_ = false;
-#define V(PAGE) PageTouchend ## PAGE(buttons_, env);
-  SWITCH_PAGE_TYPES(V)
+#define V(ROUTE) RouteTouchend ## ROUTE(buttons_, env);
+  SWITCH_ROUTE_TYPES(V)
 #undef V
 }
 

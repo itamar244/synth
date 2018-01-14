@@ -1,8 +1,8 @@
 /**
  * responsible for screen painting and touch responses.
- * page_paint_<PAGE> and page_touch<TYPE>_<PAGE> are generated and are being used
+ * page_paint_<ROUTE> and page_touch<TYPE>_<ROUTE> are generated and are being used
  * in "screen/screen.cc".
- * each PAGE is implemented in `screen/pages/PAGE.cc`.
+ * each ROUTE is implemented in `screen/pages/ROUTE.cc`.
  */
 #pragma once
 
@@ -13,7 +13,7 @@
 #include "screen/button.h"
 #include "screen/screen.h"
 
-#define PAGE_TYPES(V)                                                          \
+#define ROUTE_TYPES(V)                                                         \
   V(Index)                                                                     \
   V(Menu)                                                                      \
   V(Keyboard)                                                                  \
@@ -21,7 +21,7 @@
   V(PracticePlayerPlaying)                                                     \
   V(Settings)
 
-#define WRAPPED_PAGE_TYPES(WRAPPER, V)                                         \
+#define WRAPPED_ROUTE_TYPES(WRAPPER, V)                                        \
   WRAPPER(V, Index)                                                            \
   WRAPPER(V, Menu)                                                             \
   WRAPPER(V, Keyboard)                                                         \
@@ -29,24 +29,24 @@
   WRAPPER(V, PracticePlayerPlaying)                                            \
   WRAPPER(V, Settings)
 
-#define PAGE_PAINT(PAGE)                                                       \
-  std::vector<Button> PagePaint ## PAGE()
+#define ROUTE_INIT(ROUTE)                                                      \
+  std::vector<Button> RouteInit ## ROUTE()
 
-#define PAGE_TOUCH(PAGE)                                                       \
-  void PageTouch ## PAGE(                                                      \
+#define ROUTE_TOUCH(ROUTE)                                                     \
+  void RouteTouch ## ROUTE(                                                    \
     Controller* controller, std::vector<Button>& buttons,                      \
     Environment& env, const Point& point)
 
-#define PAGE_TOUCHEND(PAGE)                                                    \
-  void PageTouchend ## PAGE(                                                   \
+#define ROUTE_TOUCHEND(ROUTE)                                                  \
+  void RouteTouchend ## ROUTE(                                                 \
     std::vector<Button>& buttons, Environment& env)
 
 namespace synth {
 namespace screen {
 
-enum class Page {
-#define V(PAGE) k ## PAGE,
-	PAGE_TYPES(V)
+enum class Route {
+#define V(ROUTE) k ## ROUTE,
+	ROUTE_TYPES(V)
 #undef V
 };
 
@@ -87,11 +87,11 @@ void IteratethroughUnPressedButtons(
 
 std::vector<Button> PaintMenu(const char* button_names[], uint8_t size);
 
-#define V(PAGE)                                                                \
-  PAGE_PAINT(PAGE);                                                            \
-  PAGE_TOUCH(PAGE);                                                            \
-  PAGE_TOUCHEND(PAGE);
-  PAGE_TYPES(V)
+#define V(ROUTE)                                                               \
+  ROUTE_INIT(ROUTE);                                                          \
+  ROUTE_TOUCH(ROUTE);                                                          \
+  ROUTE_TOUCHEND(ROUTE);
+  ROUTE_TYPES(V)
 #undef V
 
 } // namespace screen

@@ -1,9 +1,9 @@
+#include "screen/routes.h"
 #include <Arduino.h>
 #include <StandardCplusplus.h>
 #include <vector>
 #include <TFT9341.h>
 #include "screen/button.h"
-#include "screen/pages.h"
 
 #define BUTTON_ITEMS 9
 #define TONE_ITEMS BUTTON_ITEMS - 2
@@ -16,7 +16,7 @@ const char kKeyboardButtonNames[BUTTON_ITEMS] = {
 };
 const uint8_t kToneValues[TONE_ITEMS] = { 0, 2, 4, 5, 7, 9, 11 };
 
-PAGE_PAINT(Keyboard) {
+ROUTE_INIT(Keyboard) {
   std::vector<Button> buttons;
   buttons.reserve(BUTTON_ITEMS + 1);
 
@@ -44,14 +44,14 @@ PAGE_PAINT(Keyboard) {
   return buttons;
 }
 
-PAGE_TOUCH(Keyboard) {
+ROUTE_TOUCH(Keyboard) {
 	const uint8_t size = buttons.size();
   IterateThroughPressedButtons(buttons, point,
 		[&](uint8_t index) {
 			if (index < size - 2) {
 				env.AddToneWithOctave(kToneValues[index]);
 			} else if (index == size - 1) {
-    		controller->set_page(Page::kMenu);
+    		controller->set_route(Route::kMenu);
 			} else if (kKeyboardButtonNames[index] == '-') {
 				env.DecrementOctave();
 			} else {
@@ -60,7 +60,7 @@ PAGE_TOUCH(Keyboard) {
   	});
 }
 
-PAGE_TOUCHEND(Keyboard) {
+ROUTE_TOUCHEND(Keyboard) {
   IteratethroughUnPressedButtons(buttons,
 		[&env](uint8_t index) {
 			if (index < BUTTON_ITEMS) {

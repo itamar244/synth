@@ -1,4 +1,4 @@
-#include "screen/pages.h"
+#include "screen/routes.h"
 #include <TFT9341.h>
 #include "utils.h"
 #include "song_player/melody_comparator.h"
@@ -25,16 +25,16 @@ void PaintGrade(float grade) {
 	lcd.print(grade);
 }
 
-PAGE_PAINT(PracticePlayerPlaying) {
+ROUTE_INIT(PracticePlayerPlaying) {
   return PaintMenu(kPracticePlayingButtons, MENU_ITEMS);
 }
 
-PAGE_TOUCH(PracticePlayerPlaying) {
+ROUTE_TOUCH(PracticePlayerPlaying) {
   IterateThroughPressedButtons(buttons, point,
 		[&](uint8_t index) {
 			switch (index) {
 				case 0:
-					controller->set_page(Page::kPracticePlayerList);
+					controller->set_route(Route::kPracticePlayerList);
 					if (comparator != nullptr) {
 						env.audio()->RemoveTones(comparator->phrase_tones());
 						utils::DeletePtr(comparator);
@@ -42,7 +42,7 @@ PAGE_TOUCH(PracticePlayerPlaying) {
 					break;
 				case 1:
 					if (comparator == nullptr) {
-						comparator = new MelodyComparator(*env.song_container());
+						comparator = new MelodyComparator(*env.cur_song());
 						env.SetMelodyComparator(comparator);
 					}
 					env.PlaySong();
@@ -56,7 +56,7 @@ PAGE_TOUCH(PracticePlayerPlaying) {
 		});
 }
 
-PAGE_TOUCHEND(PracticePlayerPlaying) { ClearButtonClicks(buttons); }
+ROUTE_TOUCHEND(PracticePlayerPlaying) { ClearButtonClicks(buttons); }
 
 } // namespace screen
 } // namespace synth

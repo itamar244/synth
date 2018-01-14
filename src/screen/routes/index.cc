@@ -1,11 +1,11 @@
+#include "screen/routes.h"
 #include <Arduino.h>
 #include <TFT9341.h>
-#include "screen/pages.h"
 
 namespace synth {
 namespace screen {
 
-PAGE_PAINT(Index) {
+ROUTE_INIT(Index) {
   const int width = 120, height = 40;
   const uint16_t x = lcd.getWidth() / 2 - width / 2;
   const uint16_t y = lcd.getHeight() / 2 - height / 2;
@@ -21,13 +21,13 @@ PAGE_PAINT(Index) {
   return {{ x, y, width, height }};
 }
 
-PAGE_TOUCH(Index) {
+ROUTE_TOUCH(Index) {
   if (buttons[0].IsTapped(point)) {
-    controller->set_page(Page::kMenu);
+    controller->set_route(Route::kMenu);
   }
 }
 
-PAGE_TOUCHEND(Index) {}
+ROUTE_TOUCHEND(Index) {}
 
 } // namespace screen
 } // namespace synth

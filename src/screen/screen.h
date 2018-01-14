@@ -12,16 +12,16 @@
 namespace synth {
 namespace screen {
 
-enum class Page;
+enum class Route;
 
 class Controller {
 public:
   Controller();
 
 	inline bool is_touched() const { return is_touched_; }
-  inline Page page() const { return page_; }
-  inline void set_page(screen::Page next) {
-    page_ = next;
+  inline Route route() const { return route_; }
+  inline void set_route(Route next) {
+    route_ = next;
     is_painted_ = false;
   }
 
@@ -31,7 +31,7 @@ public:
 
 private:
   std::vector<Button> buttons_;
-  Page page_;
+  Route route_;
   bool is_painted_ = false, is_touched_ = false;
 };
 

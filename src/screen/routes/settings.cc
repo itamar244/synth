@@ -1,7 +1,7 @@
+#include "screen/routes.h"
 #include <Arduino.h>
 #include <TFT9341.h>
 #include "screen/button.h"
-#include "screen/pages.h"
 
 #define BUTTON_ITEMS 2
 #define SYNTH_SETTING_TYPES(V)                                                 \
@@ -23,16 +23,16 @@ enum Setting {
 };
 #undef V
 
-PAGE_PAINT(Settings) {
+ROUTE_INIT(Settings) {
   return PaintMenu(kSettingsButtonNames, BUTTON_ITEMS);
 }
 
-PAGE_TOUCH(Settings) {
+ROUTE_TOUCH(Settings) {
   IterateThroughPressedButtons(buttons, point,
 		[&](uint8_t index) {
 			switch (index) {
 				case kBack:
-					controller->set_page(Page::kMenu);
+					controller->set_route(Route::kMenu);
 					break;
 				case kAudio:
 					env.SetAudioType(
@@ -43,7 +43,7 @@ PAGE_TOUCH(Settings) {
   	});
 }
 
-PAGE_TOUCHEND(Settings) {
+ROUTE_TOUCHEND(Settings) {
   ClearButtonClicks(buttons);
 }
 

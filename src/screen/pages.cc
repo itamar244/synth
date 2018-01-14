@@ -8,7 +8,7 @@
 #include <vector>
 #include <TFT9341.h>
 #include "screen/button.h"
-#include "screen/pages.h"
+#include "screen/routes.h"
 
 namespace synth {
 namespace screen {
