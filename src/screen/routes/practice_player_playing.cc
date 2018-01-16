@@ -14,8 +14,6 @@ const char* kPracticePlayingButtons[MENU_ITEMS] = {
 	"Commit",
 };
 
-MelodyComparator* comparator = nullptr;
-
 void PaintGrade(float grade) {
 	uint16_t x = lcd.getWidth() / 2 + 50;
 	uint16_t y = lcd.getHeight() / 2 - 40;
@@ -26,12 +24,13 @@ void PaintGrade(float grade) {
 }
 
 ROUTE_INIT(PracticePlayerPlaying) {
-  return PaintMenu(kPracticePlayingButtons, MENU_ITEMS);
+	return PaintMenu(kPracticePlayingButtons, MENU_ITEMS);
 }
 
 ROUTE_TOUCH(PracticePlayerPlaying) {
-  IterateThroughPressedButtons(buttons, point,
+	IterateThroughPressedButtons(buttons, point,
 		[&](uint8_t index) {
+			auto comparator = env.comparator();
 			switch (index) {
 				case 0:
 					controller->set_route(Route::kPracticePlayerList);
@@ -41,14 +40,10 @@ ROUTE_TOUCH(PracticePlayerPlaying) {
 					}
 					break;
 				case 1:
-					if (comparator == nullptr) {
-						comparator = new MelodyComparator(*env.cur_song());
-						env.SetMelodyComparator(comparator);
-					}
 					env.PlaySong();
 					break;
 				case 2:
-					if (comparator != nullptr && !comparator->NextSection()) {
+					if (!comparator->NextSection()) {
 						PaintGrade(comparator->grade());
 					}
 					break;

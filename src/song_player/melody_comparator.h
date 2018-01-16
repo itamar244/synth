@@ -32,14 +32,15 @@ private:
 	uint16_t max_grade_;
 	float grade_;
 
+	// sahred variables for both playing and comparing phases
   bool started_section_;
 	bool ended_section_;
 	bool comparing_;
-	// used both play phase and compare phase for async time counting
 	uint32_t prev_millis_;
 
-	inline void InitFlags(bool value) {
-		started_section_ = ended_section_ = comparing_ = value;
+	inline void InitFlags() {
+		section_time_ = 0;
+		started_section_ = ended_section_ = comparing_ = false;
 	}
 
 	inline void PlayNext(Audio* audio) {

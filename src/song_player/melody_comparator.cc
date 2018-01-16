@@ -22,20 +22,18 @@ inline uint8_t CountToneListInPhrase(
 MelodyComparator::MelodyComparator(const SongContainer& container)
 	: PGMSongParser(container)
 	, sections_(container.sections)
-	, section_time_(0)
 	, cur_section_(0)
 	, compare_pos_(0)
 	, max_grade_(0)
 	, grade_(0) {
-	InitFlags(false);
+	InitFlags();
 }
 
 bool MelodyComparator::NextSection() {
 	if (cur_section_ < sections_.size() - 1) {
 		if (pos_ > 0) {
 			cur_section_++;
-			section_time_ = 0;
-			InitFlags(false);
+			InitFlags();
 		}
 		return true;
 	}
@@ -60,15 +58,11 @@ void MelodyComparator::AddTonesToCompare(const Audio::ToneList& tones) {
 				compare_pos_ += 2;
 			}
 		} else if (phrase_length > kTime32nd * 3 || tones.size() > 0) {
-			uint8_t correct_items = CountToneListInPhrase(tones, to_compare);
-			if (correct_items > 0) {
-				grade_ += to_compare.tones.size() / float(correct_items);
-			}
-			max_grade_++;
+			grade_ += CountToneListInPhrase(tones, to_compare);
+			max_grade_ += to_compare.tones.size();
 			compare_pos_ += to_compare.tones.size() + 2;
 		}
 
-		// max_grade_++;
 		prev_millis_ += phrase_length;
 	}
 }

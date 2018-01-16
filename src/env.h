@@ -37,23 +37,19 @@ public:
   // Song
 	inline void PlaySong() { is_song_played_ = true; }
 	inline void PauseSong() { is_song_played_ = false; }
-  inline void SetCurrentSong(
-			const uint8_t* song,
-			uint16_t size,
-			const std::vector<uint8_t>& sections) {
-		if (cur_song_ != nullptr) delete cur_song_;
-		cur_song_ = new SongContainer{song, size, sections};
+  inline void InitMelodyComparator(
+		const uint8_t* song,
+		uint16_t size,
+		const std::vector<uint8_t>& sections
+	) {
+		comparator_ = new MelodyComparator({song, size, sections});
   }
-	inline const SongContainer* cur_song() const {
-		return cur_song_;
-	}
-	inline void SetMelodyComparator(MelodyComparator* comparator) {
-		comparator_ = comparator;
+	inline MelodyComparator* comparator() {
+		return comparator_;
 	}
 
 private:
   Audio* audio_ = new SerialPortAudio();
-  SongContainer* cur_song_ = nullptr;
 	MelodyComparator* comparator_ = nullptr;
 
   bool is_song_played_ = false;

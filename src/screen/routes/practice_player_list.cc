@@ -30,7 +30,7 @@ ROUTE_TOUCH(PracticePlayerList) {
 					break;
 #define SYNTH_PLAY_SONG_CASE(INDEX, SONG)                                      \
 				case INDEX:                                                            \
-					env.SetCurrentSong(                                                  \
+					env.InitMelodyComparator(                                            \
 						songs::SONG,                                                       \
 						sizeof(songs::SONG) / sizeof(songs::SONG[0]),                      \
 						songs::SONG ## _PRACTICE_SECTIONS);                                \

@@ -5,8 +5,8 @@ namespace synth {
 
 Environment::~Environment() {
   delete audio_;
-	if (cur_song_ != nullptr) {
-		delete cur_song_;
+	if (comparator_ != nullptr) {
+		delete comparator_;
 	}
 }
 
