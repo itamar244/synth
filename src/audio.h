@@ -20,9 +20,6 @@ public:
 
   virtual ~Audio() {};
   virtual Type AudioType() const = 0;
-  inline bool IsType(Type type) {
-    return AudioType() == type;
-  }
   virtual void Play() const {};
 
   virtual bool AddTone(Tone tone);
@@ -31,6 +28,9 @@ public:
 	inline const ToneList& current_tones() const {
 		return current_tones_;
 	}
+
+  inline bool IsType(Type type) { return AudioType() == type; }
+
   inline ToneList::iterator GetTone(Tone tone) {
     return std::find(current_tones_.begin(), current_tones_.end(), tone);
   }

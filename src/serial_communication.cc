@@ -9,7 +9,9 @@ enum RequestType {
 	kIncrementOctave = 3,
 };
 
-void synth::HandleSerialCommunication(Environment& env) {
+namespace synth {
+
+void HandleSerialCommunication(Environment& env) {
 	uint8_t request_data[2];
 	Serial.readBytes(request_data, 2);
 
@@ -28,3 +30,5 @@ void synth::HandleSerialCommunication(Environment& env) {
 			break;
 	}
 }
+
+} // namespace synth

@@ -6,8 +6,8 @@
 namespace synth {
 namespace utils {
 
-template<class T, class V>
-inline bool HasItem(const T& iterable, const V& item) {
+template<class Iterable, class V>
+inline bool HasItem(const Iterable& iterable, const V& item) {
 	return std::find(iterable.begin(), iterable.end(), item) != iterable.end();
 }
 

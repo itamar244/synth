@@ -8,7 +8,7 @@ namespace synth {
 
 struct SongContainer {
 	const uint8_t* song;
-	uint16_t size;
+	const uint16_t size;
 	const std::vector<uint8_t>& sections;
 };
 

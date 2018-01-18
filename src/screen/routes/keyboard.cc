@@ -6,7 +6,6 @@
 #include "screen/button.h"
 
 #define BUTTON_ITEMS 9
-#define TONE_ITEMS BUTTON_ITEMS - 2
 
 namespace synth {
 namespace screen {
@@ -14,7 +13,7 @@ namespace screen {
 const char kKeyboardButtonNames[BUTTON_ITEMS] = {
 	'C', 'D', 'E', 'F', 'G', 'A', 'B', '-', '+'
 };
-const uint8_t kToneValues[TONE_ITEMS] = { 0, 2, 4, 5, 7, 9, 11 };
+const uint8_t kToneValues[] = { 0, 2, 4, 5, 7, 9, 11 };
 
 ROUTE_INIT(Keyboard) {
   std::vector<Button> buttons;
