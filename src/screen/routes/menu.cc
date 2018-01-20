@@ -14,29 +14,27 @@
 namespace synth {
 namespace screen {
 
-const char* kMenuButtonNames[MENU_ITEMS] = {
-  "Keyboard",
-  "Practice Player",
-  "Settings",
-};
-
 #define V(TYPE) k ## TYPE,
-enum Setting {
+enum class Setting {
   SYNTH_MENU_ITEM_TYPES(V)
 };
 #undef V
 
 ROUTE_INIT(Menu) {
-  return PaintMenu(kMenuButtonNames, MENU_ITEMS);
+  return PaintMenu({
+  	"Keyboard",
+  	"Practice Player",
+  	"Settings",
+	});
 }
 
 ROUTE_TOUCH(Menu) {
   IterateThroughPressedButtons(buttons, point,
 		[&](uint8_t index) {
-			switch (index) {
-#define V(PAGE)                                                              \
-				case k ## PAGE:                                                      \
-					controller->set_route(Route::k ## PAGE);                            \
+			switch (Setting(index)) {
+#define V(TYPE)                                                              \
+				case Setting::k ## TYPE:                                             \
+					controller->set_route(Route::k ## TYPE);                           \
 					break;
 				SYNTH_MENU_ITEM_TYPES(V)
 #undef V

@@ -8,12 +8,6 @@
 namespace synth {
 namespace screen {
 
-const char* kPracticePlayingButtons[MENU_ITEMS] = {
-	"Back",
-	"Start",
-	"Commit",
-};
-
 void PaintGrade(float grade) {
 	uint16_t x = lcd.getWidth() / 2 + 50;
 	uint16_t y = lcd.getHeight() / 2 - 40;
@@ -24,7 +18,11 @@ void PaintGrade(float grade) {
 }
 
 ROUTE_INIT(PracticePlayerPlaying) {
-	return PaintMenu(kPracticePlayingButtons, MENU_ITEMS);
+	return PaintMenu({
+		"Back",
+		"Start",
+		"Commit",
+	});
 }
 
 ROUTE_TOUCH(PracticePlayerPlaying) {

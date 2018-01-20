@@ -1,14 +1,15 @@
 /**
  * responsible for screen painting and touch responses.
- * page_paint_<ROUTE> and page_touch<TYPE>_<ROUTE> are generated and are being used
+ * RouteInit<ROUTE> and PageTouch<TYPE><ROUTE> are generated and are being used
  * in "screen/screen.cc".
  * each ROUTE is implemented in `screen/pages/ROUTE.cc`.
  */
 #pragma once
 
-#include <Arduino.h>
 #include <StandardCplusplus.h>
-#include <vector>
+#include <cstddef> // included for <initializer_list>
+#include <initializer_list>
+#include <Arduino.h>
 #include "env.h"
 #include "screen/button.h"
 #include "screen/screen.h"
@@ -74,7 +75,7 @@ void IterateThroughPressedButtons(
 template<class Cb>
 void IteratethroughUnPressedButtons(
 		std::vector<Button>& buttons,
-		Cb callback) {
+		const Cb& callback) {
   for (unsigned i = 0; i < buttons.size(); i++) {
     Button& button = buttons[i];
 
@@ -85,10 +86,11 @@ void IteratethroughUnPressedButtons(
   }
 }
 
-std::vector<Button> PaintMenu(const char* button_names[], uint8_t size);
+std::vector<Button> PaintMenu(
+		const std::initializer_list<const char*>& names);
 
 #define V(ROUTE)                                                               \
-  ROUTE_INIT(ROUTE);                                                          \
+  ROUTE_INIT(ROUTE);                                                           \
   ROUTE_TOUCH(ROUTE);                                                          \
   ROUTE_TOUCHEND(ROUTE);
   ROUTE_TYPES(V)

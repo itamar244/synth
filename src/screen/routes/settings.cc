@@ -24,7 +24,11 @@ enum Setting {
 #undef V
 
 ROUTE_INIT(Settings) {
-  return PaintMenu(kSettingsButtonNames, BUTTON_ITEMS);
+#define V(TYPE) #TYPE,
+  return PaintMenu({
+  	SYNTH_SETTING_TYPES(V)
+	});
+#undef V
 }
 
 ROUTE_TOUCH(Settings) {

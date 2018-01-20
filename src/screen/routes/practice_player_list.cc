@@ -9,14 +9,12 @@
 namespace synth {
 namespace screen {
 
-const char* kSongButtonNames[SONG_ITEMS] = {
-  "Back",
-  "The Small Jonathan",
-	"Seven Nation Army",
-};
-
 ROUTE_INIT(PracticePlayerList) {
-	return PaintMenu(kSongButtonNames, SONG_ITEMS);
+	return PaintMenu({
+		"Back",
+		"The Small Jonathan",
+		"Seven Nation Army",
+	});
 }
 
 ROUTE_TOUCH(PracticePlayerList) {
