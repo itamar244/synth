@@ -1,53 +1,85 @@
 // @flow
-const KEY_VALUES = [
+import parseNote from './parse_note';
+
 // NOTES:
 // C    Db   D    Eb    E   F    Gb   G    Ab   A    Bb   B    C
+const KEY_VALUES = [
   'z', 's', 'x', 'd', 'c', 'v', 'g', 'b', 'h', 'n', 'j', 'm',
-  'q', '2', 'w', '3', 'e', 'r', '5', 't', '6', 'y', '7', 'u', 'i'
+  'q', '2', 'w', '3', 'e', 'r', '5', 't', '6', 'y', '7', 'u', 'i',
 ];
 const REMOVE_TONE = 0;
 const ADD_TONE = 1;
 const DECREMENT_OCTAVE = 2;
 const INCREMENT_OCTAVE = 3;
 
-function getNoteFromKey(key: string): null | number {
-  const indexOfKey = KEY_VALUES.indexOf(key.toLowerCase());
-  return indexOfKey > -1 ? indexOfKey : null;
+const keyListener =
+  (listener: (number, string) => mixed) => (event: KeyboardEvent) =>
+    listener(KEY_VALUES.indexOf(event.key.toLowerCase()), event.key);
+
+const attachKeyListeners = (
+  onKeyDown: (type: number, tone: number) => mixed,
+  onKeyUp: (tone: number) => mixed,
+) => {
+  const pressedKeys: Set<number> = new Set();
+
+  const keydown = keyListener((tone, key) => {
+    if (tone !== -1) {
+      if (!pressedKeys.has(tone)) {
+        pressedKeys.add(tone);
+        onKeyDown(ADD_TONE, tone);
+      }
+    } else if (pressedKeys.size === 0) {
+      if (key === '-' || key === '_') {
+        onKeyDown(DECREMENT_OCTAVE, 0);
+      } else if (key === '=' || key === '+') {
+        onKeyDown(INCREMENT_OCTAVE, 0);
+      }
+    }
+  });
+
+  const keyup = keyListener((tone) => {
+    if (tone !== -1) {
+      pressedKeys.delete(tone);
+      onKeyUp(tone);
+    }
+  });
+
+  document.addEventListener('keyup', keyup);
+  document.addEventListener('keydown', keydown);
+
+  return () => {
+    pressedKeys.forEach(onKeyUp);
+    document.removeEventListener('keyup', keyup);
+    document.removeEventListener('keydown', keydown);
+  };
 }
 
 /**
  * create a keyboard communication with the arduino device
  * @param {SerialPort} port
  */
-export default function createSynthKeyboard(port: Object) {
-  const PRESSED_KEYS = [];
+export const serialPortSynthKeyboard = (port: Object) =>
+  attachKeyListeners(
+    (type, tone) => port.write([type, tone]),
+    tone => port.write([REMOVE_TONE, tone]),
+  );
 
-  const writeOctaveStateChange = (messageType: number) => {
-    if (PRESSED_KEYS.length === 0) {
-      port.write([messageType, 0]);
-    }
-  }
 
-  document.addEventListener('keydown', (event: KeyboardEvent) => {
-    const { key } = event;
-    const note = getNoteFromKey(key);
+const getNote = tone => parseNote(tone + currentOctave * 12);
+let currentOctave = 3;
 
-    if (note !== null && !PRESSED_KEYS.includes(note)) {
-      PRESSED_KEYS.push(note);
-      port.write([ADD_TONE, note]);
-    } else if (key === '-' || key === '_') {
-      writeOctaveStateChange(DECREMENT_OCTAVE);
-    } else if (key === '=' || key === '+') {
-      writeOctaveStateChange(INCREMENT_OCTAVE);
-    }
-  });
-
-  document.addEventListener('keyup', (event: KeyboardEvent) => {
-    const note = getNoteFromKey(event.key);
-
-    if (note !== null) {
-      PRESSED_KEYS.splice(PRESSED_KEYS.indexOf(note), 1);
-      port.write([REMOVE_TONE, note]);
-    }
-  });
-}
+/**
+ * create a keyboard communication with the synthesizer master
+ * @param {PolySynth} synth
+ */
+export const localSynthKeyboard = (synth: Object) =>
+  attachKeyListeners(
+    (type, tone) => {
+      switch (type) {
+        case ADD_TONE: synth.triggerAttack(getNote(tone)); break;
+        case DECREMENT_OCTAVE: currentOctave--; break;
+        case INCREMENT_OCTAVE: currentOctave++; break;
+      }
+    },
+    tone => synth.triggerRelease(getNote(tone)),
+  );
