@@ -1,14 +1,16 @@
+// @flow
 // This helper remembers the size and position of your windows (and restores
 // them in that place after app relaunch).
 // Can be used for more than one window, just construct many
 // instances of it and give each different name.
 
-import { app, BrowserWindow, screen } from "electron";
-// import jetpack from "fs-jetpack";
+import { app, BrowserWindow, screen } from 'electron';
+import fs from 'fs';
+import { resolve } from 'path';
 
-export default (name, options) => {
-  const userDataDir = process.cwd(app.getPath("userData"));
-  const stateStoreFile = `window-state-${name}.json`;
+export default (name: string, options: Object) => {
+  const stateStoreFile =
+    resolve(app.getPath('userData'), `window-state-${name}.json`);
   const defaultSize = {
     width: options.width,
     height: options.height
@@ -19,7 +21,8 @@ export default (name, options) => {
   const restore = () => {
     let restoredState = {};
     try {
-      restoredState = userDataDir.read(stateStoreFile, "json");
+      restoredState = JSON.parse(fs.readFileSync(stateStoreFile).toString());
+      console.log(restoredState);
     } catch (err) {
       // For some reason json can't be read (might be corrupted).
       // No worries, we have defaults.
@@ -70,15 +73,16 @@ export default (name, options) => {
   const saveState = () => {
     if (!win.isMinimized() && !win.isMaximized()) {
       Object.assign(state, getCurrentPosition());
+      console.log(state);
     }
-    userDataDir.write(stateStoreFile, state, { atomic: true });
+    fs.writeFileSync(stateStoreFile, JSON.stringify(state));
   };
 
   state = ensureVisibleOnSomeDisplay(restore());
 
   win = new BrowserWindow(Object.assign({}, options, state));
 
-  win.on("close", saveState);
+  win.on('close', saveState);
 
   return win;
 };
