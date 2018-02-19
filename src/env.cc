@@ -11,8 +11,7 @@ Environment::~Environment() {
 }
 
 void Environment::Tick() {
-  if (
-			is_song_played_
+  if (is_song_played_
 			&& comparator_ != nullptr
 			&& !comparator_->Play(audio_)) {
     is_song_played_ = false;

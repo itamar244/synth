@@ -35,18 +35,15 @@ public:
   void SetAudioType(Audio::Type type);
 
   // Song
+	inline MelodyComparator* comparator() {	return comparator_; }
 	inline void PlaySong() { is_song_played_ = true; }
 	inline void PauseSong() { is_song_played_ = false; }
   inline void InitMelodyComparator(
-		const uint8_t* song,
-		uint16_t size,
-		const std::vector<uint8_t>& sections
-	) {
+			const uint8_t* song,
+			uint16_t size,
+			const std::vector<uint8_t>& sections) {
 		comparator_ = new MelodyComparator({song, size, sections});
   }
-	inline MelodyComparator* comparator() {
-		return comparator_;
-	}
 
 private:
   Audio* audio_ = new SerialPortAudio();

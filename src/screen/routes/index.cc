@@ -10,7 +10,7 @@ ROUTE_INIT(Index) {
 	const uint16_t x = lcd.getWidth() / 2 - width / 2;
 	const uint16_t y = lcd.getHeight() / 2 - height / 2;
 
-	lcd.gotoxy(x - 60, y - 20);
+	lcd.gotoxy(x - 70, y - 20);
 	lcd.setColor(Color::WHITE, Color::BLACK);
 	lcd.print("Itamar Yatom Project");
 	lcd.fillRoundRect(x, y, width, height, 5, Color::BLUE);

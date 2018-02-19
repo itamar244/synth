@@ -2,20 +2,13 @@
 #include <Arduino.h>
 #include "env.h"
 
-enum RequestType {
-	kRemoveTone      = 0,
-	kAddTone         = 1,
-	kDecrementOctave = 2,
-	kIncrementOctave = 3,
-};
-
 namespace synth {
 
 void HandleSerialCommunication(Environment& env) {
 	uint8_t request_data[2];
 	Serial.readBytes(request_data, 2);
 
-	switch (RequestType(request_data[0])) {
+	switch (SerialRequestType(request_data[0])) {
 		case kRemoveTone:
 			env.RemoveToneWithOctave(request_data[1]);
 			break;
