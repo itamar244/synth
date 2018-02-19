@@ -5,7 +5,7 @@ import { PolySynth, Distortion } from 'tone';
 import SerialPort, { parsers } from 'serialport';
 
 import App from './ui/App';
-import parseNote from './parse_note';
+import parseToNote from './parse_to_note';
 
 let port;
 try {
@@ -15,10 +15,10 @@ try {
   parser.on('data', (data: Buffer) => {
     switch (data[0]) {
       case 1:
-        synth.triggerAttack(parseNote(data[1]));
+        synth.triggerAttack(parseToNote(data[1]));
         break;
       case 0:
-        synth.triggerRelease(parseNote(data[1]));
+        synth.triggerRelease(parseToNote(data[1]));
         break;
     }
   });

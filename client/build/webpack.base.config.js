@@ -1,10 +1,10 @@
-const path = require("path");
-const nodeExternals = require("webpack-node-externals");
-const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 module.exports = env => {
   return {
-    target: "node",
+    target: 'node',
     node: {
       __dirname: false,
       __filename: false
@@ -14,24 +14,27 @@ module.exports = env => {
       extensions: ['.js', '.jsx'],
       alias: {
         env: path.resolve(__dirname, `../config/env_${env}.json`)
-      }
+      },
     },
-    devtool: "source-map",
+    watchOptions: {
+      poll: true,
+    },
+    devtool: 'source-map',
     module: {
       rules: [
         {
           test: /\.(js|jsx)$/,
           exclude: /node_modules/,
-          use: ["babel-loader"]
+          use: ['babel-loader']
         },
         {
           test: /\.css$/,
-          use: ["style-loader", "css-loader"]
-        }
-      ]
+          use: ['style-loader', 'css-loader']
+        },
+      ],
     },
     plugins: [
-      new FriendlyErrorsWebpackPlugin({ clearConsole: env === "development" })
-    ]
+      new FriendlyErrorsWebpackPlugin({ clearConsole: env === 'development' }),
+    ],
   };
 };
