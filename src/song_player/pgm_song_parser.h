@@ -25,13 +25,17 @@ public:
 	}
 
 protected:
+	inline const PGMPhrase& phrase() const { return phrase_; }
+	inline const uint16_t pos() const { return pos_; }
+
+  void ParseNextPhrase();
+  PGMPhrase ParsePhraseAt(uint16_t pos);
+
+private:
   Song song_;
   PGMPhrase phrase_;
   uint16_t size_;
   uint16_t pos_;
-
-  void ParseNextPhrase();
-  PGMPhrase ParsePhraseAt(uint16_t pos);
 };
 
 } // namespace synth

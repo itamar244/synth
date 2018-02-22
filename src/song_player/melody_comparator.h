@@ -17,14 +17,14 @@ public:
 
 	inline float grade() const { return grade_ / max_grade_ * 100; }
 	inline bool comparing() const { return comparing_; }
-	inline bool ShouldCompare() const { return compare_pos_ < pos_; }
+	inline bool ShouldCompare() const { return compare_pos_ < pos(); }
 
 	void AddTonesToCompare(const Audio::ToneList& tones);
 	bool NextSection();
 	bool Play(Audio* audio);
 
 private:
-	const std::vector<uint8_t>& sections_;
+	SongContainer::Sections sections_;
 	uint16_t section_time_;
 	uint8_t cur_section_;
 
@@ -45,8 +45,8 @@ private:
 
 	inline void PlayNext(Audio* audio) {
 		ParseNextPhrase();
-    audio->AddTones(phrase_.tones);
-		section_time_ += phrase_.length;
+    audio->AddTones(phrase().tones);
+		section_time_ += phrase().length;
 		prev_millis_ = millis();
 	}
 };

@@ -7,31 +7,33 @@
 namespace synth {
 
 using PGMPhrase = PGMSongParser::PGMPhrase;
+using Tone = Audio::Tone;
+using ToneList = Audio::ToneList;
 
 const uint8_t kTime32nd = 60;
 
 inline uint8_t CountToneListInPhrase(
-		const Audio::ToneList& tones, const PGMPhrase& phrase) {
+		const ToneList& tones, const PGMPhrase& phrase) {
 	return std::count_if(
 		tones.begin(), tones.end(),
-		[&phrase](Audio::Tone tone) {
+		[&phrase](Tone tone) {
 			return utils::HasItem(phrase.tones, tone);
 		});
 }
 
 MelodyComparator::MelodyComparator(const SongContainer& container)
-	: PGMSongParser(container)
-	, sections_(container.sections)
-	, cur_section_(0)
-	, compare_pos_(0)
-	, max_grade_(0)
-	, grade_(0) {
+		: PGMSongParser(container)
+		, sections_(container.sections)
+		, cur_section_(0)
+		, compare_pos_(0)
+		, max_grade_(0)
+		, grade_(0) {
 	InitFlags();
 }
 
 bool MelodyComparator::NextSection() {
 	if (cur_section_ < sections_.size() - 1) {
-		if (pos_ > 0) {
+		if (pos() > 0) {
 			cur_section_++;
 			InitFlags();
 		}
@@ -40,7 +42,7 @@ bool MelodyComparator::NextSection() {
 	return false;
 }
 
-void MelodyComparator::AddTonesToCompare(const Audio::ToneList& tones) {
+void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 	// if user played more phrases than needed
 	if (!ShouldCompare()) {
 		grade_ -= grade_ * 5 / 100;
@@ -51,6 +53,7 @@ void MelodyComparator::AddTonesToCompare(const Audio::ToneList& tones) {
 		// current user phrase length in milliseconds
 		uint16_t phrase_length = millis() - prev_millis_;
 		PGMPhrase to_compare = ParsePhraseAt(compare_pos_);
+
 		if (to_compare.tones.size() == 0) {
 			if (tones.size() == 0) {
 				grade_++;
@@ -67,15 +70,14 @@ void MelodyComparator::AddTonesToCompare(const Audio::ToneList& tones) {
 	}
 }
 
-
 bool MelodyComparator::Play(Audio* audio) {
   if (ended_section_) return false;
 
   if (!started_section_) {
     PlayNext(audio);
     started_section_ = true;
-  } else if (millis() - prev_millis_ >= phrase_.length * kTime32nd) {
-    audio->RemoveTones(phrase_.tones);
+  } else if (millis() - prev_millis_ >= phrase().length * kTime32nd) {
+    audio->RemoveTones(phrase().tones);
 
     if (HasNextPhrase() && section_time_ / 32 < sections_[cur_section_]) {
       PlayNext(audio);
