@@ -2,7 +2,7 @@
 import { arrayToMap } from './utils';
 import parseToNote from './parse_to_note';
 
-// NOTES:
+// KEYS:
 // C    Db   D    Eb    E   F    Gb   G    Ab   A    Bb   B    C
 const KEY_VALUES = arrayToMap([
   'z', 's', 'x', 'd', 'c', 'v', 'g', 'b', 'h', 'n', 'j', 'm',

@@ -6,4 +6,4 @@ const NOTES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
  * in the following format: <KEY><OCTAVE>
  */
 export default (tone: number): string =>
-  NOTES[tone % 12] + String(Math.floor(tone / 12));
+  NOTES[tone % 12] + String(tone / 12 | 0);

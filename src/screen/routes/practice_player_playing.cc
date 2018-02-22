@@ -3,14 +3,13 @@
 #include "utils.h"
 #include "song_player/melody_comparator.h"
 
-#define MENU_ITEMS 3
-
 namespace synth {
 namespace screen {
 
-void PaintGrade(float grade) {
+inline void PaintGrade(float grade) {
 	uint16_t x = lcd.getWidth() / 2 + 50;
 	uint16_t y = lcd.getHeight() / 2 - 40;
+
 	lcd.drawRect(x, y, 100, 40, Color::WHITE);
 	lcd.gotoxy(x + 20, y + 15);
 	lcd.setBackground(Color::BLACK);

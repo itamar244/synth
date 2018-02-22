@@ -1,11 +1,11 @@
+// Environment is the synth's state manager.
+// It controls the audio and the melody comparator, also the current octave
 #pragma once
 
 #include <StandardCplusplus.h>
 #include <vector>
 #include "audio.h"
 #include "song_player/melody_comparator.h"
-#include "song_player/song_container.h"
-#include "song_player/songs.h"
 
 namespace synth {
 
@@ -32,7 +32,7 @@ public:
 	V(Add) V(Remove)
 #undef V
 
-  void SetAudioType(Audio::Type type);
+  void SetAudioType(Audio::AudioType type);
 
   // Song
 	inline MelodyComparator* comparator() {	return comparator_; }
@@ -46,6 +46,7 @@ public:
   }
 
 private:
+	// the audio manager. the default is `SerialPort`
   Audio* audio_ = new SerialPortAudio();
 	MelodyComparator* comparator_ = nullptr;
 

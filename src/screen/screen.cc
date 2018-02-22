@@ -8,6 +8,7 @@
     V(ROUTE)                                                                   \
     break;
 
+// create a switch-case statement with each possible route
 #define SWITCH_ROUTE_TYPES(V)                                                  \
   switch (route_) {                                                            \
     WRAPPED_ROUTE_TYPES(CASE_ROUTE_TYPES, V)                                   \

@@ -9,7 +9,6 @@
 #include <vector>
 #include <TFT9341.h>
 #include "screen/button.h"
-#include "screen/routes.h"
 
 namespace synth {
 namespace screen {
@@ -30,7 +29,7 @@ std::vector<Button> PaintMenu(
 
   for (auto name : names) {
 		uint8_t name_len = std::strlen(name);
-    uint16_t x = 30, y = i++ * 50 + 20;
+    uint16_t x = 30, y = (i++) * 50 + 20;
     uint8_t width = 80, height = 40;
 
 		if (name_len > 4) {

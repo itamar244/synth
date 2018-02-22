@@ -16,7 +16,8 @@ void PGMSongParser::ParseNextPhrase() {
   for (uint8_t i = 0; i < tones_count; i++) {
     phrase_.tones[i] = pgm_read_word_near(song_ + pos_ + i + 1);
   }
-  phrase_.length = pgm_read_word_near(song_ + pos_ + tones_count + 1);
+  phrase_.length =
+		pgm_read_word_near(song_ + pos_ + tones_count + 1);
 	pos_ += phrase_.tones.size() + 2;
 }
 

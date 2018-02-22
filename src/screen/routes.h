@@ -1,9 +1,7 @@
-/**
- * responsible for screen painting and touch responses.
- * RouteInit<ROUTE> and PageTouch<TYPE><ROUTE> are generated and are being used
- * in "screen/screen.cc".
- * each ROUTE is implemented in `screen/pages/ROUTE.cc`.
- */
+// responsible for screen painting and touch responses.
+// RouteInit<ROUTE> and PageTouch<TYPE><ROUTE> are generated and are being used
+// in "screen/screen.cc".
+// each ROUTE is implemented in `screen/pages/ROUTE.cc`.
 #pragma once
 
 #include <StandardCplusplus.h>

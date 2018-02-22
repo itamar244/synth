@@ -21,7 +21,7 @@ void Environment::Tick() {
   }
 }
 
-void Environment::SetAudioType(Audio::Type type) {
+void Environment::SetAudioType(Audio::AudioType type) {
   delete audio_;
 
   switch (type) {
