@@ -1,20 +1,28 @@
 // @flow
 import { arrayToMap } from './utils';
 import parseToNote from './parse_to_note';
+import type Environment from './env';
+import type { SerialPort } from './serialport';
+import * as msg from './serialport_messages';
 
 // KEYS:
-// C    Db   D    Eb    E   F    Gb   G    Ab   A    Bb   B    C
+// C    Db   D    Eb   E    F    Gb   G    Ab   A    Bb   B    C
 const KEY_VALUES = arrayToMap([
   'z', 's', 'x', 'd', 'c', 'v', 'g', 'b', 'h', 'n', 'j', 'm',
   'q', '2', 'w', '3', 'e', 'r', '5', 't', '6', 'y', '7', 'u', 'i',
 ]);
-const REMOVE_TONE = 0;
-const ADD_TONE = 1;
-const DECREMENT_OCTAVE = 2;
-const INCREMENT_OCTAVE = 3;
+
 
 const attachKeyListeners = (onKeyDown, onKeyUp) => {
   const pressedKeys = new Set();
+  const callOnKeyDownEvents = (key, options) => {
+    for (const option of options) {
+      if (key === option[0]) {
+        onKeyDown(msg[option[1]], 0);
+        return;
+      }
+    }
+  }
 
   const keydown = ({ key }: KeyboardEvent) => {
     const tone = KEY_VALUES.get(key);
@@ -22,19 +30,20 @@ const attachKeyListeners = (onKeyDown, onKeyUp) => {
     if (tone != null) {
       if (!pressedKeys.has(tone)) {
         pressedKeys.add(tone);
-        onKeyDown(ADD_TONE, tone);
+        onKeyDown(msg.ADD_TONE, tone);
       }
     } else if (pressedKeys.size === 0) {
-      if (key === '-' || key === '_') {
-        onKeyDown(DECREMENT_OCTAVE, 0);
-      } else if (key === '=' || key === '+') {
-        onKeyDown(INCREMENT_OCTAVE, 0);
-      }
+      callOnKeyDownEvents(key, [
+        ['-', 'DECREMENT_OCTAVE'],
+        ['=', 'INCREMENT_OCTAVE'],
+        ['[', 'SWITCH_BACKWARD_SYNTH_TYPE'],
+        [']', 'SWITCH_FORWARD_SYNTH_TYPE'],
+      ]);
     }
   };
 
-  const keyup = (event: KeyboardEvent) => {
-    const tone = KEY_VALUES.get(event.key);
+  const keyup = ({ key }: KeyboardEvent) => {
+    const tone = KEY_VALUES.get(key);
 
     if (tone != null) {
       pressedKeys.delete(tone);
@@ -52,23 +61,25 @@ const attachKeyListeners = (onKeyDown, onKeyUp) => {
   };
 };
 
-export const serialPortSynthKeyboard = (port: Object) =>
+export const serialPortSynthKeyboard = (port: SerialPort) =>
   attachKeyListeners(
-    (type, tone) => port.write([type, tone]),
-    tone => port.write([REMOVE_TONE, tone]),
+    (type, tone) => port.send(type, tone),
+    tone => port.send(msg.REMOVE_TONE, tone),
   );
 
-const getNote = tone => parseToNote(tone + currentOctave * 12);
-let currentOctave = 3;
+const getTone = tone => tone + currentOctave * 12;
+let currentOctave = 4;
 
-export const localSynthKeyboard = (synth: Object) =>
+export const localSynthKeyboard = (env: Environment) =>
   attachKeyListeners(
     (type, tone) => {
-      switch (type) {
-        case ADD_TONE: synth.triggerAttack(getNote(tone)); break;
-        case DECREMENT_OCTAVE: currentOctave--; break;
-        case INCREMENT_OCTAVE: currentOctave++; break;
+      if (type === msg.DECREMENT_OCTAVE) {
+        currentOctave--;
+      } else if (type === msg.INCREMENT_OCTAVE) {
+        currentOctave++;
+      } else {
+        env.handleMessage(type, getTone(tone));
       }
     },
-    tone => synth.triggerRelease(getNote(tone)),
+    tone => env.handleMessage(msg.REMOVE_TONE, getTone(tone)),
   );

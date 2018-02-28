@@ -1,11 +1,16 @@
 // @flow
 import React, { Component } from 'react';
+import { PolySynth, Distortion } from 'tone';
 
-import KeyboardCommunication, {
-  type Props as KeyboardCommunicationProps,
-} from './KeyboardCommunication';
+import KeyboardCommunication from './KeyboardCommunication';
+import type Environment from '../env';
+import * as msg from '../serialport_messages';
 
-export default class App extends Component<KeyboardCommunicationProps> {
+type Props = {
+  env: Environment,
+};
+
+export default class App extends Component<Props> {
   render() {
     return (
       <div>

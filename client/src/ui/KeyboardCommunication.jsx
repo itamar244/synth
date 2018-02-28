@@ -2,61 +2,54 @@
 import React, { Component } from 'react';
 
 import * as keyboards from '../create_synth_keyboard';
+import Environment from '../env';
 
 export type Props = {
-  synth: Object,
-  port?: Object,
+  env: Environment,
 };
 
 type KeyboardType = 'synth' | 'port';
 
 type State = {
   type: KeyboardType,
-  detach: null | () => mixed,
+  detach: () => mixed,
 };
+
+const otherType = type => type === 'synth' ? 'port' : 'synth';
 
 export default class KeyboardCommunication extends Component<Props, State> {
   state = {
     type: 'synth',
-    detach: null,
-  }
+    detach: this.attachSynthKeyboard('synth'),
+  };
 
   toggleType = () => {
     this.setState((prevState: State) => {
-      const type = this.otherType(prevState);
-      if (prevState.detach !== null) prevState.detach();
+      const type = otherType(prevState.type);
+      setTimeout(prevState.detach);
 
       return {
         type,
         detach: this.attachSynthKeyboard(type),
       };
     });
-  }
-
-  otherType(state: State = this.state): KeyboardType {
-    return state.type === 'synth' ? 'port' : 'synth';
-  }
+  };
 
   attachSynthKeyboard(type: KeyboardType) {
-    if (type === 'synth') {
-      return keyboards.localSynthKeyboard(this.props.synth);
+    switch (type) {
+      case 'synth':
+        return keyboards.localSynthKeyboard(this.props.env);
+      case 'port':
+        return keyboards.serialPortSynthKeyboard(this.props.env.port);
+      default:
+        throw TypeError(`type '${type}' shoud only be of 'synth' or 'port'`)
     }
-    if (this.props.port != null) {
-      return keyboards.serialPortSynthKeyboard(this.props.port);
-    }
-    return null;
-  }
-
-  componentDidMount() {
-    this.setState({
-      detach: this.attachSynthKeyboard(this.state.type),
-    });
   }
 
   render() {
     return (
       <button onClick={this.toggleType}>
-        switch to {this.otherType()}
+        Switch to {otherType(this.state.type)}
       </button>
     );
   }
