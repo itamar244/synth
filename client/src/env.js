@@ -18,7 +18,7 @@ const SYNTHES = [
 ]
 
 export default class Environment {
-  synth: Object;
+  synth: PolySynth;
   port = createSerialPort();
   curSynth = 0;
 

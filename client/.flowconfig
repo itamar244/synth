@@ -1,6 +1,3 @@
-[untyped]
-node_modules/tone
-node_modules/serialport
 [include]
 
 [libs]
