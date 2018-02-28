@@ -29,6 +29,7 @@ public:
 
   virtual ~Audio() {};
   virtual AudioType Type() const = 0;
+	// TODO: to remove unused Play
   virtual void Play() const {};
 
   virtual bool AddTone(Tone tone);
@@ -63,7 +64,8 @@ protected:
 class BuiltinAudio: public Audio {
 public:
   AudioType Type() const override { return kBuiltin; }
-  void Play() const override;
+  bool AddTone(Tone tone) override;
+  bool RemoveTone(Tone tone) override;
 };
 
 class SerialPortAudio: public Audio {

@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <stdint.h>
 #include "serial_communication.h"
+#include "wire_wrapper.h"
 
 namespace synth {
 
@@ -25,15 +26,16 @@ bool Audio::RemoveTone(uint8_t tone) {
   return false;
 }
 
-// TODO: implement this after getting the part for the arduino
-void BuiltinAudio::Play() const {
-  if (current_tones_.empty()) return;
-  for (auto& tone : current_tones_) {
-    Serial.print(tone);
-  }
-  Serial.println();
-}
-
+#define BUILTIN_CALL_TONE_CHANGE(FUNC)                                         \
+	bool BuiltinAudio::FUNC ## Tone(uint8_t tone) {                              \
+		if (Audio::FUNC ## Tone(tone)) {                                           \
+			wire::PlayTones(current_tones_);                                         \
+		}                                                                          \
+		return false;                                                              \
+	}
+	BUILTIN_CALL_TONE_CHANGE(Add)
+	BUILTIN_CALL_TONE_CHANGE(Remove)
+#undef BUILTIN_CALL_TONE_CHANGE
 
 #define SERIALPORT_CALL_TONE_CHANGE(FUNC)                                      \
 	bool SerialPortAudio::FUNC ## Tone(uint8_t tone) {                           \
