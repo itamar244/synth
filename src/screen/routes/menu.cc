@@ -5,7 +5,6 @@
 #include <TFT9341.h>
 #include "screen/button.h"
 
-#define MENU_ITEMS 3
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
   V(Keyboard)                                                                  \
   V(PracticePlayerList)                                                        \

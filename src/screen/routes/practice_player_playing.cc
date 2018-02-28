@@ -29,17 +29,17 @@ ROUTE_TOUCH(PracticePlayerPlaying) {
 		[&](uint8_t index) {
 			auto comparator = env.comparator();
 			switch (index) {
-				case 0:
+				case 0: // Back
 					controller->set_route(Route::kPracticePlayerList);
 					if (comparator != nullptr) {
 						env.audio()->RemoveTones(comparator->phrase_tones());
 						utils::DeletePtr(comparator);
 					}
 					break;
-				case 1:
+				case 1: // Start
 					env.PlaySong();
 					break;
-				case 2:
+				case 2: // Commit
 					if (!comparator->NextSection()) {
 						PaintGrade(comparator->grade());
 					}
