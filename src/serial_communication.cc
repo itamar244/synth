@@ -3,12 +3,13 @@
 #include "env.h"
 
 namespace synth {
+namespace serial {
 
-void HandleSerialCommunication(Environment& env) {
+void Receive(Environment& env) {
 	uint8_t request_data[2];
 	Serial.readBytes(request_data, 2);
 
-	switch (SerialRequestType(request_data[0])) {
+	switch (Message(request_data[0])) {
 		case kRemoveTone:
 			env.RemoveToneWithOctave(request_data[1]);
 			break;
@@ -21,7 +22,11 @@ void HandleSerialCommunication(Environment& env) {
 		case kIncrementOctave:
 			env.IncrementOctave();
 			break;
+		default:
+			Send(Message(request_data[0]), request_data[1]);
+			break;
 	}
 }
 
+} // namespace serial
 } // namespace synth

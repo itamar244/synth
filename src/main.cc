@@ -5,6 +5,7 @@
 #include "screen/screen.h"
 #include "serial_communication.h"
 
+namespace serial = synth::serial;
 using synth::Environment;
 using ScreenController = synth::screen::Controller;
 using Route = synth::screen::Route;
@@ -22,7 +23,7 @@ void loop() {
 	env.Tick();
 
 	if (screen_controller.route() != Route::kIndex && Serial.available()) {
-		HandleSerialCommunication(env);
+		serial::Receive(env);
 	}
 	screen_controller.Paint(env);
 

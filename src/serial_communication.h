@@ -1,5 +1,4 @@
-// Handles data which received from the client and updates the
-// `Environment` instance according to the request.
+// Sends and receives data through the serial port.
 //
 // The data transfer protocol:
 // - Each request consists from 2 bytes.
@@ -10,14 +9,26 @@
 #include "env.h"
 
 namespace synth {
+namespace serial {
 
-enum SerialRequestType {
+enum Message {
 	kRemoveTone      = 0,
 	kAddTone         = 1,
 	kDecrementOctave = 2,
 	kIncrementOctave = 3,
+	kLogData         = 4,
 };
 
-void HandleSerialCommunication(Environment& env);
+void Receive(Environment& env);
 
+inline void Send(Message message, uint8_t data) {
+	char buffer[] = {char(message), char(data)};
+	Serial.write(buffer, 2);
+}
+
+inline void Log(uint8_t data) {
+	Send(kLogData, data);
+}
+
+} // namespace serial
 } // namespace synth

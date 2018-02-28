@@ -1,8 +1,11 @@
 #include "audio.h"
 #include <Arduino.h>
 #include <stdint.h>
+#include "serial_communication.h"
 
 namespace synth {
+
+using serial::Send;
 
 bool Audio::AddTone(uint8_t tone) {
   if (current_tones_.size() == 4) return false;
@@ -32,17 +35,16 @@ void BuiltinAudio::Play() const {
 }
 
 
-#define SERIALPORT_CALL_TONE_CHANGE(FUNC, STATE)                               \
+#define SERIALPORT_CALL_TONE_CHANGE(FUNC)                                      \
 	bool SerialPortAudio::FUNC ## Tone(uint8_t tone) {                           \
 		if (Audio::FUNC ## Tone(tone)) {                                           \
-			char buffer[] = {STATE, char(tone)};                                     \
-			Serial.write(buffer, 2);                                                 \
+			Send(serial::k ## FUNC ## Tone, tone);                                   \
 			return true;                                                             \
 		}                                                                          \
 		return false;                                                              \
 	}
-	SERIALPORT_CALL_TONE_CHANGE(Add, 1)
-	SERIALPORT_CALL_TONE_CHANGE(Remove, 0)
+	SERIALPORT_CALL_TONE_CHANGE(Add)
+	SERIALPORT_CALL_TONE_CHANGE(Remove)
 #undef SERIALPORT_CALL_TONE_CHANGE
 
 } // namespace synth
