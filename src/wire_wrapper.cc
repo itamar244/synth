@@ -1,4 +1,5 @@
 #include "wire_wrapper.h"
+#include <stdint.h>
 #include <Wire.h>
 #include <Wire2.h>
 
@@ -8,15 +9,20 @@ namespace wire {
 namespace {
 
 #define SOUND(POSTFIX)                                                         \
-	inline void Sound ## POSTFIX(uint8_t dev, uint8_t note) {                    \
-		Wire ## POSTFIX.beginTransmission(0x24 + (dev % 2));                       \
-		Wire ## POSTFIX.write(note);                                               \
-		Wire ## POSTFIX.endTransmission();                                         \
+	Wire ## POSTFIX.beginTransmission(0x24 + (dev % 2));                         \
+	Wire ## POSTFIX.write(tone);                                                 \
+	Wire ## POSTFIX.endTransmission();                                           \
+
+void CallSound(uint8_t dev, Audio::Tone tone) {
+	if (dev < 2) {
+		SOUND()
+	} else {
+		SOUND(2)
 	}
-	SOUND()
-	SOUND(2)
+}
 #undef SOUND
 
+// returns the tone but as a DTMF data
 uint8_t GetTone(Audio::Tone tone) {
 	switch (tone % 24) {
 		case 0:  return 0x30;
@@ -55,23 +61,14 @@ void Init() {
 	Wire2.begin();
 }
 
-void PlayTones(const Audio::ToneList tones) {
-	auto tone = tones.begin();
+void PlayTones(const Audio::ToneList& tones) {
+	uint8_t i = 0;
 
-	for (uint8_t i = 0; i < 4; i++) {
-		uint8_t to_play;
-
-		if (tone != tones.end()) {
-			to_play = GetTone(*tone);
-			++tone;
-		} else {
-			to_play = 0;
-		}
-		if (i < 2) {
-			Sound(i, to_play);
-		} else {
-			Sound2(i, to_play);
-		}
+	for (const auto& tone : tones) {
+		CallSound(i++, GetTone(tone));
+	}
+	for (; i < 4; i++) {
+		CallSound(i, 0);
 	}
 }
 
