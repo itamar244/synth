@@ -6,7 +6,6 @@
 // The following lifecycles are:
 //   - `AddTone`. should always call super if inherited
 //   - `RemoveTone`. should always call super even inherited
-//   - `Play`. called in every arduino's tick. should output sounds if needded
 #pragma once
 
 #include <StandardCplusplus.h>
@@ -29,7 +28,7 @@ public:
   typedef uint8_t Tone;
   typedef std::list<Tone> ToneList;
 
-  virtual ~Audio() {};
+  virtual ~Audio() {}
   virtual AudioType Type() const = 0;
 
   virtual bool AddTone(Tone tone);
@@ -39,37 +38,33 @@ public:
 		return current_tones_;
 	}
 
-  inline bool IsType(AudioType type) { return Type() == type; }
-
+  inline bool IsType(AudioType type) const { return Type() == type; }
 
 	// `AddTones` and `RemoveTones` are wrappers for calling their singular functions
 	// with iterable classes
-#define CALL_WITH_ITERABLE(FUNC)                                               \
-	template<class Iterable>                                                     \
-	inline void FUNC ## Tones(const Iterable& tones) {                           \
-		for (Tone tone : tones) {                                                  \
-			FUNC ## Tone(tone);                                                      \
-		}                                                                          \
+	template<class Iterable>
+	inline void AddTones(const Iterable& tones) {
+		for (Tone tone : tones) AddTone(tone);
 	}
-	CALL_WITH_ITERABLE(Add) CALL_WITH_ITERABLE(Remove)
-#undef CALL_WITH_ITERABLE
+
+	template<class Iterable>
+	inline void RemoveTones(const Iterable& tones) {
+		for (Tone tone : tones) RemoveTone(tone);
+	}
 
 protected:
   ToneList current_tones_;
 };
 
-class BuiltinAudio: public Audio {
-public:
-  AudioType Type() const override { return kBuiltin; }
-  bool AddTone(Tone tone) override;
-  bool RemoveTone(Tone tone) override;
-};
-
-class SerialPortAudio: public Audio {
-public:
-  AudioType Type() const override { return kSerialPort; }
-  bool AddTone(Tone tone) override;
-  bool RemoveTone(Tone tone) override;
-};
+#define AUDIO_IMPLEMENTATION_CLASS(NAME)                                       \
+	class NAME ## Audio: public Audio {                                          \
+	public:                                                                      \
+		AudioType Type() const override { return k ## NAME; }                      \
+		bool AddTone(Tone tone) override;                                          \
+		bool RemoveTone(Tone tone) override;                                       \
+	};
+	AUDIO_IMPLEMENTATION_CLASS(Builtin)
+	AUDIO_IMPLEMENTATION_CLASS(SerialPort)
+#undef AUDIO_IMPLEMENTATION_CLASS
 
 } // namespace synth

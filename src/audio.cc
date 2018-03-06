@@ -8,6 +8,7 @@
 namespace synth {
 
 using serial::Send;
+using wire::PlayTones;
 
 bool Audio::AddTone(Tone tone) {
   if (current_tones_.size() == kMaxTones) return false;
@@ -27,27 +28,26 @@ bool Audio::RemoveTone(Tone tone) {
   return false;
 }
 
-#define BUILTIN_CALL_TONE_CHANGE(FUNC)                                         \
-	bool BuiltinAudio::FUNC ## Tone(uint8_t tone) {                              \
-		if (Audio::FUNC ## Tone(tone)) {                                           \
-			wire::PlayTones(current_tones_);                                         \
-		}                                                                          \
-		return false;                                                              \
-	}
-	BUILTIN_CALL_TONE_CHANGE(Add)
-	BUILTIN_CALL_TONE_CHANGE(Remove)
-#undef BUILTIN_CALL_TONE_CHANGE
+// wrapper for all tone lifecycles. receives a audio class's prefix name
+// and a macro method to call on update with the lifecycle type
+#define TONE_LIFECYLCES(CLASS, V)                                              \
+	__CREATOR(CLASS, Add, V)                                                     \
+	__CREATOR(CLASS, Remove, V)
 
-#define SERIALPORT_CALL_TONE_CHANGE(FUNC)                                      \
-	bool SerialPortAudio::FUNC ## Tone(uint8_t tone) {                           \
-		if (Audio::FUNC ## Tone(tone)) {                                           \
-			Send(serial::k ## FUNC ## Tone, tone);                                   \
-			return true;                                                             \
-		}                                                                          \
-		return false;                                                              \
+#define __CREATOR(CLASS, FUNC, V)                                              \
+	bool CLASS ## Audio::FUNC ## Tone(Tone tone) {                               \
+		bool updated_tones = Audio::FUNC ## Tone(tone);                            \
+		/* V's call is inside a block for potentially a multi line code */         \
+		if (updated_tones) { V(FUNC) }                                             \
+		return updated_tones;                                                      \
 	}
-	SERIALPORT_CALL_TONE_CHANGE(Add)
-	SERIALPORT_CALL_TONE_CHANGE(Remove)
-#undef SERIALPORT_CALL_TONE_CHANGE
+
+#define V(_) PlayTones(current_tones_);
+	TONE_LIFECYLCES(Builtin, V)
+#undef V
+
+#define V(FUNC) Send(serial::k ## FUNC ## Tone, tone);
+	TONE_LIFECYLCES(SerialPort, V)
+#undef V
 
 } // namespace synth
