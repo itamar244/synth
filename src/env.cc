@@ -16,9 +16,6 @@ void Environment::Tick() {
 			&& !comparator_->Play(audio_)) {
     is_song_played_ = false;
   }
-  if (audio_->IsType(Audio::kBuiltin)) {
-    audio_->Play();
-  }
 }
 
 void Environment::SetAudioType(Audio::AudioType type) {

@@ -31,8 +31,6 @@ public:
 
   virtual ~Audio() {};
   virtual AudioType Type() const = 0;
-	// TODO: to remove unused Play
-  virtual void Play() const {};
 
   virtual bool AddTone(Tone tone);
   virtual bool RemoveTone(Tone tone);
