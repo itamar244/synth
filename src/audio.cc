@@ -8,17 +8,17 @@ namespace synth {
 
 using serial::Send;
 
-bool Audio::AddTone(uint8_t tone) {
-  if (current_tones_.size() == 4) return false;
-  if (GetTone(tone) == current_tones_.end()) {
+bool Audio::AddTone(Tone tone) {
+  if (current_tones_.size() == kMaxTones) return false;
+  if (!utils::HasItem(current_tones_, tone)) {
     current_tones_.push_back(tone);
     return true;
   }
   return false;
 }
 
-bool Audio::RemoveTone(uint8_t tone) {
-  auto searched_tone = GetTone(tone);
+bool Audio::RemoveTone(Tone tone) {
+  auto searched_tone = utils::FindItem(current_tones_, tone);
   if (searched_tone != current_tones_.end()) {
     current_tones_.erase(searched_tone);
     return true;

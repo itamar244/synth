@@ -19,6 +19,8 @@ namespace synth {
 
 class Audio {
 public:
+	const static uint8_t kMaxTones = 4;
+
   enum AudioType {
     kBuiltin,
     kSerialPort,
@@ -41,9 +43,6 @@ public:
 
   inline bool IsType(AudioType type) { return Type() == type; }
 
-  inline ToneList::iterator GetTone(Tone tone) {
-    return utils::FindItem(current_tones_, tone);
-  }
 
 	// `AddTones` and `RemoveTones` are wrappers for calling their singular functions
 	// with iterable classes
