@@ -1,6 +1,7 @@
 #include "audio.h"
 #include <Arduino.h>
 #include <stdint.h>
+#include "utils.h"
 #include "serial_communication.h"
 #include "wire_wrapper.h"
 
