@@ -1,26 +1,25 @@
-#include "wire_wrapper.h"
+#include "sound.h"
 #include <stdint.h>
 #include <Wire.h>
 #include <Wire2.h>
+#include "audio.h"
 
 namespace synth {
-namespace wire {
+namespace sound {
 
 namespace {
 
-#define SOUND(POSTFIX)                                                         \
-	Wire ## POSTFIX.beginTransmission(0x24 + (dev % 2));                         \
-	Wire ## POSTFIX.write(tone);                                                 \
-	Wire ## POSTFIX.endTransmission();                                           \
-
-void CallSound(uint8_t dev, Audio::Tone tone) {
+void SendToneThroughWire(uint8_t dev, Audio::Tone tone) {
 	if (dev < 2) {
-		SOUND()
+		Wire.beginTransmission(0x24 + dev);
+		Wire.write(tone);
+		Wire.endTransmission();
 	} else {
-		SOUND(2)
+		Wire2.beginTransmission(0x24 + dev - 2);
+		Wire2.write(tone);
+		Wire2.endTransmission();
 	}
 }
-#undef SOUND
 
 // returns the tone but as a DTMF data
 uint8_t GetTone(Audio::Tone tone) {
@@ -61,16 +60,16 @@ void Init() {
 	Wire2.begin();
 }
 
-void PlayTones(const Audio::ToneList& tones) {
+void SetPlayedTones(const Audio::ToneList& tones) {
 	uint8_t i = 0;
 
 	for (const auto& tone : tones) {
-		CallSound(i++, GetTone(tone));
+		SendToneThroughWire(i++, GetTone(tone));
 	}
-	for (; i < 4; i++) {
-		CallSound(i, 0);
+	for (; i < Audio::kMaxTones; i++) {
+		SendToneThroughWire(i, 0);
 	}
 }
 
-} // namespace wire
+} // namespace sound
 } // namespace synth

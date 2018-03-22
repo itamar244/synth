@@ -4,10 +4,10 @@
 #include "screen/routes.h"
 #include "screen/screen.h"
 #include "serial_communication.h"
-#include "wire_wrapper.h"
+#include "sound.h"
 
 namespace serial = synth::serial;
-namespace wire = synth::wire;
+namespace sound = synth::sound;
 using synth::Environment;
 using ScreenController = synth::screen::Controller;
 using Route = synth::screen::Route;
@@ -16,7 +16,7 @@ Environment env;
 ScreenController screen_controller;
 
 void setup() {
-	wire::Init();
+	sound::Init();
 	Serial.begin(9600);
 	lcd.begin();
 	lcdtouch.InitTypeTouch(1);

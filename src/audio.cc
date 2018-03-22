@@ -3,12 +3,12 @@
 #include <stdint.h>
 #include "utils.h"
 #include "serial_communication.h"
-#include "wire_wrapper.h"
+#include "sound.h"
 
 namespace synth {
 
 using serial::Send;
-using wire::PlayTones;
+using sound::SetPlayedTones;
 
 bool Audio::AddTone(Tone tone) {
   if (current_tones_.size() == kMaxTones) return false;
@@ -42,7 +42,7 @@ bool Audio::RemoveTone(Tone tone) {
 		return updated_tones;                                                      \
 	}
 
-#define V(_) PlayTones(current_tones_);
+#define V(_) SetPlayedTones(current_tones_);
 	TONE_LIFECYLCES(Builtin, V)
 #undef V
 
