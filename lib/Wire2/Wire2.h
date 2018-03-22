@@ -1,7 +1,7 @@
 // sda pc2
 // scl pc3
 
-
+#pragma once
 
 #define SDA1 PORTC |= (1<<PORTC2)
 #define SDA0 PORTC &= ~(1<<PORTC2)

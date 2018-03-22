@@ -10,7 +10,7 @@ struct Button: public Point {
   uint8_t width, height;
   bool is_pressed = false;
 
-  Button(uint16_t x, uint16_t y, uint8_t width, uint8_t height)
+  Button(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
     : Point(x, y), width(width), height(height) {}
 
   inline bool IsTapped(const Point& point) const {

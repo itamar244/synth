@@ -25,8 +25,8 @@ public:
     kSerialPort,
   };
 
-  typedef uint8_t Tone;
-  typedef std::list<Tone> ToneList;
+  using Tone = uint8_t;
+  using ToneList = std::list<Tone>;
 
   virtual ~Audio() {}
   virtual AudioType Type() const = 0;
