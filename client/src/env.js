@@ -15,7 +15,7 @@ const SYNTHES = [
   Synth,
   FMSynth,
   DuoSynth,
-]
+];
 
 export default class Environment {
   synth: PolySynth;

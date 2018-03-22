@@ -17,5 +17,5 @@ export default function createSerialPort(): SerialPort {
     send: (type, data) => port.write([type, data]),
     subscribe: listener =>
       parser.on('data', data => listener(data[0], data[1])),
-  }
+  };
 }
