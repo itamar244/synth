@@ -1,6 +1,6 @@
 /**
- * includes all songs in namespace synth::songs.
- * each song is of type `const PROGMEM uint8_t[]` and followes this pattern -
+ * includes all melodies in namespace synth::melodies.
+ * each melody is of type `const PROGMEM uint8_t[]` and followes this pattern -
  * ...(NUMBER_OF_TONES_IN_PHRASE, ...TONE, LENGTH)
  * TONE - 0 is C3, 23 is B4.
  * LENGTH - the number of 16ths of a quarter.
@@ -38,12 +38,12 @@
 #define Q1 32
 
 namespace synth {
-namespace songs {
+namespace melodies {
 
-#include "song_player/songs/the_small_jonathan.h"
-#include "song_player/songs/seven_nation_army.h"
+#include "melody_player/melodies/the_small_jonathan.h"
+#include "melody_player/melodies/seven_nation_army.h"
 
-} // namespace songs
+} // namespace melodies
 } // namespace synth
 
 #undef TONE_C

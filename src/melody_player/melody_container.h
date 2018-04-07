@@ -3,14 +3,14 @@
 #include <StandardCplusplus.h>
 #include <vector>
 #include <stdint.h>
-#include "song_player/pgm_song_parser.h"
+#include "melody_player/parser.h"
 
 namespace synth {
 
-struct SongContainer {
+struct MelodyContainer {
 	using Sections = const std::vector<uint8_t>&;
 
-	const uint8_t* song;
+	const uint8_t* melody;
 	const uint16_t size;
 	Sections sections;
 };

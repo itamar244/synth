@@ -3,19 +3,19 @@
 #include <StandardCplusplus.h>
 #include <vector>
 #include <stdint.h>
-#include "song_player/song_container.h"
+#include "melody_player/melody_container.h"
 
 namespace synth {
 
-class PGMSongParser {
+class MelodyParser {
 public:
-  typedef const uint8_t* Song;
-	struct PGMPhrase {
+  typedef const uint8_t* Melody;
+	struct Phrase {
 		std::vector<uint8_t> tones;
   	uint8_t length;
 	};
 
-  PGMSongParser(const SongContainer& container);
+  MelodyParser(const MelodyContainer& container);
 
 	inline bool HasNextPhrase() const {
 		return pos_ < size_;
@@ -25,15 +25,15 @@ public:
 	}
 
 protected:
-	inline const PGMPhrase& phrase() const { return phrase_; }
+	inline const Phrase& phrase() const { return phrase_; }
 	inline const uint16_t pos() const { return pos_; }
 
   void ParseNextPhrase();
-  PGMPhrase ParsePhraseAt(uint16_t pos);
+  Phrase ParsePhraseAt(uint16_t pos);
 
 private:
-  Song song_;
-  PGMPhrase phrase_;
+  Melody melody_;
+  Phrase phrase_;
   uint16_t size_;
   uint16_t pos_;
 };

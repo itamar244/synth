@@ -1,7 +1,6 @@
 #include "screen/routes.h"
 #include <TFT9341.h>
 #include "utils.h"
-#include "song_player/melody_comparator.h"
 
 namespace synth {
 namespace screen {

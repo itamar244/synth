@@ -6,14 +6,14 @@
 #include <Arduino.h>
 #include "audio.h"
 #include "utils.h"
-#include "song_player/pgm_song_parser.h"
-#include "song_player/song_container.h"
+#include "melody_player/parser.h"
+#include "melody_player/melody_container.h"
 
 namespace synth {
 
-class MelodyComparator: public PGMSongParser {
+class MelodyComparator: public MelodyParser {
 public:
-	MelodyComparator(const SongContainer& container);
+	MelodyComparator(const MelodyContainer& container);
 
 	inline float grade() const { return grade_ / max_grade_ * 100; }
 	inline bool comparing() const { return comparing_; }
@@ -24,7 +24,7 @@ public:
 	bool Play(Audio* audio);
 
 private:
-	SongContainer::Sections sections_;
+	MelodyContainer::Sections sections_;
 	uint16_t section_time_;
 	uint8_t cur_section_;
 

@@ -5,7 +5,7 @@
 #include <StandardCplusplus.h>
 #include <vector>
 #include "audio.h"
-#include "song_player/melody_comparator.h"
+#include "melody_player/melody_comparator.h"
 
 namespace synth {
 
