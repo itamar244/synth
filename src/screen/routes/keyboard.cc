@@ -16,31 +16,7 @@ const char kKeyboardButtonNames[BUTTON_ITEMS] = {
 const uint8_t kToneValues[] = { 0, 2, 4, 5, 7, 9, 11 };
 
 ROUTE_INIT(Keyboard) {
-  std::vector<Button> buttons;
-  buttons.reserve(BUTTON_ITEMS + 1);
-
-  for (uint8_t i = 0; i < BUTTON_ITEMS; i++) {
-    const uint16_t x = (i % 3) * 100 + 30;
-    const uint16_t y = (i / 3) * 50 + 40;
-    const int width = 50, height = 40;
-
-    buttons.push_back({ x, y, width, height });
-    lcd.fillRoundRect(x, y, width, height, 5, Color::RED);
-    lcd.gotoxy(x + 18, y + 10);
-    lcd.setColor(Color::WHITE, Color::RED);
-    lcd.write(kKeyboardButtonNames[i]);
-  }
-
-  Button menu = { lcd.getWidth() - 100, lcd.getHeight() - 50, 100, 40 };
-  buttons.push_back(menu);
-  lcd.fillRoundRect(
-    menu.x, menu.y,
-    menu.width, menu.height, 5, Color::RED);
-  lcd.gotoxy(menu.x + 18, menu.y + 10);
-  lcd.setColor(Color::WHITE, Color::RED);
-  lcd.print("Back");
-
-  return buttons;
+  return PaintKeyboard(kKeyboardButtonNames, BUTTON_ITEMS);
 }
 
 ROUTE_TOUCH(Keyboard) {

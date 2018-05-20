@@ -4,16 +4,13 @@
 #include <vector>
 #include <stdint.h>
 #include "melody_player/melody_container.h"
+#include "phrase.h"
 
 namespace synth {
 
 class MelodyParser {
 public:
   typedef const uint8_t* Melody;
-	struct Phrase {
-		std::vector<uint8_t> tones;
-  	uint8_t length;
-	};
 
   MelodyParser(const MelodyContainer& container);
 

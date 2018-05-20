@@ -7,9 +7,6 @@
 
 namespace synth {
 
-using serial::Send;
-using sound::SetPlayedTones;
-
 bool Audio::AddTone(Tone tone) {
   if (current_tones_.size() == kMaxTones) return false;
   if (!utils::HasItem(current_tones_, tone)) {
@@ -42,11 +39,11 @@ bool Audio::RemoveTone(Tone tone) {
 		return updated_tones;                                                      \
 	}
 
-#define V(_) SetPlayedTones(current_tones_);
+#define V(_) sound::SetPlayedTones(current_tones_);
 	TONE_LIFECYLCES(Builtin, V)
 #undef V
 
-#define V(FUNC) Send(serial::k ## FUNC ## Tone, tone);
+#define V(FUNC) serial::Send(serial::k ## FUNC ## Tone, tone);
 	TONE_LIFECYLCES(SerialPort, V)
 #undef V
 

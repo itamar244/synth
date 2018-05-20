@@ -18,6 +18,8 @@
   V(Keyboard)                                                                  \
   V(PracticePlayerList)                                                        \
   V(PracticePlayerPlaying)                                                     \
+  V(RecordsPlayer)                                                             \
+  V(Recorder)                                                                  \
   V(Settings)
 
 #define WRAPPED_ROUTE_TYPES(WRAPPER, V)                                        \
@@ -26,6 +28,8 @@
   WRAPPER(V, Keyboard)                                                         \
   WRAPPER(V, PracticePlayerList)                                               \
   WRAPPER(V, PracticePlayerPlaying)                                            \
+  WRAPPER(V, RecordsPlayer)                                                    \
+  WRAPPER(V, Recorder)                                                         \
   WRAPPER(V, Settings)
 
 #define ROUTE_INIT(ROUTE)                                                      \
@@ -84,8 +88,18 @@ void IteratethroughUnPressedButtons(
   }
 }
 
+struct _PaintMenuStats {
+	uint16_t width;
+	const std::vector<Button> buttons;
+};
+
+_PaintMenuStats PaintMenuWithStats(
+		const std::initializer_list<const char*>& names);
+
 std::vector<Button> PaintMenu(
 		const std::initializer_list<const char*>& names);
+
+std::vector<Button> PaintKeyboard(const char names[], uint16_t size);
 
 #define V(ROUTE)                                                               \
   ROUTE_INIT(ROUTE);                                                           \

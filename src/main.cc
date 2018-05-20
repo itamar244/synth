@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <TFT9341.h>
+#include "eeprom.h"
 #include "env.h"
 #include "screen/routes.h"
 #include "screen/screen.h"
@@ -8,6 +9,7 @@
 
 namespace serial = synth::serial;
 namespace sound = synth::sound;
+namespace eeprom = synth::eeprom;
 using synth::Environment;
 using ScreenController = synth::screen::Controller;
 using Route = synth::screen::Route;
@@ -16,8 +18,10 @@ Environment env;
 ScreenController screen_controller;
 
 void setup() {
-	sound::Init();
 	Serial.begin(9600);
+	sound::Init();
+	eeprom::MaybeInit();
+
 	lcd.begin();
 	lcdtouch.InitTypeTouch(1);
 }

@@ -8,6 +8,7 @@
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
   V(Keyboard)                                                                  \
   V(PracticePlayerList)                                                        \
+  V(RecordsPlayer)                                                             \
   V(Settings)
 
 namespace synth {
@@ -23,6 +24,7 @@ ROUTE_INIT(Menu) {
   return PaintMenu({
   	"Keyboard",
   	"Practice Player",
+  	"Records Player",
   	"Settings",
 	});
 }

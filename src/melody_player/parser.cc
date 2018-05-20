@@ -1,9 +1,8 @@
 #include "melody_player/parser.h"
 #include <avr/pgmspace.h>
+#include "phrase.h"
 
 namespace synth {
-
-using Phrase = MelodyParser::Phrase;
 
 MelodyParser::MelodyParser(const MelodyContainer& container)
 	: melody_(container.melody)

@@ -7,10 +7,10 @@
 #include <algorithm>
 #include <Arduino.h>
 #include "audio.h"
+#include "phrase.h"
 
 namespace synth {
 
-using Phrase = MelodyParser::Phrase;
 using Tone = Audio::Tone;
 using ToneList = Audio::ToneList;
 
