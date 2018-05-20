@@ -1,5 +1,5 @@
-// EEPROM wrapper for simplicity and consistency.
-// The following rules are applied to managing data.
+// EEPROM wrapper for simplicity and consistency, to be used as consistent
+// store. The following rules are applied to managing data.
 //
 // The first two adresses are for validating if the memory is inited or not,
 // if they are 123 and 234 than it does inited.
@@ -16,7 +16,7 @@
 #include <stdint.h>
 
 namespace synth {
-namespace eeprom {
+namespace store {
 
 // Getting the current store size.
 // Using pointer for caching techniques.
@@ -68,5 +68,5 @@ inline void ClearAll() {
 	}
 }
 
-} // namespace eeprom
+} // namespace store
 } // namespace synth

@@ -1,8 +1,8 @@
-#include "eeprom.h"
+#include "store.h"
 #include "serial_communication.h"
 
 namespace synth {
-namespace eeprom {
+namespace store {
 
 namespace {
 
@@ -12,7 +12,7 @@ uint16_t* cur_size = nullptr;
 } // namespace
 
 // going through all bytes
-// eeprom could be a sparsed array so stopping when reaching an empty address
+// store could be a sparsed array so stopping when reaching an empty address
 uint16_t* __SizePtr() {
 	if (cur_size != nullptr) return cur_size;
 	int size = MaxSize();
@@ -36,5 +36,5 @@ void Init() {
 	ClearAll();
 }
 
-} // namespace eeprom
+} // namespace store
 } // namespace synth

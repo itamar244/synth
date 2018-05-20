@@ -1,5 +1,5 @@
 #include "recorder.h"
-#include "eeprom.h"
+#include "store.h"
 
 namespace synth {
 
@@ -15,8 +15,8 @@ uint16_t GetSongStartFromPos(uint8_t song_pos) {
 	while (song_pos > cur_song_pos) {
 		// adding phrase's tones size and
 		// the bytes representings amount of tones and length
-		pos += eeprom::Get(pos) + 2;
-		if (eeprom::Get(pos) == 0) {
+		pos += store::Get(pos) + 2;
+		if (store::Get(pos) == 0) {
 			++cur_song_pos;
 		}
 		++pos;
@@ -26,29 +26,29 @@ uint16_t GetSongStartFromPos(uint8_t song_pos) {
 }
 
 inline Phrase GetPhraseFromEEPROM(uint16_t pos) {
-	uint32_t tones_length = eeprom::Get(pos);
+	uint32_t tones_length = store::Get(pos);
 	Phrase::Tones tones;
 	tones.reserve(tones_length);
 
 	for (uint16_t i = 0; i < tones_length; i++) {
-		tones.push_back(eeprom::Get(pos + i + 1));
+		tones.push_back(store::Get(pos + i + 1));
 	}
 
-	return {tones, eeprom::Get(pos + tones_length + 1)};
+	return {tones, store::Get(pos + tones_length + 1)};
 }
 
 } // namespace
 
 void Recorder::PushTones(const Audio::ToneList& tones) {
-	eeprom::Push(tones.size());
+	store::Push(tones.size());
 
 	uint32_t cur_millis = millis();
 
 	for (auto& tone : tones) {
-		eeprom::Push(tone);
+		store::Push(tone);
 	}
 
-	eeprom::Push(MillisScale(cur_millis - prev_millis_));
+	store::Push(MillisScale(cur_millis - prev_millis_));
 	prev_millis_ = cur_millis;
 }
 
@@ -72,7 +72,7 @@ bool RecordsPlayer::Tick(Audio* audio) {
 		pos_ += cur_phrase_.length + 2;
 
 		// checking if song ended
-		if (pos_ == eeprom::Size() || eeprom::Get(pos_) == 0) {
+		if (pos_ == store::Size() || store::Get(pos_) == 0) {
 			return false;
 		}
 		cur_phrase_ = GetPhraseFromEEPROM(pos_);
