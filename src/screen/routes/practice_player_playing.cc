@@ -26,7 +26,7 @@ ROUTE_INIT(PracticePlayerPlaying) {
 ROUTE_TOUCH(PracticePlayerPlaying) {
 	Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
-			auto comparator = env.comparator();
+			auto& comparator = env.comparator();
 			switch (index) {
 				case 0: // Back
 					controller->set_route(Route::kPracticePlayerList);

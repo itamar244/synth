@@ -1,5 +1,6 @@
 #include "env.h"
 #include "audio.h"
+#include "serial_communication.h"
 
 namespace synth {
 
@@ -16,6 +17,9 @@ void Environment::Tick() {
 			&& !comparator_->Play(audio_)) {
     is_song_played_ = false;
   }
+	if (records_player_ != nullptr && !records_player_->Play(audio_)) {
+		utils::DeletePtr(records_player_);
+	}
 }
 
 void Environment::SetAudioType(Audio::AudioType type) {
