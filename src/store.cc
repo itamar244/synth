@@ -15,11 +15,11 @@ uint16_t* cur_size = nullptr;
 // store could be a sparsed array so stopping when reaching an empty address
 uint16_t* __SizePtr() {
 	if (cur_size != nullptr) return cur_size;
-	int size = MaxSize();
+	uint16_t size = 0;
 
 	for (uint16_t i = 0; i < MaxSize(); i++) {
-		if (__GetActual(i) == 0) {
-			size = i;
+		if (__GetActual(i) != 0) {
+			size = i + 1;
 		}
 	}
 

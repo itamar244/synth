@@ -50,11 +50,11 @@ inline uint8_t Get(uint16_t pos) {
 }
 
 inline void Set(uint16_t pos, uint8_t value) {
-	EEPROM.write(pos + 2, value + 1);
+	EEPROM.update(pos + 2, value + 1);
 }
 
 inline void Clear(uint16_t pos) {
-	EEPROM.write(pos + 2, 0);
+	EEPROM.update(pos + 2, 0);
 }
 
 inline void Push(uint8_t value) {
@@ -65,6 +65,13 @@ inline void Push(uint8_t value) {
 inline void ClearAll() {
 	for (uint16_t i = 0; i < MaxSize(); i++) {
 		Clear(i);
+	}
+}
+
+template<class Callback>
+inline void IterateAllBytes(const Callback& callback) {
+	for (uint16_t i = 0, size = Size(); i < size; i++) {
+		callback(Get(i));
 	}
 }
 
