@@ -32,7 +32,7 @@ ROUTE_INIT(Settings) {
 }
 
 ROUTE_TOUCH(Settings) {
-  IterateThroughPressedButtons(buttons, point,
+  Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
 			switch (index) {
 				case kBack:
@@ -48,7 +48,7 @@ ROUTE_TOUCH(Settings) {
 }
 
 ROUTE_TOUCHEND(Settings) {
-  ClearButtonClicks(buttons);
+  Button::ClearClicks(buttons);
 }
 
 } // namespace screen

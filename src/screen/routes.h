@@ -53,53 +53,10 @@ enum class Route {
 #undef V
 };
 
-// pages definition's utilities
-void ClearButtonClicks(std::vector<Button>& buttons);
-
-template<class Cb>
-void IterateThroughPressedButtons(
-		std::vector<Button>& buttons,
-		const Point& point,
-		const Cb& callback) {
-	for (unsigned i = 0; i < buttons.size(); i++) {
-    Button& button = buttons[i];
-
-    if (button.IsTapped(point)) {
-      if (!button.is_pressed) {
-        button.is_pressed = true;
-				callback(i);
-      }
-      return;
-    }
-	}
-}
-
-template<class Cb>
-void IteratethroughUnPressedButtons(
-		std::vector<Button>& buttons,
-		const Cb& callback) {
-  for (unsigned i = 0; i < buttons.size(); i++) {
-    Button& button = buttons[i];
-
-    if (button.is_pressed) {
-      button.is_pressed = false;
-      callback(i);
-    }
-  }
-}
-
-struct _PaintMenuStats {
-	uint16_t width;
-	const std::vector<Button> buttons;
-};
-
-_PaintMenuStats PaintMenuWithStats(
-		const std::initializer_list<const char*>& names);
-
 std::vector<Button> PaintMenu(
 		const std::initializer_list<const char*>& names);
 
-std::vector<Button> PaintKeyboard(const char names[], uint16_t size);
+std::vector<Button> PaintKeyboard(const char* names[], uint16_t size);
 
 #define V(ROUTE)                                                               \
   ROUTE_INIT(ROUTE);                                                           \

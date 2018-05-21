@@ -18,7 +18,7 @@ ROUTE_INIT(PracticePlayerList) {
 }
 
 ROUTE_TOUCH(PracticePlayerList) {
-	IterateThroughPressedButtons(buttons, point,
+	Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
 			controller->set_route(Route::kPracticePlayerPlaying);
 
@@ -40,7 +40,7 @@ ROUTE_TOUCH(PracticePlayerList) {
 		});
 }
 
-ROUTE_TOUCHEND(PracticePlayerList) { ClearButtonClicks(buttons); }
+ROUTE_TOUCHEND(PracticePlayerList) { Button::ClearClicks(buttons); }
 
 } // namespace screen
 } // namespace synth

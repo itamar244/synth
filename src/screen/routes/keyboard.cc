@@ -10,8 +10,8 @@
 namespace synth {
 namespace screen {
 
-const char kKeyboardButtonNames[BUTTON_ITEMS] = {
-	'C', 'D', 'E', 'F', 'G', 'A', 'B', '-', '+'
+const char* kKeyboardButtonNames[BUTTON_ITEMS] = {
+	"C", "D", "E", "F", "G", "A", "B", "-", "+",
 };
 const uint8_t kToneValues[] = { 0, 2, 4, 5, 7, 9, 11 };
 
@@ -21,13 +21,13 @@ ROUTE_INIT(Keyboard) {
 
 ROUTE_TOUCH(Keyboard) {
 	const uint8_t size = buttons.size();
-  IterateThroughPressedButtons(buttons, point,
+  Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
 			if (index < size - 2) {
 				env.AddToneWithOctave(kToneValues[index]);
 			} else if (index == size - 1) {
     		controller->set_route(Route::kMenu);
-			} else if (kKeyboardButtonNames[index] == '-') {
+			} else if (kKeyboardButtonNames[index][0] == '-') {
 				env.DecrementOctave();
 			} else {
 				env.IncrementOctave();
@@ -36,7 +36,7 @@ ROUTE_TOUCH(Keyboard) {
 }
 
 ROUTE_TOUCHEND(Keyboard) {
-  IteratethroughUnPressedButtons(buttons,
+  Button::IterateUnpressed(buttons,
 		[&env](uint8_t index) {
 			if (index < BUTTON_ITEMS) {
 				env.RemoveToneWithOctave(kToneValues[index]);

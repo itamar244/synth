@@ -30,7 +30,7 @@ ROUTE_INIT(Menu) {
 }
 
 ROUTE_TOUCH(Menu) {
-  IterateThroughPressedButtons(buttons, point,
+  Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
 			switch (Setting(index)) {
 #define V(TYPE)                                                              \
@@ -44,7 +44,7 @@ ROUTE_TOUCH(Menu) {
 }
 
 ROUTE_TOUCHEND(Menu) {
-	ClearButtonClicks(buttons);
+	Button::ClearClicks(buttons);
 }
 
 } // namespace screen

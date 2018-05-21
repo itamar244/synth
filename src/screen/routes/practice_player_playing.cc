@@ -24,7 +24,7 @@ ROUTE_INIT(PracticePlayerPlaying) {
 }
 
 ROUTE_TOUCH(PracticePlayerPlaying) {
-	IterateThroughPressedButtons(buttons, point,
+	Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
 			auto comparator = env.comparator();
 			switch (index) {
@@ -47,7 +47,7 @@ ROUTE_TOUCH(PracticePlayerPlaying) {
 		});
 }
 
-ROUTE_TOUCHEND(PracticePlayerPlaying) { ClearButtonClicks(buttons); }
+ROUTE_TOUCHEND(PracticePlayerPlaying) { Button::ClearClicks(buttons); }
 
 } // namespace screen
 } // namespace synth

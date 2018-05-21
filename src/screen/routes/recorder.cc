@@ -12,7 +12,7 @@ ROUTE_TOUCH(Recorder) {
 
 }
 
-ROUTE_TOUCHEND(Recorder) {  ClearButtonClicks(buttons); }
+ROUTE_TOUCHEND(Recorder) {  Button::ClearClicks(buttons); }
 
 } // namespace screen
 } // namespace synth
