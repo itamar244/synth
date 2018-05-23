@@ -8,11 +8,11 @@
 #include "utils.h"
 #include "melody_player/parser.h"
 #include "melody_player/melody_container.h"
-#include "play_wrapper.h"
+#include "player.h"
 
 namespace synth {
 
-class MelodyComparator : public MelodyParser, Player {
+class MelodyComparator : private Player, public MelodyParser {
 public:
 	MelodyComparator(const MelodyContainer& container);
 

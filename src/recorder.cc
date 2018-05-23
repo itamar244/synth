@@ -1,11 +1,14 @@
 #include "recorder.h"
 #include "empty.h"
-#include "play_wrapper.h"
 #include "store.h"
 
 namespace synth {
 
 namespace {
+
+inline uint8_t StoreGetPhraseLength(uint16_t pos) {
+	return store::Get(pos + 1);
+}
 
 inline uint32_t MillisScale(uint32_t milliseconds) {
 	return milliseconds / 16;
@@ -21,7 +24,7 @@ uint16_t GetSongStartFromPos(uint8_t song_pos) {
 		} else {
 			// adding phrase's tones size and
 			// the bytes representings amount of tones and length
-			pos += store::Get(pos + 1) + 2;
+			pos += StoreGetPhraseLength(pos) + 2;
 		}
 	}
 
@@ -53,12 +56,11 @@ RecordsPlayer::RecordsPlayer(uint16_t song_pos)
 		: pos_(GetSongStartFromPos(song_pos)) {}
 
 bool RecordsPlayer::Play(Audio* audio) {
-	return PlayWrapper(
+	return Player::Play(
 			audio,
-			this,
 			// eat_next
-			[this]() {
-				uint8_t tones_size = store::Get(pos_ + 1);
+			[this]() -> void {
+				uint8_t tones_size = StoreGetPhraseLength(pos_);
 				Phrase::Tones tones(tones_size);
 
 				for (uint16_t i = 0; i < tones_size; i++) {
@@ -68,15 +70,15 @@ bool RecordsPlayer::Play(Audio* audio) {
 				cur_phrase_ = {tones, store::Get(pos_)};
 			},
 			// get_phrase_tones
-			[this]() { return cur_phrase_.tones; },
+			[this]() -> const Phrase::Tones& { return cur_phrase_.tones; },
 			// should_change_to_next_phrase
-			[this]() {
+			[this]() -> bool {
 				return MillisScale(millis() - prev_millis_) >= cur_phrase_.length;
 			},
 			// next_phrase
-			[this]() { pos_ += cur_phrase_.tones.size() + 2; },
+			[this]() -> void { pos_ += cur_phrase_.tones.size() + 2; },
 			// is_finished
-			[this]() { return pos_ == store::Size() || store::Get(pos_) == 0; },
+			[this]() -> bool { return pos_ == store::Size() || store::Get(pos_) == 0; },
 			// when_finished
 			empty::callback);
 }

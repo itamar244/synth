@@ -17,7 +17,7 @@
 #include <stdint.h>
 #include "audio.h"
 #include "phrase.h"
-#include "play_wrapper.h"
+#include "player.h"
 #include "store.h"
 
 namespace synth {
@@ -31,7 +31,7 @@ private:
 	uint32_t prev_millis_ = millis();
 };
 
-class RecordsPlayer : Player {
+class RecordsPlayer : private Player {
 public:
 	RecordsPlayer(uint16_t song_pos);
 	bool Play(Audio* audio);

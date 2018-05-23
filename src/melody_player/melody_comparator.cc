@@ -9,7 +9,6 @@
 #include "audio.h"
 #include "empty.h"
 #include "phrase.h"
-#include "play_wrapper.h"
 
 namespace synth {
 
@@ -78,18 +77,17 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 }
 
 bool MelodyComparator::Play(Audio* audio) {
-	return PlayWrapper(
+	return Player::Play(
 			audio,
-			this,
-			[this]() { EatNext(); },
-			[this]() { return phrase_tones(); },
-			[this]() { return millis() - prev_millis_ >= phrase().length * kTime32nd; },
+			[this]() -> void { EatNext(); },
+			[this]() -> const Phrase::Tones& { return phrase_tones(); },
+			[this]() -> bool { return millis() - prev_millis_ >= phrase().length * kTime32nd; },
 			empty::callback,
-			[this]() { return (
+			[this]() -> bool { return (
 				ended_
 				|| (HasNextPhrase() && section_time_ / 32 < sections_[cur_section_])
 			); },
-			[this]() {
+			[this]() -> void {
 				started_ = false;
 				ended_ = comparing_ = true;
 			});
