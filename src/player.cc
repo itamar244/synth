@@ -8,7 +8,7 @@ Player::~Player() {}
 #define AUDIO(PHASE) audio->PHASE ## Tones(GetPhraseTones())
 
 bool Player::Play(Audio* audio) {
-	if (!ShouldContinue()) {
+	if (ended_) {
 		return false;
 	}
 
@@ -26,6 +26,7 @@ bool Player::Play(Audio* audio) {
 			AUDIO(Add);
 			prev_millis_ = millis();
 		} else {
+			ended_ = true;
 			WhenFinished();
 		}
 	}

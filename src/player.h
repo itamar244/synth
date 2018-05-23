@@ -28,7 +28,7 @@ public:
 
 protected:
 	uint32_t prev_millis_ = millis();
-	bool started_ = false;
+	bool started_ = false, ended_ = false;
 
 	PLAYER_CALLBACKS(virtual, = 0)
 };
