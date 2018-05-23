@@ -61,17 +61,18 @@ const attachKeyListeners = (onKeyDown, onKeyUp) => {
   };
 };
 
-export const serialPortSynthKeyboard = (port: SerialPort) =>
-  attachKeyListeners(
+export function serialPortSynthKeyboard(port: SerialPort) {
+  return attachKeyListeners(
     (type, tone) => port.send(type, tone),
     tone => port.send(msg.REMOVE_TONE, tone),
   );
+}
 
-const getTone = tone => tone + currentOctave * 12;
-let currentOctave = 4;
+export function localSynthKeyboard(env: Environment) {
+  const getTone = tone => tone + currentOctave * 12;
+  let currentOctave = 4;
 
-export const localSynthKeyboard = (env: Environment) =>
-  attachKeyListeners(
+  return attachKeyListeners(
     (type, tone) => {
       if (type === msg.DECREMENT_OCTAVE) {
         currentOctave--;
@@ -83,3 +84,4 @@ export const localSynthKeyboard = (env: Environment) =>
     },
     tone => env.handleMessage(msg.REMOVE_TONE, getTone(tone)),
   );
+}

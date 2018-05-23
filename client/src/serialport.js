@@ -1,12 +1,11 @@
 // @flow
 import SerialPortClass, { parsers } from 'serialport';
 
-import Environment from './env';
-
 type RequestHandler = (type: number, data: number) => mixed;
+
 export type SerialPort = {
-  send: RequestHandler,
-  subscribe(listener: RequestHandler): mixed,
+  +send: RequestHandler,
+  +subscribe: (listener: RequestHandler) => mixed,
 }
 
 export default function createSerialPort(): SerialPort {

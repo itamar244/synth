@@ -17,5 +17,3 @@ export function circularIndex(index: number, change: number, length: number) {
     ? length + next % length
     : next % length;
 }
-
-};
