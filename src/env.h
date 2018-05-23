@@ -48,7 +48,7 @@ public:
   inline void InitMelodyComparator(
 			const uint8_t* song,
 			uint16_t size,
-			const std::vector<uint8_t>& sections) {
+			const std::vector<uint8_t>* sections) {
 		comparator_ = new MelodyComparator({song, size, sections});
   }
 

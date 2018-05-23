@@ -31,7 +31,7 @@ ROUTE_TOUCH(PracticePlayerList) {
 					env.InitMelodyComparator(                                            \
 						melodies::SONG,                                                    \
 						sizeof(melodies::SONG) / sizeof(melodies::SONG[0]),                \
-						melodies::SONG ## _PRACTICE_SECTIONS);                             \
+						&melodies::SONG ## _PRACTICE_SECTIONS);                            \
 					break;
 				SYNTH_PLAY_SONG_CASE(1, THE_SMALL_JONATHAN)
 				SYNTH_PLAY_SONG_CASE(2, SEVEN_NATION_ARMY)
