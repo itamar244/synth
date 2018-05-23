@@ -12,7 +12,7 @@ public:
 		, speed_(container.speed) {}
 
 protected:
-	float speed_;
+	const float speed_;
 	PLAYER_CALLBACKS_INHERIT
 };
 

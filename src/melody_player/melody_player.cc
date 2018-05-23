@@ -4,8 +4,6 @@
 
 namespace synth {
 
-const uint8_t kTime32nd = 60;
-
 void MelodyPlayer::EatNext() {
 	ParseNextPhrase();
 }

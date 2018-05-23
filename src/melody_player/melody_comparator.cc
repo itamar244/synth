@@ -23,7 +23,7 @@ inline uint8_t CountToneListInPhrase(
 }
 
 MelodyComparator::MelodyComparator(const MelodyContainer& container)
-		: MelodyParser(container)
+		: MelodyPlayer(container)
 		, sections_(container.sections)
 		, cur_section_(0)
 		, compare_pos_(0)
@@ -73,22 +73,14 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 }
 
 void MelodyComparator::EatNext() {
-	ParseNextPhrase();
+	MelodyPlayer::EatNext();
 	section_time_ += phrase().length;
-}
-
-const Phrase::Tones& MelodyComparator::GetPhraseTones() const {
-	return phrase_tones();
-}
-
-bool MelodyComparator::ShouldChangeToNextPhrase() const {
-	return millis() - prev_millis_ >= PhraseLengthInMillis(phrase(), speed_);
 }
 
 void MelodyComparator::NextPhrase() {}
 
 bool MelodyComparator::ShouldContinue() const {
-	return HasNextPhrase() && section_time_ / 32 < sections_->at(cur_section_);
+	return MelodyPlayer::ShouldContinue() && section_time_ / 32 < sections_->at(cur_section_);
 }
 
 void MelodyComparator::WhenFinished() {

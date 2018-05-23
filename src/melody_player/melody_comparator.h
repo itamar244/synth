@@ -1,13 +1,12 @@
 #pragma once
 
 #include <stdint.h>
-#include "melody_player/parser.h"
 #include "melody_player/melody_container.h"
-#include "player.h"
+#include "melody_player/melody_player.h"
 
 namespace synth {
 
-class MelodyComparator : public Player, public MelodyParser {
+class MelodyComparator : public MelodyPlayer {
 public:
 	MelodyComparator(const MelodyContainer& container);
 
@@ -17,8 +16,12 @@ public:
 
 	void AddTonesToCompare(const Audio::ToneList& tones);
 	bool NextSection();
+
 protected:
-	PLAYER_CALLBACKS_INHERIT
+	void EatNext();
+	void NextPhrase();
+	bool ShouldContinue() const;
+	void WhenFinished();
 
 private:
 	MelodyContainer::Sections sections_;

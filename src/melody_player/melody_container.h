@@ -3,7 +3,6 @@
 #include <StandardCplusplus.h>
 #include <vector>
 #include <stdint.h>
-#include "melody_player/parser.h"
 
 namespace synth {
 
