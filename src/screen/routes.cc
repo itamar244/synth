@@ -6,8 +6,6 @@
 #include "screen/routes.h"
 #include <StandardCplusplus.h>
 #include <cstring>
-#include <initializer_list>
-#include <vector>
 #include <TFT9341.h>
 #include "screen/button.h"
 #include <StandardCplusplus.h>

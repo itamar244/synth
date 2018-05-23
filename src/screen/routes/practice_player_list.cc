@@ -1,10 +1,7 @@
 #include "screen/routes.h"
 #include <Arduino.h>
-#include <TFT9341.h>
 #include "screen/button.h"
 #include "melody_player/melodies.h"
-
-#define SONG_ITEMS 3
 
 namespace synth {
 namespace screen {

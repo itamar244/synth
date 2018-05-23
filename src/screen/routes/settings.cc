@@ -1,6 +1,4 @@
 #include "screen/routes.h"
-#include <Arduino.h>
-#include <TFT9341.h>
 #include "screen/button.h"
 
 #define BUTTON_ITEMS 2
