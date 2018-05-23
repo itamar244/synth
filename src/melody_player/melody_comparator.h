@@ -1,3 +1,7 @@
+// MelodyComparator's roles are:
+//   - play the sections of a melody.
+//   - compare a given phrases to the melody.
+//   - calculate a grade that represents the given phrases simillarity to the melody.
 #pragma once
 
 #include <stdint.h>
@@ -11,8 +15,6 @@ public:
 	MelodyComparator(const MelodyContainer& container);
 
 	inline float grade() const { return grade_ / max_grade_ * 100; }
-	inline bool comparing() const { return comparing_; }
-	inline bool ShouldCompare() const { return compare_pos_ < pos(); }
 
 	void AddTonesToCompare(const Audio::ToneList& tones);
 	bool NextSection();
@@ -33,11 +35,9 @@ private:
 	uint16_t max_grade_;
 	float grade_, speed_;
 
-  bool comparing_;
-
 	inline void InitFlags() {
 		section_time_ = 0;
-		started_ = comparing_ = false;
+		started_ = false;
 	}
 };
 

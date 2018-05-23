@@ -1,7 +1,3 @@
-// MelodyComparator's roles are:
-//   - play the sections of a melody.
-//   - compare a given phrases to the melody.
-//   - calculate a grade that represents the given phrases simillarity to the melody.
 #include "melody_player/melody_comparator.h"
 #include <StandardCplusplus.h>
 #include <algorithm>
@@ -46,7 +42,7 @@ bool MelodyComparator::NextSection() {
 void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 	// if user played more phrases than needed
 	// than it will decrease five precents from grade for each phrase
-	if (!ShouldCompare()) {
+	if (!compare_pos_ < pos()) {
 		grade_ *= 95 / 100;
 	} else if (!started_) {
 		started_ = true;
@@ -62,7 +58,7 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 				max_grade_++;
 				compare_pos_ += 2;
 			}
-		} else if (phrase_length > kTime32nd * 3 || tones.size() > 0) {
+		} else if (tones.size() > 0) {
 			grade_ += CountToneListInPhrase(tones, to_compare);
 			max_grade_ += to_compare.tones.size();
 			compare_pos_ += to_compare.tones.size() + 2;
@@ -85,7 +81,6 @@ bool MelodyComparator::ShouldContinue() const {
 
 void MelodyComparator::WhenFinished() {
 	started_ = false;
-	comparing_ = true;
 }
 
 } // namespace synth
