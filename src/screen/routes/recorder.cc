@@ -15,7 +15,7 @@ ROUTE_INIT(Recorder) {
 ROUTE_TOUCH(Recorder) {
 	Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
-			auto& recorder = env.recorder();
+			auto& recorder = env.state().recorder;
 			switch (index) {
 				case 0: // Back
 					controller->set_route(Route::kMenu);

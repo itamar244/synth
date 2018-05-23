@@ -28,14 +28,15 @@ ROUTE_TOUCH(RecordsPlayer) {
 
 	Button::IteratePressed(buttons, point,
 		[&] (uint8_t index) {
-			auto& records_player = env.records_player();
+			auto& player = env.state().player;
+
 			if (index == size - 1) {
     		controller->set_route(Route::kMenu);
-				if (records_player != nullptr) {
-					utils::DeletePtr(records_player);
+				if (player != nullptr) {
+					utils::DeletePtr(player);
 				}
 			} else if (index == size - 2) {
-				records_player = new RecordsPlayer(keyboard_value);
+				utils::SetPtr<Player*>(player, new RecordsPlayer(keyboard_value));
 				keyboard_value = 0;
 			} else {
 				keyboard_value = keyboard_value * 10 + index;

@@ -11,6 +11,8 @@
 
 namespace synth {
 
+class MelodyComparator;
+
 #define PLAYER_CALLBACKS(PREFIX, POSTFIX)                                      \
 	PREFIX void EatNext() POSTFIX;                                               \
 	PREFIX const Phrase::Tones& GetPhraseTones() const POSTFIX;                  \
@@ -19,12 +21,16 @@ namespace synth {
 	PREFIX bool ShouldContinue() const POSTFIX;                                  \
 	PREFIX void WhenFinished() POSTFIX;
 
+// should be called in each subclass in the protected part
 #define PLAYER_CALLBACKS_INHERIT PLAYER_CALLBACKS(, override)
 
 struct Player {
 public:
 	virtual ~Player();
 	bool Play(Audio* audio);
+	// FIX: I know this is ugly, but arduino doesn't have dynamic_cast so I can't tell
+	// if the instance is comparator or not. UGLY ESACPE HATCH
+	virtual MelodyComparator* ToComparator() const { return nullptr; }
 
 protected:
 	uint32_t prev_millis_ = millis();

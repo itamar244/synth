@@ -16,6 +16,7 @@ public:
 
 	void AddTonesToCompare(const Audio::ToneList& tones);
 	bool NextSection();
+	MelodyComparator* ToComparator() { return this; }
 
 protected:
 	void EatNext();

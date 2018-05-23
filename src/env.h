@@ -12,11 +12,21 @@
 
 namespace synth {
 
+struct State {
+	Player* player = nullptr;
+	Recorder* recorder = nullptr;
+  bool is_song_played = false;
+
+	~State();
+};
+
 class Environment {
 public:
 	~Environment();
 
 	void Tick();
+
+	inline State& state() { return state_; }
 
 	// Audio
 	inline Audio* audio() const { return audio_; }
@@ -27,11 +37,11 @@ public:
 
 #define V(FUNC)                                                                \
 	inline void FUNC ## ToneWithOctave(uint8_t tone) {                           \
-		if (comparator_ != nullptr && comparator_->comparing()) {                  \
-			comparator_->AddTonesToCompare(audio_->current_tones());                 \
+		if (MelodyComparator* comparator = state_.player->ToComparator()) {        \
+			comparator->AddTonesToCompare(audio_->current_tones());                  \
 		}                                                                          \
-		if (recorder_ != nullptr) {                                                \
-		  recorder_->PushTones(audio_->current_tones());                           \
+		if (state_.recorder != nullptr) {                                          \
+		  state_.recorder->PushTones(audio_->current_tones());                     \
 		}                                                                          \
 		audio_->FUNC ## Tone(tone + current_octave_ * 12);                         \
 	}
@@ -40,28 +50,11 @@ public:
 
   void SetAudioType(Audio::AudioType type);
 
-  // Song
-	inline MelodyComparator*& comparator() { return comparator_; }
-	inline Recorder*& recorder() { return recorder_; }
-	inline RecordsPlayer*& records_player() { return records_player_; }
-	inline void PlaySong() { is_song_played_ = true; }
-	inline void PauseSong() { is_song_played_ = false; }
-  inline void InitMelodyComparator(const MelodyContainer& container) {
-		comparator_ = new MelodyComparator(container);
-  }
-  inline void InitMelodyPlayer(const MelodyContainer& container) {
-		player_ = new MelodyPlayer(container);
-  }
-
 private:
 	// the audio manager. the default is `SerialPort`
   Audio* audio_ = new SerialPortAudio();
-	MelodyComparator* comparator_ = nullptr;
-	MelodyPlayer* player_ = nullptr;
-	Recorder* recorder_ = nullptr;
-	RecordsPlayer* records_player_ = nullptr;
+	State state_;
 
-  bool is_song_played_ = false;
   int8_t current_octave_ = 4;
 };
 

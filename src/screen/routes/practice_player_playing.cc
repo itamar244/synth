@@ -26,7 +26,8 @@ ROUTE_INIT(PracticePlayerPlaying) {
 ROUTE_TOUCH(PracticePlayerPlaying) {
 	Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
-			auto& comparator = env.comparator();
+			auto comparator = env.state().player->ToComparator();
+
 			switch (index) {
 				case 0: // Back
 					controller->set_route(Route::kPracticePlayerList);
@@ -36,7 +37,7 @@ ROUTE_TOUCH(PracticePlayerPlaying) {
 					}
 					break;
 				case 1: // Start
-					env.PlaySong();
+					env.state().is_song_played = true;
 					break;
 				case 2: // Commit
 					if (!comparator->NextSection()) {

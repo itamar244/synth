@@ -20,6 +20,14 @@ inline bool HasItem(const Iterable& iterable, const V& item) {
 	return FindItem(iterable, item) != iterable.end();
 }
 
+template<class Ptr>
+inline void SetPtr(Ptr& ptr, const Ptr& value) {
+	if (ptr != nullptr) {
+		delete ptr;
+	}
+	ptr = value;
+}
+
 // A normalized `delete` operator that also set the pointer to nullptr,
 // because `delete` only deallocate memory.
 template<class Ptr>

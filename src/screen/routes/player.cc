@@ -18,13 +18,15 @@ ROUTE_INIT(Player) {
 ROUTE_TOUCH(Player) {
 	Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
+			auto& player = env.state().player;
+
 			switch (index) {
 				case 0:
 					controller->set_route(Route::kMenu);
 					break;
 #define SYNTH_PLAY_SONG_CASE(INDEX, SONG)                                      \
 				case INDEX:                                                            \
-					env.InitMelodyPlayer(melodies::SONG ## _CONTAINER);                  \
+					player = new MelodyPlayer(melodies::SONG ## _CONTAINER);             \
 					break;
 				SYNTH_PLAY_SONG_CASE(1, THE_SMALL_JONATHAN)
 				SYNTH_PLAY_SONG_CASE(2, SEVEN_NATION_ARMY)

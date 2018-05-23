@@ -4,24 +4,26 @@
 
 namespace synth {
 
+State::~State() {
+	if (player != nullptr) utils::DeletePtr(player);
+	if (recorder != nullptr) utils::DeletePtr(recorder);
+}
+
 Environment::~Environment() {
   delete audio_;
-	if (comparator_ != nullptr) {
-		delete comparator_;
-	}
 }
 
 void Environment::Tick() {
-  if (is_song_played_
-			&& comparator_ != nullptr
-			&& !comparator_->Play(audio_)) {
-    is_song_played_ = false;
-  }
-	if (player_ != nullptr && !player_->Play(audio_)) {
-		utils::DeletePtr(player_);
-	}
-	if (records_player_ != nullptr && !records_player_->Play(audio_)) {
-		utils::DeletePtr(records_player_);
+	auto& player = state_.player;
+	if (player != nullptr) {
+		if (MelodyComparator* comparator = player->ToComparator()) {
+			if (state_.is_song_played
+					&& !comparator->Play(audio_)) {
+				state_.is_song_played = false;
+			}
+		} else if (!player->Play(audio_)) {
+			utils::DeletePtr(player);
+		}
 	}
 }
 

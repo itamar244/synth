@@ -18,6 +18,7 @@ ROUTE_INIT(PracticePlayerList) {
 ROUTE_TOUCH(PracticePlayerList) {
 	Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
+			auto& player = env.state().player;
 			controller->set_route(Route::kPracticePlayerPlaying);
 
 			switch (index) {
@@ -26,7 +27,7 @@ ROUTE_TOUCH(PracticePlayerList) {
 					break;
 #define SYNTH_PLAY_SONG_CASE(INDEX, SONG)                                      \
 				case INDEX:                                                            \
-					env.InitMelodyComparator(melodies::SONG ## _CONTAINER);              \
+					player = new MelodyComparator(melodies::SONG ## _CONTAINER);         \
 					break;
 				SYNTH_PLAY_SONG_CASE(1, THE_SMALL_JONATHAN)
 				SYNTH_PLAY_SONG_CASE(2, SEVEN_NATION_ARMY)
