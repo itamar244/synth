@@ -17,6 +17,7 @@ enum Message {
 	kDecrementOctave = 2,
 	kIncrementOctave = 3,
 	kLogData         = 4,
+	kResetStore      = 5,
 };
 
 void Receive(Environment& env);

@@ -1,6 +1,7 @@
 #include "serial_communication.h"
 #include <Arduino.h>
 #include "env.h"
+#include "store.h"
 
 namespace synth {
 namespace serial {
@@ -21,6 +22,9 @@ void Receive(Environment& env) {
 			break;
 		case kIncrementOctave:
 			env.IncrementOctave();
+			break;
+		case kResetStore:
+			store::ClearAll();
 			break;
 		default:
 			Send(Message(request_data[0]), request_data[1]);

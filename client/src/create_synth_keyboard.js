@@ -38,6 +38,7 @@ const attachKeyListeners = (onKeyDown, onKeyUp) => {
         ['=', 'INCREMENT_OCTAVE'],
         ['[', 'SWITCH_BACKWARD_SYNTH_TYPE'],
         [']', 'SWITCH_FORWARD_SYNTH_TYPE'],
+        ['0', 'RESET_STORE'],
       ]);
     }
   };
