@@ -29,12 +29,11 @@ private:
 	uint16_t max_grade_;
 	float grade_;
 
-	// sahred variables for both playing and comparing phases
-  bool started_, ended_, comparing_;
+  bool comparing_;
 
 	inline void InitFlags() {
 		section_time_ = 0;
-		started_ = ended_ = comparing_ = false;
+		started_ = comparing_ = false;
 	}
 };
 

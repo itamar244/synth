@@ -35,7 +35,7 @@ MelodyComparator::MelodyComparator(const MelodyContainer& container)
 }
 
 bool MelodyComparator::NextSection() {
-	if (cur_section_ < sections_.size() - 1) {
+	if (cur_section_ < sections_->size() - 1) {
 		if (pos() > 0) {
 			cur_section_++;
 			InitFlags();
@@ -47,7 +47,7 @@ bool MelodyComparator::NextSection() {
 
 void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 	// if user played more phrases than needed
-	// than it will decrease five precents from grade for each note
+	// than it will decrease five precents from grade for each phrase
 	if (!ShouldCompare()) {
 		grade_ *= 95 / 100;
 	} else if (!started_) {
@@ -90,15 +90,13 @@ bool MelodyComparator::ShouldChangeToNextPhrase() const {
 
 void MelodyComparator::NextPhrase() {}
 
-bool MelodyComparator::IsFinished() const {
-	return (
-			ended_
-			|| (HasNextPhrase() && section_time_ / 32 < sections_[cur_section_]));
+bool MelodyComparator::ShouldContinue() const {
+	return HasNextPhrase() && section_time_ / 32 < sections_->at(cur_section_);
 }
 
 void MelodyComparator::WhenFinished() {
 	started_ = false;
-	ended_ = comparing_ = true;
+	comparing_ = true;
 }
 
 } // namespace synth

@@ -16,7 +16,7 @@ namespace synth {
 	PREFIX const Phrase::Tones& GetPhraseTones() const POSTFIX;                  \
 	PREFIX bool ShouldChangeToNextPhrase() const POSTFIX;                        \
 	PREFIX void NextPhrase() POSTFIX;                                            \
-	PREFIX bool IsFinished() const POSTFIX;                                      \
+	PREFIX bool ShouldContinue() const POSTFIX;                                  \
 	PREFIX void WhenFinished() POSTFIX;
 
 #define PLAYER_CALLBACKS_INHERIT PLAYER_CALLBACKS(, override)

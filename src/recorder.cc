@@ -77,8 +77,8 @@ void RecordsPlayer::NextPhrase() {
 	pos_ += cur_phrase_.tones.size() + 2;
 }
 
-bool RecordsPlayer::IsFinished() const {
-	return pos_ == store::Size() || store::Get(pos_) == 0;
+bool RecordsPlayer::ShouldContinue() const {
+	return pos_ < store::Size() && store::Get(pos_) != 0;
 }
 
 void RecordsPlayer::WhenFinished() {}
