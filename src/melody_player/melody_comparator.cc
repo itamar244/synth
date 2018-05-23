@@ -7,7 +7,9 @@
 #include <algorithm>
 #include <Arduino.h>
 #include "audio.h"
+#include "empty.h"
 #include "phrase.h"
+#include "play_wrapper.h"
 
 namespace synth {
 
@@ -51,8 +53,8 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 	// than it will decrease five precents from grade for each note
 	if (!ShouldCompare()) {
 		grade_ *= 95 / 100;
-	} else if (!started_section_) {
-		started_section_ = true;
+	} else if (!started_) {
+		started_ = true;
 		prev_millis_ = millis();
 	} else {
 		// current user phrase length in milliseconds
@@ -76,22 +78,21 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 }
 
 bool MelodyComparator::Play(Audio* audio) {
-  if (ended_section_) return false;
-
-  if (!started_section_) {
-    PlayNext(audio);
-    started_section_ = true;
-  } else if (millis() - prev_millis_ >= phrase().length * kTime32nd) {
-    audio->RemoveTones(phrase().tones);
-
-    if (HasNextPhrase() && section_time_ / 32 < sections_[cur_section_]) {
-      PlayNext(audio);
-    } else {
-			started_section_ = false;
-			ended_section_ = comparing_ = true;
-		}
-  }
-  return true;
+	return PlayWrapper(
+			audio,
+			this,
+			[this]() { EatNext(); },
+			[this]() { return phrase_tones(); },
+			[this]() { return millis() - prev_millis_ >= phrase().length * kTime32nd; },
+			empty::callback,
+			[this]() { return (
+				ended_
+				|| (HasNextPhrase() && section_time_ / 32 < sections_[cur_section_])
+			); },
+			[this]() {
+				started_ = false;
+				ended_ = comparing_ = true;
+			});
 }
 
 } // namespace synth

@@ -17,6 +17,7 @@
 #include <stdint.h>
 #include "audio.h"
 #include "phrase.h"
+#include "play_wrapper.h"
 #include "store.h"
 
 namespace synth {
@@ -30,22 +31,14 @@ private:
 	uint32_t prev_millis_ = millis();
 };
 
-class RecordsPlayer {
+class RecordsPlayer : Player {
 public:
 	RecordsPlayer(uint16_t song_pos);
 	bool Play(Audio* audio);
 
-
 private:
-	bool started_ = false;
-	uint32_t pos_, prev_millis_ = millis();
+	uint32_t pos_;
 	Phrase cur_phrase_;
-
-	bool Finished() const {
-		return pos_ == store::Size() || store::Get(pos_) == 0;
-	}
-
-	void ReadCurrentPhrase();
 };
 
 } // namespace synth

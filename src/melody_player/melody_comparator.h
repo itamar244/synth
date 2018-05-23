@@ -8,10 +8,11 @@
 #include "utils.h"
 #include "melody_player/parser.h"
 #include "melody_player/melody_container.h"
+#include "play_wrapper.h"
 
 namespace synth {
 
-class MelodyComparator: public MelodyParser {
+class MelodyComparator : public MelodyParser, Player {
 public:
 	MelodyComparator(const MelodyContainer& container);
 
@@ -33,21 +34,16 @@ private:
 	float grade_;
 
 	// sahred variables for both playing and comparing phases
-  bool started_section_;
-	bool ended_section_;
-	bool comparing_;
-	uint32_t prev_millis_;
+  bool started_, ended_, comparing_;
 
 	inline void InitFlags() {
 		section_time_ = 0;
-		started_section_ = ended_section_ = comparing_ = false;
+		started_ = ended_ = comparing_ = false;
 	}
 
-	inline void PlayNext(Audio* audio) {
+	inline void EatNext() {
 		ParseNextPhrase();
-    audio->AddTones(phrase().tones);
 		section_time_ += phrase().length;
-		prev_millis_ = millis();
 	}
 };
 
