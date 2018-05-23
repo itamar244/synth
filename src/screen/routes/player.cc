@@ -23,12 +23,11 @@ ROUTE_TOUCH(Player) {
 					break;
 #define SYNTH_PLAY_SONG_CASE(INDEX, SONG)                                      \
 				case INDEX:                                                            \
-					env.InitMelodyPlayer(                                                \
-						melodies::SONG,                                                    \
-						sizeof(melodies::SONG) / sizeof(melodies::SONG[0]));
+					env.InitMelodyPlayer(melodies::SONG ## _CONTAINER);                  \
 					break;
 				SYNTH_PLAY_SONG_CASE(1, THE_SMALL_JONATHAN)
 				SYNTH_PLAY_SONG_CASE(2, SEVEN_NATION_ARMY)
+				SYNTH_PLAY_SONG_CASE(3, ANOTHER_BRICK_IN_THE_WALL)
 #undef SYNTH_PLAY_SONG_CASE
 			}
 		});

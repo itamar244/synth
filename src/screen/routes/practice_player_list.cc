@@ -25,13 +25,11 @@ ROUTE_TOUCH(PracticePlayerList) {
 					break;
 #define SYNTH_PLAY_SONG_CASE(INDEX, SONG)                                      \
 				case INDEX:                                                            \
-					env.InitMelodyComparator(                                            \
-						melodies::SONG,                                                    \
-						sizeof(melodies::SONG) / sizeof(melodies::SONG[0]),                \
-						&melodies::SONG ## _PRACTICE_SECTIONS);                            \
+					env.InitMelodyComparator(melodies::SONG ## _CONTAINER);              \
 					break;
 				SYNTH_PLAY_SONG_CASE(1, THE_SMALL_JONATHAN)
 				SYNTH_PLAY_SONG_CASE(2, SEVEN_NATION_ARMY)
+				SYNTH_PLAY_SONG_CASE(3, ANOTHER_BRICK_IN_THE_WALL)
 #undef SYNTH_PLAY_SONG_CASE
 			}
 		});

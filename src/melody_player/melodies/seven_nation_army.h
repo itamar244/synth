@@ -39,6 +39,8 @@ const std::vector<uint8_t> SEVEN_NATION_ARMY_PRACTICE_SECTIONS = {
 	4, 2, 2, 2, 4
 };
 
+CREATE_CONTAINER(SEVEN_NATION_ARMY, 1);
+
 #undef ENTRY
 #undef RIFF
 #undef CHORUS

@@ -12,6 +12,7 @@ struct MelodyContainer {
 
 	const uint8_t* melody;
 	const uint16_t size;
+	const float speed;
 	Sections sections;
 };
 

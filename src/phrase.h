@@ -13,4 +13,8 @@ struct Phrase {
 	uint8_t length;
 };
 
+inline uint16_t PhraseLengthInMillis(const Phrase& phrase, float speed) {
+	return 60 * phrase.length / speed;
+}
+
 } // namespace synth

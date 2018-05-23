@@ -46,14 +46,11 @@ public:
 	inline RecordsPlayer*& records_player() { return records_player_; }
 	inline void PlaySong() { is_song_played_ = true; }
 	inline void PauseSong() { is_song_played_ = false; }
-  inline void InitMelodyComparator(
-			const uint8_t* song,
-			uint16_t size,
-			const std::vector<uint8_t>* sections) {
-		comparator_ = new MelodyComparator({song, size, sections});
+  inline void InitMelodyComparator(const MelodyContainer& container) {
+		comparator_ = new MelodyComparator(container);
   }
-  inline void InitMelodyPlayer(const uint8_t* song, uint16_t size) {
-		player_ = new MelodyPlayer({song, size, nullptr});
+  inline void InitMelodyPlayer(const MelodyContainer& container) {
+		player_ = new MelodyPlayer(container);
   }
 
 private:

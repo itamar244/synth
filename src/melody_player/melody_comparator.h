@@ -27,7 +27,7 @@ private:
 
 	uint16_t compare_pos_;
 	uint16_t max_grade_;
-	float grade_;
+	float grade_, speed_;
 
   bool comparing_;
 

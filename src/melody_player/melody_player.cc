@@ -15,7 +15,7 @@ const Phrase::Tones& MelodyPlayer::GetPhraseTones() const {
 }
 
 bool MelodyPlayer::ShouldChangeToNextPhrase() const {
-	return millis() - prev_millis_ >= phrase().length * kTime32nd;
+	return millis() - prev_millis_ >= PhraseLengthInMillis(phrase(), speed_);
 }
 
 void MelodyPlayer::NextPhrase() {}

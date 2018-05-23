@@ -13,8 +13,6 @@ namespace synth {
 using Tone = Audio::Tone;
 using ToneList = Audio::ToneList;
 
-const uint8_t kTime32nd = 60;
-
 inline uint8_t CountToneListInPhrase(
 		const ToneList& tones, const Phrase& phrase) {
 	return std::count_if(
@@ -74,7 +72,6 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 	}
 }
 
-
 void MelodyComparator::EatNext() {
 	ParseNextPhrase();
 	section_time_ += phrase().length;
@@ -85,7 +82,7 @@ const Phrase::Tones& MelodyComparator::GetPhraseTones() const {
 }
 
 bool MelodyComparator::ShouldChangeToNextPhrase() const {
-	return millis() - prev_millis_ >= phrase().length * kTime32nd;
+	return millis() - prev_millis_ >= PhraseLengthInMillis(phrase(), speed_);
 }
 
 void MelodyComparator::NextPhrase() {}

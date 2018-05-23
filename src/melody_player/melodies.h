@@ -14,6 +14,7 @@
 #include <vector>
 #include <stdint.h>
 #include <avr/pgmspace.h>
+#include "melody_player/melody_container.h"
 
 #define TONE_C   0
 #define TONE_CS  1
@@ -37,11 +38,20 @@
 #define Q2 16
 #define Q1 32
 
+#define CREATE_CONTAINER(NAME, SPEED)                                          \
+	const MelodyContainer NAME ## _CONTAINER = {                                 \
+		NAME,                                                                      \
+		sizeof(NAME) / sizeof(NAME[0]),                                            \
+		SPEED,                                                                     \
+		&NAME ## _PRACTICE_SECTIONS,                                               \
+	}
+
 namespace synth {
 namespace melodies {
 
 #include "melody_player/melodies/the_small_jonathan.h"
 #include "melody_player/melodies/seven_nation_army.h"
+#include "melody_player/melodies/another_brick_in_the_wall.h"
 
 } // namespace melodies
 } // namespace synth
@@ -58,6 +68,7 @@ namespace melodies {
 #undef TONE_A
 #undef TONE_AS
 #undef TONE_B
+#undef TONE
 #undef Q32
 #undef Q16
 #undef Q8
