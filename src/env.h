@@ -6,6 +6,7 @@
 #include <vector>
 #include "audio.h"
 #include "melody_player/melody_comparator.h"
+#include "melody_player/melody_player.h"
 #include "utils.h"
 #include "recorder.h"
 
@@ -51,11 +52,15 @@ public:
 			const std::vector<uint8_t>* sections) {
 		comparator_ = new MelodyComparator({song, size, sections});
   }
+  inline void InitMelodyPlayer(const uint8_t* song, uint16_t size) {
+		player_ = new MelodyPlayer({song, size, nullptr});
+  }
 
 private:
 	// the audio manager. the default is `SerialPort`
   Audio* audio_ = new SerialPortAudio();
 	MelodyComparator* comparator_ = nullptr;
+	MelodyPlayer* player_ = nullptr;
 	Recorder* recorder_ = nullptr;
 	RecordsPlayer* records_player_ = nullptr;
 

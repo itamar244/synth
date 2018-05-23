@@ -2,11 +2,10 @@
 #include <Arduino.h>
 #include <StandardCplusplus.h>
 #include <vector>
-#include <TFT9341.h>
 #include "screen/button.h"
 
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
-  V(Keyboard)                                                                  \
+  V(Player)                                                                    \
   V(PracticePlayerList)                                                        \
   V(Recorder)                                                                  \
   V(RecordsPlayer)                                                             \
@@ -23,7 +22,7 @@ enum class Setting {
 
 ROUTE_INIT(Menu) {
   return PaintMenu({
-  	"Keyboard",
+  	"Player",
   	"Practice Player",
   	"Recorder",
   	"Records Player",

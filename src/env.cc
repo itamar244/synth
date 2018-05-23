@@ -17,6 +17,9 @@ void Environment::Tick() {
 			&& !comparator_->Play(audio_)) {
     is_song_played_ = false;
   }
+	if (player_ != nullptr && !player_->Play(audio_)) {
+		utils::DeletePtr(player_);
+	}
 	if (records_player_ != nullptr && !records_player_->Play(audio_)) {
 		utils::DeletePtr(records_player_);
 	}
