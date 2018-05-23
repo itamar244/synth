@@ -11,6 +11,7 @@ ROUTE_INIT(PracticePlayerList) {
 		"Back",
 		"The Small Jonathan",
 		"Seven Nation Army",
+		"The Wall",
 	});
 }
 

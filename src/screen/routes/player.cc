@@ -11,6 +11,7 @@ ROUTE_INIT(Player) {
 		"Back",
 		"The Small Jonathan",
 		"Seven Nation Army",
+		"The Wall",
 	});
 }
 
