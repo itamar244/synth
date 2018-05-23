@@ -1,5 +1,4 @@
 #include "recorder.h"
-#include "empty.h"
 #include "store.h"
 
 namespace synth {
@@ -55,32 +54,33 @@ void Recorder::PushTones(const Audio::ToneList& tones) {
 RecordsPlayer::RecordsPlayer(uint16_t song_pos)
 		: pos_(GetSongStartFromPos(song_pos)) {}
 
-bool RecordsPlayer::Play(Audio* audio) {
-	return Player::Play(
-			audio,
-			// eat_next
-			[this]() -> void {
-				uint8_t tones_size = StoreGetPhraseLength(pos_);
-				Phrase::Tones tones(tones_size);
+void RecordsPlayer::EatNext() {
+	uint8_t tones_size = StoreGetPhraseLength(pos_);
+	Phrase::Tones tones(tones_size);
 
-				for (uint16_t i = 0; i < tones_size; i++) {
-					tones[i] = store::Get(pos_ + i + 2);
-				}
+	for (uint16_t i = 0; i < tones_size; i++) {
+		tones[i] = store::Get(pos_ + i + 2);
+	}
 
-				cur_phrase_ = {tones, store::Get(pos_)};
-			},
-			// get_phrase_tones
-			[this]() -> const Phrase::Tones& { return cur_phrase_.tones; },
-			// should_change_to_next_phrase
-			[this]() -> bool {
-				return MillisScale(millis() - prev_millis_) >= cur_phrase_.length;
-			},
-			// next_phrase
-			[this]() -> void { pos_ += cur_phrase_.tones.size() + 2; },
-			// is_finished
-			[this]() -> bool { return pos_ == store::Size() || store::Get(pos_) == 0; },
-			// when_finished
-			empty::callback);
+	cur_phrase_ = {tones, store::Get(pos_)};
 }
+
+const Phrase::Tones& RecordsPlayer::GetPhraseTones() const {
+	return cur_phrase_.tones;
+}
+
+bool RecordsPlayer::ShouldChangeToNextPhrase() const {
+	return MillisScale(millis() - prev_millis_) >= cur_phrase_.length;
+}
+
+void RecordsPlayer::NextPhrase() {
+	pos_ += cur_phrase_.tones.size() + 2;
+}
+
+bool RecordsPlayer::IsFinished() const {
+	return pos_ == store::Size() || store::Get(pos_) == 0;
+}
+
+void RecordsPlayer::WhenFinished() {}
 
 } // namespace synth

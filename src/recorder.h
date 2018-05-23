@@ -2,7 +2,6 @@
 // Recorder pushes melodies into memory and RecordsPlayer reads and
 // plays melodies by a given index.
 // Both classes use the same data format of melodies and read and write
-// the melodies from the store.
 //
 // The data format:
 // - PHRASE = [LENGTH, SIZE, ...TONES]
@@ -15,10 +14,8 @@
 
 #include <Arduino.h>
 #include <stdint.h>
-#include "audio.h"
 #include "phrase.h"
 #include "player.h"
-#include "store.h"
 
 namespace synth {
 
@@ -31,10 +28,12 @@ private:
 	uint32_t prev_millis_ = millis();
 };
 
-class RecordsPlayer : private Player {
+class RecordsPlayer : public Player {
 public:
 	RecordsPlayer(uint16_t song_pos);
-	bool Play(Audio* audio);
+
+protected:
+	PLAYER_CALLBACKS_INHERIT
 
 private:
 	uint32_t pos_;

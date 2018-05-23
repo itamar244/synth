@@ -6,8 +6,6 @@
 #include <StandardCplusplus.h>
 #include <algorithm>
 #include <Arduino.h>
-#include "audio.h"
-#include "empty.h"
 #include "phrase.h"
 
 namespace synth {
@@ -76,21 +74,31 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 	}
 }
 
-bool MelodyComparator::Play(Audio* audio) {
-	return Player::Play(
-			audio,
-			[this]() -> void { EatNext(); },
-			[this]() -> const Phrase::Tones& { return phrase_tones(); },
-			[this]() -> bool { return millis() - prev_millis_ >= phrase().length * kTime32nd; },
-			empty::callback,
-			[this]() -> bool { return (
-				ended_
-				|| (HasNextPhrase() && section_time_ / 32 < sections_[cur_section_])
-			); },
-			[this]() -> void {
-				started_ = false;
-				ended_ = comparing_ = true;
-			});
+
+void MelodyComparator::EatNext() {
+	ParseNextPhrase();
+	section_time_ += phrase().length;
+}
+
+const Phrase::Tones& MelodyComparator::GetPhraseTones() const {
+	return phrase_tones();
+}
+
+bool MelodyComparator::ShouldChangeToNextPhrase() const {
+	return millis() - prev_millis_ >= phrase().length * kTime32nd;
+}
+
+void MelodyComparator::NextPhrase() {}
+
+bool MelodyComparator::IsFinished() const {
+	return (
+			ended_
+			|| (HasNextPhrase() && section_time_ / 32 < sections_[cur_section_]));
+}
+
+void MelodyComparator::WhenFinished() {
+	started_ = false;
+	ended_ = comparing_ = true;
 }
 
 } // namespace synth

@@ -1,18 +1,13 @@
 #pragma once
 
-#include <StandardCplusplus.h>
-#include <vector>
 #include <stdint.h>
-#include <Arduino.h>
-#include "audio.h"
-#include "utils.h"
 #include "melody_player/parser.h"
 #include "melody_player/melody_container.h"
 #include "player.h"
 
 namespace synth {
 
-class MelodyComparator : private Player, public MelodyParser {
+class MelodyComparator : public Player, public MelodyParser {
 public:
 	MelodyComparator(const MelodyContainer& container);
 
@@ -22,7 +17,8 @@ public:
 
 	void AddTonesToCompare(const Audio::ToneList& tones);
 	bool NextSection();
-	bool Play(Audio* audio);
+protected:
+	PLAYER_CALLBACKS_INHERIT
 
 private:
 	MelodyContainer::Sections sections_;
@@ -39,11 +35,6 @@ private:
 	inline void InitFlags() {
 		section_time_ = 0;
 		started_ = ended_ = comparing_ = false;
-	}
-
-	inline void EatNext() {
-		ParseNextPhrase();
-		section_time_ += phrase().length;
 	}
 };
 
