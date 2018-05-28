@@ -29,7 +29,7 @@ void setup() {
 void loop() {
 	env.Tick();
 
-	if (screen_controller.route() != Route::kIndex && Serial.available()) {
+	if (Serial.available()) {
 		serial::Receive(env);
 	}
 	screen_controller.Paint(env);
