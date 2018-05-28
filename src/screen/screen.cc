@@ -17,6 +17,7 @@
 namespace synth {
 namespace screen {
 
+// fixing some weird inconsistencies with screen's touch
 inline Point GetClickedPoint() {
   lcdtouch.readxy();
   const uint16_t x = lcdtouch.readx(), y = lcdtouch.ready();

@@ -49,7 +49,7 @@ std::vector<Button> PaintKeyboard(const char* names[], uint16_t size) {
 	std::vector<Button> buttons;
   buttons.reserve(size + 1);
 
-  for (uint8_t i = 0; i < size; i++) {
+  for (uint8_t i = 0; i < size && i < 11; i++) {
     const uint16_t x = (i % 3) * 100 + 30;
     const uint16_t y = (i / 3) * 50 + 40;
     const int width = 50, height = 40;

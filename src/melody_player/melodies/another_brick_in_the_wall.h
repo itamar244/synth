@@ -30,7 +30,6 @@ const std::vector<uint8_t> ANOTHER_BRICK_IN_THE_WALL_PRACTICE_SECTIONS = {
 
 CREATE_CONTAINER(ANOTHER_BRICK_IN_THE_WALL, 0.7);
 
-#undef ENTRY
-#undef RIFF
-#undef CHORUS
-#undef BREAK
+#undef MAIN_LINE1
+#undef MAIN_LINE2
+#undef BREAK_WITH_A

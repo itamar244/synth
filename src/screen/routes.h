@@ -1,4 +1,4 @@
-// responsible for screen painting and touch responses.
+// Responsible for screen's painting and touch responses.
 // RouteInit<ROUTE> and PageTouch<TYPE><ROUTE> are generated and are being used
 // in "screen/screen.cc".
 // each ROUTE is implemented in `screen/pages/ROUTE.cc`.
@@ -53,17 +53,32 @@ enum class Route {
 #undef V
 };
 
-std::vector<Button> PaintMenu(
-		const std::initializer_list<const char*>& names);
-
-std::vector<Button> PaintKeyboard(const char* names[], uint16_t size);
-
 #define V(ROUTE)                                                               \
   ROUTE_INIT(ROUTE);                                                           \
   ROUTE_TOUCH(ROUTE);                                                          \
   ROUTE_TOUCHEND(ROUTE);
   ROUTE_TYPES(V)
 #undef V
+
+/*
+ * Paints a menu with buttons for each name, and a `back` button.
+ * Returns the buttons representing the names with the same order,
+ * and another button in the end representing the `back` button
+ *
+ * Each button is beneeth the previuos one's with nice padding and margin.
+ */
+std::vector<Button> PaintMenu(
+		const std::initializer_list<const char*>& names);
+
+/*
+ * Paints a keyboard with buttons for each name, and a `back` button.
+ * Returns the buttons representing the names with the same order,
+ * and another button in the end representing the `back` button.
+ *
+ * Each line contains three buttons, up to 11 buttons total.
+ */
+std::vector<Button> PaintKeyboard(
+		const char* names[], uint16_t size);
 
 } // namespace screen
 } // namespace synth
