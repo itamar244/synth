@@ -21,8 +21,7 @@ public:
 	MelodyComparator* ToComparator() { return this; }
 
 protected:
-	void EatNext();
-	void NextPhrase();
+	void ParsePhrase();
 	bool ShouldContinue() const;
 	void WhenFinished();
 

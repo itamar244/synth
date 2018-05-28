@@ -4,8 +4,8 @@
 
 namespace synth {
 
-void MelodyPlayer::EatNext() {
-	ParseNextPhrase();
+void MelodyPlayer::ParsePhrase() {
+	MelodyParser::ParsePhrase();
 }
 
 const Phrase::Tones& MelodyPlayer::GetPhraseTones() const {
@@ -16,7 +16,9 @@ bool MelodyPlayer::ShouldChangeToNextPhrase() const {
 	return millis() - prev_millis_ >= PhraseLengthInMillis(phrase(), speed_);
 }
 
-void MelodyPlayer::NextPhrase() {}
+void MelodyPlayer::NextPhrase() {
+	MelodyParser::NextPhrase();
+}
 
 bool MelodyPlayer::ShouldContinue() const {
 	return HasNextPhrase();

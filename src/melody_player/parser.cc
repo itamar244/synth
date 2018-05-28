@@ -9,7 +9,7 @@ MelodyParser::MelodyParser(const MelodyContainer& container)
 	, size_(container.size)
 	, pos_(0) {}
 
-void MelodyParser::ParseNextPhrase() {
+void MelodyParser::ParsePhrase() {
   uint8_t tones_count = pgm_read_word_near(melody_ + pos_);
   phrase_.tones.resize(tones_count);
   for (uint8_t i = 0; i < tones_count; i++) {
@@ -17,6 +17,9 @@ void MelodyParser::ParseNextPhrase() {
   }
   phrase_.length =
 		pgm_read_word_near(melody_ + pos_ + tones_count + 1);
+}
+
+void MelodyParser::NextPhrase() {
 	pos_ += phrase_.tones.size() + 2;
 }
 

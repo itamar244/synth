@@ -14,7 +14,7 @@ namespace synth {
 class MelodyComparator;
 
 #define PLAYER_CALLBACKS(PREFIX, POSTFIX)                                      \
-	PREFIX void EatNext() POSTFIX;                                               \
+	PREFIX void ParsePhrase() POSTFIX;                                           \
 	PREFIX const Phrase::Tones& GetPhraseTones() const POSTFIX;                  \
 	PREFIX bool ShouldChangeToNextPhrase() const POSTFIX;                        \
 	PREFIX void NextPhrase() POSTFIX;                                            \

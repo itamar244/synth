@@ -13,7 +13,7 @@ bool Player::Play(Audio* audio) {
 	}
 
 	if (!started_) {
-		EatNext();
+		ParsePhrase();
 		AUDIO(Add);
 		prev_millis_ = millis();
 		started_ = true;
@@ -22,7 +22,7 @@ bool Player::Play(Audio* audio) {
 		NextPhrase();
 
 		if (ShouldContinue()) {
-			EatNext();
+			ParsePhrase();
 			AUDIO(Add);
 			prev_millis_ = millis();
 		} else {

@@ -68,12 +68,10 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 	}
 }
 
-void MelodyComparator::EatNext() {
-	MelodyPlayer::EatNext();
+void MelodyComparator::ParsePhrase() {
+	MelodyPlayer::ParsePhrase();
 	section_time_ += phrase().length;
 }
-
-void MelodyComparator::NextPhrase() {}
 
 bool MelodyComparator::ShouldContinue() const {
 	return MelodyPlayer::ShouldContinue() && section_time_ / 32 < sections_->at(cur_section_);

@@ -25,7 +25,8 @@ protected:
 	inline const Phrase& phrase() const { return phrase_; }
 	inline const uint16_t pos() const { return pos_; }
 
-  void ParseNextPhrase();
+  void ParsePhrase();
+  void NextPhrase();
   Phrase ParsePhraseAt(uint16_t pos);
 
 private:

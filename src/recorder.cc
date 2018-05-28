@@ -54,7 +54,7 @@ void Recorder::PushTones(const Audio::ToneList& tones) {
 RecordsPlayer::RecordsPlayer(uint16_t song_pos)
 		: pos_(GetSongStartFromPos(song_pos)) {}
 
-void RecordsPlayer::EatNext() {
+void RecordsPlayer::ParsePhrase() {
 	uint8_t tones_size = StoreGetPhraseLength(pos_);
 	Phrase::Tones tones(tones_size);
 
