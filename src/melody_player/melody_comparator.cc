@@ -23,14 +23,15 @@ MelodyComparator::MelodyComparator(const MelodyContainer& container)
 		, sections_(container.sections)
 		, cur_section_(0)
 		, compare_pos_(0)
-		, max_grade_(0)
-		, grade_(0) {
+		, grade_(0)
+		, max_grade_(0) {
 	InitFlags();
 }
 
 bool MelodyComparator::NextSection() {
 	if (cur_section_ < sections_->size() - 1) {
 		if (pos() > 0) {
+			compare_pos_ = pos();
 			cur_section_++;
 			InitFlags();
 		}
@@ -39,32 +40,40 @@ bool MelodyComparator::NextSection() {
 	return false;
 }
 
+// prev_millis_ is being used only for extremely short phrases to guard
+// against tiny user mistakes
 void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 	// if user played more phrases than needed
 	// than it will decrease five precents from grade for each phrase
-	if (!compare_pos_ < pos()) {
+	if (compare_pos_ >= pos()) {
 		grade_ *= 95 / 100;
 	} else if (!started_) {
 		started_ = true;
 		prev_millis_ = millis();
 	} else {
-		// current user phrase length in milliseconds
-		uint16_t phrase_length = millis() - prev_millis_;
-		Phrase to_compare = ParsePhraseAt(compare_pos_);
+		uint32_t phrase_millis = millis() - prev_millis_;
 
-		if (to_compare.tones.size() == 0) {
-			if (tones.size() == 0) {
-				grade_++;
-				max_grade_++;
-				compare_pos_ += 2;
+		if (phrase_millis > 10) {
+			Phrase to_compare;
+
+			// skeeping over comparing empty phrases
+			for (;;) {
+				to_compare = ParsePhraseAt(compare_pos_);
+				if (to_compare.Size() == 0) {
+					compare_pos_ += 2;
+				} else {
+					break;
+				}
 			}
-		} else if (tones.size() > 0) {
-			grade_ += CountToneListInPhrase(tones, to_compare);
-			max_grade_ += to_compare.tones.size();
-			compare_pos_ += to_compare.tones.size() + 2;
+
+			if (tones.size() > 0) {
+				grade_ += CountToneListInPhrase(tones, to_compare);
+				max_grade_ += to_compare.Size();
+				compare_pos_ += to_compare.Size() + 2;
+			}
 		}
 
-		prev_millis_ += phrase_length;
+		prev_millis_ += phrase_millis;
 	}
 }
 
@@ -74,7 +83,8 @@ void MelodyComparator::ParsePhrase() {
 }
 
 bool MelodyComparator::ShouldContinue() const {
-	return MelodyPlayer::ShouldContinue() && section_time_ / 32 < sections_->at(cur_section_);
+	return MelodyPlayer::ShouldContinue()
+			&& section_time_ / 32 < sections_->at(cur_section_);
 }
 
 void MelodyComparator::WhenFinished() {

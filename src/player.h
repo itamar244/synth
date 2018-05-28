@@ -30,11 +30,12 @@ public:
 	bool Play(Audio* audio);
 	// FIX: I know this is ugly, but arduino doesn't have dynamic_cast so I can't tell
 	// if the instance is comparator or not. UGLY ESACPE HATCH
-	virtual MelodyComparator* ToComparator() const { return nullptr; }
+	virtual MelodyComparator* ToComparator() { return nullptr; }
 
 protected:
 	uint32_t prev_millis_ = millis();
 	bool started_ = false, ended_ = false;
+
 
 	PLAYER_CALLBACKS(virtual, = 0)
 };
