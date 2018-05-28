@@ -4,11 +4,11 @@ import React, { Component } from 'react';
 import * as keyboards from '../create_synth_keyboard';
 import Environment from '../env';
 
+type KeyboardType = 'synth' | 'port';
+
 export type Props = {
   env: Environment,
 };
-
-type KeyboardType = 'synth' | 'port';
 
 type State = {
   type: KeyboardType,
@@ -19,8 +19,8 @@ const otherType = type => type === 'synth' ? 'port' : 'synth';
 
 export default class KeyboardCommunication extends Component<Props, State> {
   state = {
-    type: 'synth',
-    detach: this.attachSynthKeyboard('synth'),
+    type: 'port',
+    detach: this.attachSynthKeyboard('port'),
   };
 
   toggleType = () => {
