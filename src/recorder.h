@@ -25,6 +25,7 @@ public:
 	void PushTones(const Audio::ToneList& tones);
 
 private:
+	bool added_notes_ = false;
 	uint32_t prev_millis_ = millis();
 };
 

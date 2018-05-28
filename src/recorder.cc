@@ -16,10 +16,10 @@ inline uint32_t MillisScale(uint32_t milliseconds) {
 uint16_t GetSongStartFromPos(uint8_t song_pos) {
 	uint16_t cur_song_pos = 0, pos = 0;
 
-	while (cur_song_pos < song_pos && pos < store::Size() - 1) {
-		if (store::Get(pos) == 0) {
+	while (cur_song_pos < song_pos && pos < store::Size() - 2) {
+		if (store::Get(pos) == 0 && store::Get(pos + 1) == 0) {
 			++cur_song_pos;
-			++pos;
+			pos += 2;
 		} else {
 			// adding phrase's tones size and
 			// the bytes representings amount of tones and length
@@ -34,10 +34,13 @@ uint16_t GetSongStartFromPos(uint8_t song_pos) {
 
 Recorder::~Recorder() {
 	// terminate the song record
-	store::Push(0);
+	if (added_notes_) {
+		store::Push(0, 0);
+	}
 }
 
 void Recorder::PushTones(const Audio::ToneList& tones) {
+	if (!added_notes_) added_notes_ = true;
 	uint32_t cur_millis = millis();
 
 	store::Push(MillisScale(cur_millis - prev_millis_));
@@ -78,7 +81,8 @@ void RecordsPlayer::NextPhrase() {
 }
 
 bool RecordsPlayer::ShouldContinue() const {
-	return pos_ < store::Size() && store::Get(pos_) != 0;
+	return pos_ < store::Size() - 1
+			&& (store::Get(pos_) != 0 || store::Get(pos_ + 1) != 0);
 }
 
 void RecordsPlayer::WhenFinished() {}
