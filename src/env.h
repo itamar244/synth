@@ -35,18 +35,15 @@ public:
 		if (current_octave_ > 0) current_octave_--;
 	}
 
-#define V(FUNC)                                                                \
-	inline void FUNC ## ToneWithOctave(uint8_t tone) {                           \
-		if (MelodyComparator* comparator = state_.player->ToComparator()) {        \
-			comparator->AddTonesToCompare(audio_->current_tones());                  \
-		}                                                                          \
-		if (state_.recorder != nullptr) {                                          \
-		  state_.recorder->PushTones(audio_->current_tones());                     \
-		}                                                                          \
-		audio_->FUNC ## Tone(tone + current_octave_ * 12);                         \
+	inline void AddToneWithOctave(uint8_t tone) {
+		OnToneWithOctaveCall(tone);
+		audio_->AddTone(tone + current_octave_ * 12);
 	}
-	V(Add) V(Remove)
-#undef V
+
+	inline void RemoveToneWithOctave(uint8_t tone) {
+		OnToneWithOctaveCall(tone);
+		audio_->RemoveTone(tone + current_octave_ * 12);
+	}
 
   void SetAudioType(Audio::AudioType type);
 
@@ -56,6 +53,8 @@ private:
 	State state_;
 
   int8_t current_octave_ = 4;
+
+	void OnToneWithOctaveCall(uint8_t tone);
 };
 
 } // namespace synth
