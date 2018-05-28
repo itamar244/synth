@@ -1,6 +1,7 @@
 #include "screen/routes.h"
 #include <TFT9341.h>
 #include "utils.h"
+#include "serial_communication.h"
 
 namespace synth {
 namespace screen {
@@ -34,14 +35,18 @@ ROUTE_TOUCH(PracticePlayerPlaying) {
 					controller->set_route(Route::kPracticePlayerList);
 					if (comparator != nullptr) {
 						env.audio()->RemoveTones(comparator->phrase_tones());
-						utils::DeletePtr(comparator);
+						// should delete player, because it will
+						// set `state.player` to nullptr instead of just deleting it.
+						utils::DeletePtr(state.player);
 					}
 					break;
 				case 1: // Start
 					state.is_song_played = true;
 					break;
 				case 2: // Commit
-					if (!comparator->NextSection()) {
+					if (comparator->NextSection()) {
+						state.is_song_played = true;
+					} else {
 						PaintGrade(comparator->grade());
 					}
 					break;

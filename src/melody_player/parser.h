@@ -30,9 +30,9 @@ protected:
   Phrase ParsePhraseAt(uint16_t pos);
 
 private:
-  Melody melody_;
+  const Melody melody_;
+  const uint16_t size_;
   Phrase phrase_;
-  uint16_t size_;
   uint16_t pos_;
 };
 
