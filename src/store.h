@@ -57,9 +57,13 @@ inline void Clear(uint16_t pos) {
 	EEPROM.update(pos + 2, 0);
 }
 
-inline void Push(uint8_t value) {
+inline void Push() {}
+
+template<class... Values>
+inline void Push(uint8_t value, Values... values) {
 	Set(Size(), value);
 	(*__SizePtr())++;
+	Push(values...);
 }
 
 inline void ClearAll() {
