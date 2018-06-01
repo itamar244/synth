@@ -10,26 +10,45 @@
   1, TONE(F, 4), Q4 + Q8,                                                      \
   1, TONE(E, 4), Q4,                                                           \
 
-#define BREAK_WITH_A                                                           \
-	0, Q1 + Q2 + Q4 + Q8,                                                        \
+#define CHORDS_BEAT_WITHOUT_END                                                \
+	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q8 + Q16,                             \
+	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q16,                                  \
+	1, TONE(D, 3), Q4,                                                           \
+	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q16,                                  \
+	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q16,                                  \
+	0, Q8,                                                                       \
+	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q16,                                  \
+	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q16,
+
+#define CHORDS_BEAT                                                            \
+	CHORDS_BEAT_WITHOUT_END                                                      \
+	0, Q8,
+
+#define CHORDS_BEAT_WITH_A                                                     \
+	CHORDS_BEAT_WITHOUT_END                                                      \
 	1, TONE(A, 3), Q8,
 
-const uint8_t ANOTHER_BRICK_IN_THE_WALL[] PROGMEM = {
+MELODY(ANOTHER_BRICK_IN_THE_WALL) = {
   MAIN_LINE1
   MAIN_LINE2
-	0, Q2 * 2,
+	CHORDS_BEAT
+	CHORDS_BEAT
   MAIN_LINE1
   MAIN_LINE2
-	BREAK_WITH_A
+	CHORDS_BEAT
+	CHORDS_BEAT_WITH_A
+  MAIN_LINE2
   MAIN_LINE2
 };
 
-const std::vector<uint8_t> ANOTHER_BRICK_IN_THE_WALL_PRACTICE_SECTIONS = {
-	4, 2, 2, 2, 4
+SECTIONS(ANOTHER_BRICK_IN_THE_WALL) = {
+	2, 2, 2, 2, 2
 };
 
-CREATE_CONTAINER(ANOTHER_BRICK_IN_THE_WALL, 0.7);
+CONTAINER(ANOTHER_BRICK_IN_THE_WALL, 0.8);
 
 #undef MAIN_LINE1
 #undef MAIN_LINE2
-#undef BREAK_WITH_A
+#undef CHORDS_BEAT_WITHOUT_END
+#undef CHORDS_BEAT
+#undef CHORDS_BEAT_WITH_A

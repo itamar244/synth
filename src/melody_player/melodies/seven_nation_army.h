@@ -27,7 +27,7 @@
   1, TONE(A, 3), Q8 + Q16,                                                     \
   0, Q16,
 
-const uint8_t SEVEN_NATION_ARMY[] PROGMEM = {
+MELODY(SEVEN_NATION_ARMY) = {
   RIFF
   RIFF
   BREAK
@@ -35,11 +35,11 @@ const uint8_t SEVEN_NATION_ARMY[] PROGMEM = {
   CHORUS
 };
 
-const std::vector<uint8_t> SEVEN_NATION_ARMY_PRACTICE_SECTIONS = {
+SECTIONS(SEVEN_NATION_ARMY) = {
 	4, 2, 2, 2, 4
 };
 
-CREATE_CONTAINER(SEVEN_NATION_ARMY, 1);
+CONTAINER(SEVEN_NATION_ARMY, 1);
 
 #undef ENTRY
 #undef RIFF

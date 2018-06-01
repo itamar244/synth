@@ -36,7 +36,10 @@
 #define Q2 16
 #define Q1 32
 
-#define CREATE_CONTAINER(NAME, SPEED)                                          \
+#define MELODY(MELODY_NAME) const uint8_t MELODY_NAME[] PROGMEM
+#define SECTIONS(MELODY_NAME)                                                  \
+	const std::vector<uint8_t> MELODY_NAME ## _PRACTICE_SECTIONS
+#define CONTAINER(NAME, SPEED)                                                 \
 	const MelodyContainer NAME ## _CONTAINER = {                                 \
 		NAME,                                                                      \
 		sizeof(NAME) / sizeof(NAME[0]),                                            \
@@ -67,6 +70,9 @@ namespace melodies {
 #undef TONE_AS
 #undef TONE_B
 #undef TONE
+#undef MELODY
+#undef SECTIONS
+#undef CREATE_CONTAINER
 #undef Q32
 #undef Q16
 #undef Q8
