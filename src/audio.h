@@ -38,8 +38,6 @@ public:
 		return current_tones_;
 	}
 
-  inline bool IsType(AudioType type) const { return Type() == type; }
-
 	// `AddTones` and `RemoveTones` are wrappers for calling their singular functions
 	// with iterable classes
 	template<class Iterable>

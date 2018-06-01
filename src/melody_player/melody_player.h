@@ -1,3 +1,5 @@
+// MelodyPlayer implements both Player And MelodyParser for parsing
+// progmem melodies from `synth::melodies` and play them
 #pragma once
 
 #include "melody_player/parser.h"

@@ -38,7 +38,7 @@ ROUTE_TOUCH(Settings) {
 					break;
 				case kAudio:
 					env.SetAudioType(
-						env.audio()->IsType(Audio::kBuiltin)
+						env.audio()->Type() == Audio::kBuiltin
 							? Audio::kSerialPort : Audio::kBuiltin);
 					break;
 			}
