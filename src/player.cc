@@ -15,7 +15,7 @@ bool Player::Play(Audio* audio) {
 	if (!started_) {
 		ParsePhrase();
 		AUDIO(Add);
-		prev_millis_ = millis();
+		UpdateTime();
 		started_ = true;
 	} else if (ShouldChangeToNextPhrase()) {
 		AUDIO(Remove);
@@ -24,7 +24,7 @@ bool Player::Play(Audio* audio) {
 		if (ShouldContinue()) {
 			ParsePhrase();
 			AUDIO(Add);
-			prev_millis_ = millis();
+			UpdateTime();
 		} else {
 			ended_ = true;
 			WhenFinished();

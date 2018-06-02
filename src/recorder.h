@@ -16,17 +16,17 @@
 #include <stdint.h>
 #include "phrase.h"
 #include "player.h"
+#include "timer.h"
 
 namespace synth {
 
-class Recorder {
+class Recorder : private Timer {
 public:
 	~Recorder();
 	void PushTones(const Audio::ToneList& tones);
 
 private:
 	bool added_notes_ = false;
-	uint32_t prev_millis_ = millis();
 };
 
 class RecordsPlayer : public Player {

@@ -41,17 +41,14 @@ Recorder::~Recorder() {
 
 void Recorder::PushTones(const Audio::ToneList& tones) {
 	if (!added_notes_) added_notes_ = true;
-	uint32_t cur_millis = millis();
+	uint32_t passed_time = GetUpdateTime();
 
-	store::Push(MillisScale(cur_millis - prev_millis_));
+	store::Push(MillisScale(passed_time));
 	store::Push(tones.size());
 
 	for (auto& tone : tones) {
 		store::Push(tone);
 	}
-
-
-	prev_millis_ = cur_millis;
 }
 
 RecordsPlayer::RecordsPlayer(uint16_t song_pos)
@@ -73,7 +70,7 @@ const Phrase::Tones& RecordsPlayer::GetPhraseTones() const {
 }
 
 bool RecordsPlayer::ShouldChangeToNextPhrase() const {
-	return MillisScale(millis() - prev_millis_) >= cur_phrase_.length;
+	return MillisScale(PassedTime()) >= cur_phrase_.length;
 }
 
 void RecordsPlayer::NextPhrase() {

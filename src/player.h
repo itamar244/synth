@@ -8,6 +8,7 @@
 #include <Arduino.h>
 #include "audio.h"
 #include "phrase.h"
+#include "timer.h"
 
 namespace synth {
 
@@ -24,7 +25,7 @@ class MelodyComparator;
 // should be called in each subclass in the protected part
 #define PLAYER_CALLBACKS_INHERIT PLAYER_CALLBACKS(, override)
 
-struct Player {
+class Player : protected Timer {
 public:
 	virtual ~Player();
 	bool Play(Audio* audio);
@@ -33,7 +34,6 @@ public:
 	virtual MelodyComparator* ToComparator() { return nullptr; }
 
 protected:
-	uint32_t prev_millis_ = millis();
 	bool started_ = false, ended_ = false;
 
 

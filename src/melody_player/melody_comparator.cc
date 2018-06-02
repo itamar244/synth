@@ -49,9 +49,10 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 		grade_ *= 95 / 100;
 	} else if (!started_) {
 		started_ = true;
-		prev_millis_ = millis();
+		UpdateTime();
 	} else {
-		uint32_t phrase_millis = millis() - prev_millis_;
+		uint32_t phrase_millis = GetUpdateTime();
+
 
 		if (phrase_millis > 10) {
 			Phrase to_compare;
@@ -72,8 +73,6 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 				compare_pos_ += to_compare.Size() + 2;
 			}
 		}
-
-		prev_millis_ += phrase_millis;
 	}
 }
 
