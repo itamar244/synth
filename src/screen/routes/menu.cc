@@ -44,9 +44,5 @@ ROUTE_TOUCH(Menu) {
   	});
 }
 
-ROUTE_TOUCHEND(Menu) {
-	Button::ClearClicks(buttons);
-}
-
 } // namespace screen
 } // namespace synth

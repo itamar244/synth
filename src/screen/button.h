@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include <stdint.h>
 #include "screen/point.h"
 
 namespace synth {
@@ -19,21 +20,12 @@ struct Button : public Point {
     return diff_x < width && diff_x > 0 && diff_y < height && diff_y > 0;
   }
 
-	// button's helpers
-	static inline void ClearClicks(std::vector<Button>& buttons) {
-		for (auto& button : buttons) {
-			if (button.is_pressed) {
-				button.is_pressed = false;
-			}
-		}
-	}
-
 	template<class Cb>
 	static void IteratePressed(
 			std::vector<Button>& buttons,
 			const Point& point,
 			const Cb& callback) {
-		for (unsigned i = 0; i < buttons.size(); i++) {
+		for (uint8_t i = 0; i < buttons.size(); i++) {
 			Button& button = buttons[i];
 
 			if (button.IsTapped(point)) {
@@ -42,20 +34,6 @@ struct Button : public Point {
 					callback(i);
 				}
 				return;
-			}
-		}
-	}
-
-	template<class Cb>
-	static void IterateUnpressed(
-			std::vector<Button>& buttons,
-			const Cb& callback) {
-		for (unsigned i = 0; i < buttons.size(); i++) {
-			Button& button = buttons[i];
-
-			if (button.is_pressed) {
-				button.is_pressed = false;
-				callback(i);
 			}
 		}
 	}

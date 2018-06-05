@@ -44,7 +44,5 @@ ROUTE_TOUCH(RecordsPlayer) {
 		});
 }
 
-ROUTE_TOUCHEND(RecordsPlayer) {  Button::ClearClicks(buttons); }
-
 } // namespace screen
 } // namespace synth

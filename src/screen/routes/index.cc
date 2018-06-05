@@ -27,7 +27,5 @@ ROUTE_TOUCH(Index) {
 	}
 }
 
-ROUTE_TOUCHEND(Index) {}
-
 } // namespace screen
 } // namespace synth

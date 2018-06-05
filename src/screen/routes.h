@@ -40,10 +40,6 @@
     Controller* controller, std::vector<Button>& buttons,                      \
     Environment& env, const Point& point)
 
-#define ROUTE_TOUCHEND(ROUTE)                                                  \
-  void RouteTouchend ## ROUTE(                                                 \
-    std::vector<Button>& buttons, Environment& env)
-
 namespace synth {
 namespace screen {
 
@@ -55,8 +51,7 @@ enum class Route {
 
 #define V(ROUTE)                                                               \
   ROUTE_INIT(ROUTE);                                                           \
-  ROUTE_TOUCH(ROUTE);                                                          \
-  ROUTE_TOUCHEND(ROUTE);
+  ROUTE_TOUCH(ROUTE);
   ROUTE_TYPES(V)
 #undef V
 

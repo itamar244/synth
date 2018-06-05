@@ -56,9 +56,12 @@ void Controller::Touch(Environment& env) {
 
 void Controller::Touchend(Environment& env) {
 	is_touched_ = false;
-#define V(ROUTE) RouteTouchend ## ROUTE(buttons_, env);
-  SWITCH_ROUTE_TYPES(V)
-#undef V
+
+	for (auto& button : buttons_) {
+		if (button.is_pressed) {
+			button.is_pressed = false;
+		}
+	}
 }
 
 }  // namespace screen
