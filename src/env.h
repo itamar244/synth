@@ -4,29 +4,21 @@
 
 #include <StandardCplusplus.h>
 #include <vector>
+#include <utility.h>
 #include "audio.h"
 #include "melody_player/melody_comparator.h"
 #include "melody_player/melody_player.h"
+#include "melody_player/melodies.h"
 #include "utils.h"
 #include "recorder.h"
 
 namespace synth {
-
-struct State {
-	Player* player = nullptr;
-	Recorder* recorder = nullptr;
-  bool is_song_played = false;
-
-	~State();
-};
 
 class Environment {
 public:
 	~Environment();
 
 	void Tick();
-
-	inline State& state() { return state_; }
 
 	// Audio
 	inline Audio* audio() const { return audio_; }
@@ -39,18 +31,36 @@ public:
 		OnToneWithOctaveCall(tone);
 		audio_->AddTone(tone + current_octave_ * 12);
 	}
-
 	inline void RemoveToneWithOctave(uint8_t tone) {
 		OnToneWithOctaveCall(tone);
 		audio_->RemoveTone(tone + current_octave_ * 12);
 	}
 
+	inline void SetPlayer(Player* player) {
+		utils::SetPtr(player_, player);
+	}
+	template<class PlayerType>
+	inline void SetPlayer(const char* melody_name) {
+		SetPlayer(new PlayerType(melodies::GetContainer(melody_name)));
+	}
+
+	inline void StartPlaying() { is_song_played_ = true; }
+
+	inline void StartRecording() { utils::SetPtr(recorder_, new Recorder()); }
+	inline void StopRecording() {	utils::MaybeDeletePtr(recorder_); }
+
+	void DeletePlayer();
+	// the pair holds two values, first - if the there is next section,
+	// second - if there isn't another section than the comparator's grade
+	std::pair<bool, float> ComparatorNextSection();
   void SetAudioType(Audio::AudioType type);
 
 private:
 	// the audio manager. the default is `SerialPort`
   Audio* audio_ = new SerialPortAudio();
-	State state_;
+	Player* player_ = nullptr;
+	Recorder* recorder_ = nullptr;
+  bool is_song_played_ = false;
 
   int8_t current_octave_ = 4;
 

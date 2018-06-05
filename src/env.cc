@@ -4,24 +4,20 @@
 
 namespace synth {
 
-State::~State() {
-	if (player != nullptr) utils::DeletePtr(player);
-	if (recorder != nullptr) utils::DeletePtr(recorder);
-}
-
 Environment::~Environment() {
+	if (player_ != nullptr) utils::DeletePtr(player_);
+	if (recorder_ != nullptr) utils::DeletePtr(recorder_);
   delete audio_;
 }
 
 void Environment::Tick() {
-	auto& player = state_.player;
-	if (player != nullptr) {
-		if (MelodyComparator* comparator = player->ToComparator()) {
-			if (state_.is_song_played	&& !comparator->Play(audio_)) {
-				state_.is_song_played = false;
+	if (player_ != nullptr) {
+		if (MelodyComparator* comparator = player_->ToComparator()) {
+			if (is_song_played_	&& !comparator->Play(audio_)) {
+				is_song_played_ = false;
 			}
-		} else if (!player->Play(audio_)) {
-			utils::DeletePtr(player);
+		} else if (!player_->Play(audio_)) {
+			utils::DeletePtr(player_);
 		}
 	}
 }
@@ -39,14 +35,37 @@ void Environment::SetAudioType(Audio::AudioType type) {
   }
 }
 
+void Environment::DeletePlayer() {
+	if (player_ == nullptr) return;
+
+	audio_->RemoveTones(GetPlayerCurrentTones(player_));
+
+	utils::DeletePtr(player_);
+}
+
+std::pair<bool, float> Environment::ComparatorNextSection() {
+	if (player_ == nullptr) return {false, 0};
+
+	if (MelodyComparator* comparator = player_->ToComparator()) {
+		if (comparator->NextSection()) {
+			is_song_played_ = true;
+			return {true, 0};
+		}
+
+		return {false, comparator->grade()};
+	}
+
+	return {false, 0};
+}
+
 void Environment::OnToneWithOctaveCall(uint8_t tone) {
-	if (state_.player != nullptr) {
-		if (MelodyComparator* comparator = state_.player->ToComparator()) {
+	if (player_ != nullptr) {
+		if (MelodyComparator* comparator = player_->ToComparator()) {
 				comparator->AddTonesToCompare(audio_->current_tones());
 		}
 	}
-	if (state_.recorder != nullptr) {
-		state_.recorder->PushTones(audio_->current_tones());
+	if (recorder_ != nullptr) {
+		recorder_->PushTones(audio_->current_tones());
 	}
 }
 

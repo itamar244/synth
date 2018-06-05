@@ -4,6 +4,7 @@
 
 #include <StandardCplusplus.h>
 #include <algorithm>
+#include <cstring>
 
 namespace synth {
 namespace utils {
@@ -34,6 +35,13 @@ template<class Ptr>
 inline void DeletePtr(Ptr& ptr) {
 	delete ptr;
 	ptr = nullptr;
+}
+
+template<class Ptr>
+inline void MaybeDeletePtr(Ptr& ptr) {
+	if (ptr != nullptr) {
+		DeletePtr(ptr);
+	}
 }
 
 template<class Iterator>

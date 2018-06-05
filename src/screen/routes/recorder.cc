@@ -15,19 +15,16 @@ ROUTE_INIT(Recorder) {
 ROUTE_TOUCH(Recorder) {
 	Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
-			auto& recorder = env.state().recorder;
 			switch (index) {
 				case 0: // Back
 					controller->set_route(Route::kMenu);
-					if (recorder != nullptr) {
-						utils::DeletePtr(recorder);
-					}
+					env.StopRecording();
 					break;
 				case 1: // Start
-					recorder = new Recorder();
+					env.StartRecording();
 					break;
 				case 2: // Stop
-					utils::DeletePtr(recorder);
+					env.StopRecording();
 					break;
 			}
 		});

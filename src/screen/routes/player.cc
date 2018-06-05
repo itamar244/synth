@@ -1,42 +1,34 @@
 #include "screen/routes.h"
 #include <Arduino.h>
-#include "screen/button.h"
 #include "melody_player/melodies.h"
+#include "melody_player/melody_player.h"
+#include "screen/button.h"
+#include "utils.h"
 
 namespace synth {
+
+using melodies::kMelodyNames;
+
 namespace screen {
 
 ROUTE_INIT(Player) {
 	return PaintMenu({
-		"Back",
-		"The Small Jonathan",
-		"Seven Nation Army",
-		"The Wall",
+		{ "Back" },
+		kMelodyNames,
 	});
 }
 
 ROUTE_TOUCH(Player) {
 	Button::IteratePressed(buttons, point,
 		[&](uint8_t index) {
-			auto& player = env.state().player;
-
-			switch (index) {
-				case 0:
-					controller->set_route(Route::kMenu);
-					break;
-#define SYNTH_PLAY_SONG_CASE(INDEX, SONG)                                      \
-				case INDEX:                                                            \
-					player = new MelodyPlayer(melodies::SONG ## _CONTAINER);             \
-					break;
-				SYNTH_PLAY_SONG_CASE(1, THE_SMALL_JONATHAN)
-				SYNTH_PLAY_SONG_CASE(2, SEVEN_NATION_ARMY)
-				SYNTH_PLAY_SONG_CASE(3, ANOTHER_BRICK_IN_THE_WALL)
-#undef SYNTH_PLAY_SONG_CASE
+			if (index == 0) {
+				controller->set_route(Route::kMenu);
+			} else {
+				env.SetPlayer<MelodyPlayer>(
+					utils::Advance(kMelodyNames.begin(), index - 1));
 			}
 		});
 }
-
-ROUTE_TOUCHEND(Player) { Button::ClearClicks(buttons); }
 
 } // namespace screen
 } // namespace synth

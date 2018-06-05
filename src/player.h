@@ -33,11 +33,17 @@ public:
 	// if the instance is comparator or not. UGLY ESACPE HATCH
 	virtual MelodyComparator* ToComparator() { return nullptr; }
 
+	friend inline const Phrase::Tones& GetPlayerCurrentTones(const Player*);
+
 protected:
 	bool started_ = false, ended_ = false;
 
 
 	PLAYER_CALLBACKS(virtual, = 0)
 };
+
+inline const Phrase::Tones& GetPlayerCurrentTones(const Player* player) {
+	return player->GetPhraseTones();
+}
 
 } // namespace synth
