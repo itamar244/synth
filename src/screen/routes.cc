@@ -21,13 +21,11 @@ void ClearButtonClicks(std::vector<Button>& buttons) {
 	}
 }
 
-std::vector<Button> PaintMenu(
-		const std::initializer_list<const char*>& names) {
-  std::vector<Button> buttons;
-	uint8_t i = 0;
-  buttons.reserve(names.size());
-
-  for (auto name : names) {
+void PaintMenuLoop(
+		const PaintMenuNames& names,
+		std::vector<Button>& buttons,
+		uint8_t& i) {
+	for (auto name : names) {
 		uint8_t name_len = std::strlen(name);
     uint16_t x = 30, y = (i++) * 45 + 20;
     uint16_t width = 80, height = 35;
@@ -41,6 +39,26 @@ std::vector<Button> PaintMenu(
     lcd.setColor(Color::WHITE, Color::RED);
     lcd.print(name);
   }
+}
+
+std::vector<Button> PaintMenu(const PaintMenuNames& names) {
+  std::vector<Button> buttons;
+	uint8_t i = 0;
+  buttons.reserve(names.size());
+
+  PaintMenuLoop(names, buttons, i);
+
+  return buttons;
+}
+
+std::vector<Button> PaintMenu(
+		const std::initializer_list<PaintMenuNames>& names_list) {
+	std::vector<Button> buttons;
+	uint8_t i = 0;
+
+	for (auto& names : names_list) {
+  	PaintMenuLoop(names, buttons, i);
+	}
 
   return buttons;
 }

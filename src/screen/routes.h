@@ -55,6 +55,7 @@ enum class Route {
   ROUTE_TYPES(V)
 #undef V
 
+using PaintMenuNames = std::initializer_list<const char*>;
 /*
  * Paints a menu with buttons for each name, and a `back` button.
  * Returns the buttons representing the names with the same order,
@@ -62,8 +63,9 @@ enum class Route {
  *
  * Each button is beneeth the previuos one's with nice padding and margin.
  */
+std::vector<Button> PaintMenu(const PaintMenuNames& names);
 std::vector<Button> PaintMenu(
-		const std::initializer_list<const char*>& names);
+		const std::initializer_list<PaintMenuNames>& names);
 
 /*
  * Paints a keyboard with buttons for each name, and a `back` button.
