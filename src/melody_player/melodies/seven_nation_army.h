@@ -39,8 +39,6 @@ SECTIONS(SEVEN_NATION_ARMY) = {
 	4, 2, 2, 2, 4
 };
 
-CONTAINER(SEVEN_NATION_ARMY, 1);
-
 #undef ENTRY
 #undef RIFF
 #undef CHORUS

@@ -29,7 +29,7 @@ MelodyComparator::MelodyComparator(const MelodyContainer& container)
 }
 
 bool MelodyComparator::NextSection() {
-	if (cur_section_ < sections_->size() - 1) {
+	if (cur_section_ < sections_.size() - 1) {
 		if (pos() > 0) {
 			compare_pos_ = pos();
 			cur_section_++;
@@ -83,7 +83,7 @@ void MelodyComparator::ParsePhrase() {
 
 bool MelodyComparator::ShouldContinue() const {
 	return MelodyPlayer::ShouldContinue()
-			&& section_time_ / 32 < sections_->at(cur_section_);
+			&& section_time_ / 32 < sections_[cur_section_];
 }
 
 void MelodyComparator::WhenFinished() {

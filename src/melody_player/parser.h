@@ -4,18 +4,17 @@
 #include <vector>
 #include <stdint.h>
 #include "melody_player/melody_container.h"
+#include "melody_player/pgm_array.h"
 #include "phrase.h"
 
 namespace synth {
 
 class MelodyParser {
 public:
-  typedef const uint8_t* Melody;
-
   MelodyParser(const MelodyContainer& container);
 
 	inline bool HasNextPhrase() const {
-		return pos_ < size_;
+		return pos_ < melody_.size();
 	}
 	inline const std::vector<uint8_t>& phrase_tones() const {
 		return phrase_.tones;
@@ -30,8 +29,7 @@ protected:
   Phrase ParsePhraseAt(uint16_t pos);
 
 private:
-  const Melody melody_;
-  const uint16_t size_;
+  const PGMArray melody_;
   Phrase phrase_;
   uint16_t pos_;
 };

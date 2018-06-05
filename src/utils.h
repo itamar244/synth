@@ -36,5 +36,23 @@ inline void DeletePtr(Ptr& ptr) {
 	ptr = nullptr;
 }
 
+template<class Iterator>
+auto Advance(Iterator it, unsigned n) -> decltype(*it) {
+	for (unsigned i = 0; i < n; i++) {
+		++it;
+	}
+
+	return *it;
+}
+
+template<class Lhs, class Rhs>
+inline bool Is(const Lhs& lhs, const Rhs& rhs) {
+	return lhs == rhs;
+}
+
+inline bool Is(const char* lhs, const char* rhs) {
+	return std::strcmp(lhs, rhs) == 0;
+}
+
 } // namespace utils
 } // namespace synth

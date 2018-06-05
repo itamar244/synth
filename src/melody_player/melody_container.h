@@ -3,16 +3,14 @@
 #include <StandardCplusplus.h>
 #include <vector>
 #include <stdint.h>
+#include <avr/pgmspace.h>
 
 namespace synth {
 
 struct MelodyContainer {
-	using Sections = const std::vector<uint8_t>*;
-
-	const uint8_t* melody;
-	const uint16_t size;
+	const PGMArray melody;
+	const PGMArray sections;
 	const float speed;
-	Sections sections;
 };
 
 } // namespace synth

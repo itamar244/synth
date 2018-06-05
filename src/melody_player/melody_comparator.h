@@ -6,6 +6,7 @@
 
 #include <stdint.h>
 #include "melody_player/melody_container.h"
+#include "melody_player/pgm_array.h"
 #include "melody_player/melody_player.h"
 
 namespace synth {
@@ -28,7 +29,7 @@ protected:
 	void WhenFinished();
 
 private:
-	MelodyContainer::Sections sections_;
+	const PGMArray sections_;
 	uint16_t section_time_;
 	uint8_t cur_section_;
 

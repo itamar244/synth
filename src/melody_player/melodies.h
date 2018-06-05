@@ -9,73 +9,40 @@
 #pragma once
 
 #include <StandardCplusplus.h>
-#include <vector>
-#include <stdint.h>
-#include <avr/pgmspace.h>
+#include <cstring>
+#include <initializer_list>
+#include "melody_player/melodies_creator.h"
 #include "melody_player/melody_container.h"
-
-#define TONE_C   0
-#define TONE_CS  1
-#define TONE_D   2
-#define TONE_DS  3
-#define TONE_E   4
-#define TONE_F   5
-#define TONE_FS  6
-#define TONE_G   7
-#define TONE_GS  8
-#define TONE_A   9
-#define TONE_AS 10
-#define TONE_B  11
-#define TONE(NAME, OCTAVE) TONE_ ## NAME + (OCTAVE + 1) * 12
-
-// NUMBER / quarter
-#define Q32 1
-#define Q16 2
-#define Q8  4
-#define Q4  8
-#define Q2 16
-#define Q1 32
-
-#define MELODY(MELODY_NAME) const uint8_t MELODY_NAME[] PROGMEM
-#define SECTIONS(MELODY_NAME)                                                  \
-	const std::vector<uint8_t> MELODY_NAME ## _PRACTICE_SECTIONS
-#define CONTAINER(NAME, SPEED)                                                 \
-	const MelodyContainer NAME ## _CONTAINER = {                                 \
-		NAME,                                                                      \
-		sizeof(NAME) / sizeof(NAME[0]),                                            \
-		SPEED,                                                                     \
-		&NAME ## _PRACTICE_SECTIONS,                                               \
-	}
+#include "utils.h"
 
 namespace synth {
 namespace melodies {
 
-#include "melody_player/melodies/the_small_jonathan.h"
-#include "melody_player/melodies/seven_nation_army.h"
-#include "melody_player/melodies/another_brick_in_the_wall.h"
+const std::initializer_list<const char*> kMelodyNames = {
+	"The Small Jonathan",
+	"Seven Nation Army",
+	"The Wall",
+};
+
+#define CONTAINER(NAME, SPEED)                                                 \
+	MelodyContainer{                                                             \
+		{ NAME, sizeof(NAME) / sizeof(NAME[0]) },                                  \
+		{ NAME, sizeof(NAME ## _SECTIONS) / sizeof(NAME ## _SECTIONS[0]) },        \
+		SPEED,                                                                     \
+	}
+
+inline MelodyContainer GetContainer(const char* name) {
+	if (utils::Is(name, "The Small Jonathan"))
+		return CONTAINER(THE_SMALL_JONATHAN, 1);
+	if (utils::Is(name, "Seven Nation Army"))
+		return CONTAINER(SEVEN_NATION_ARMY, 1);
+	if (utils::Is(name, "The Wall"))
+		return CONTAINER(ANOTHER_BRICK_IN_THE_WALL, 0.8);
+
+	return {{nullptr, 0}, {nullptr, 0}, 0};
+}
+
+#undef CONTAINER
 
 } // namespace melodies
 } // namespace synth
-
-#undef TONE_C
-#undef TONE_CS
-#undef TONE_D
-#undef TONE_DS
-#undef TONE_E
-#undef TONE_F
-#undef TONE_FS
-#undef TONE_G
-#undef TONE_GS
-#undef TONE_A
-#undef TONE_AS
-#undef TONE_B
-#undef TONE
-#undef MELODY
-#undef SECTIONS
-#undef CREATE_CONTAINER
-#undef Q32
-#undef Q16
-#undef Q8
-#undef Q4
-#undef Q2
-#undef Q1
