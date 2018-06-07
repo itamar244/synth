@@ -1,14 +1,22 @@
 // @flow
-import React from 'react';
-import { render } from 'react-dom';
-
 import Environment from './env';
-import App from './ui/App';
+import * as keyboard from './create_synth_keyboard.js'
+import ToggleButton from './ui/toggle_button';
+
+const env = new Environment();
+let detach = null;
 
 const root = document.querySelector('#root');
 if (root !== null) {
-  render(
-    <App env={new Environment()} />,
-    root,
-  );
+  root.append(new ToggleButton(['synth', 'port'], {
+    synth() {
+      if (detach !== null) setTimeout(detach);
+      detach = keyboard.serialPortSynthKeyboard(env.port);
+    },
+
+    port() {
+      if (detach !== null) setTimeout(detach);
+      detach = keyboard.localSynthKeyboard(env);
+    }
+  }));
 }

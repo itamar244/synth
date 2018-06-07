@@ -12,9 +12,6 @@ module.exports = env => {
     externals: [nodeExternals()],
     resolve: {
       extensions: ['.js', '.jsx'],
-      alias: {
-        env: path.resolve(__dirname, `../config/env_${env}.json`)
-      },
     },
     watchOptions: {
       poll: true,
