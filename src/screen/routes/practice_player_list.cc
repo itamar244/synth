@@ -1,34 +1,21 @@
 #include "screen/routes.h"
-#include <Arduino.h>
-#include "melody_player/melodies.h"
-#include "melody_player/melody_comparator.h"
-#include "screen/button.h"
-#include "utils.h"
+#include "screen/routes/player_list_component.h"
 
 namespace synth {
-
-using melodies::kMelodyNames;
-
 namespace screen {
 
 ROUTE_INIT(PracticePlayerList) {
-	return PaintMenu({
-		{ "Back" },
-		kMelodyNames,
-	});
+	return PlayerListInit();
 }
 
 ROUTE_TOUCH(PracticePlayerList) {
-	Button::IteratePressed(buttons, point,
-		[&](uint8_t index) {
-			if (index == 0) {
-				controller->set_route(Route::kMenu);
-			} else {
+	Button::IteratePressed(
+		buttons, point,
+		PlayerListTouchHandler<MelodyComparator>(
+			controller, env,
+			[&controller]() {
 				controller->set_route(Route::kPracticePlayerPlaying);
-				env.SetPlayer<MelodyComparator>(
-					utils::Advance(kMelodyNames.begin(), index - 1));
-			}
-		});
+			}));
 }
 
 } // namespace screen
