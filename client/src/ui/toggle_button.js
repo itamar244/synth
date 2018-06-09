@@ -15,16 +15,18 @@ export default class ToggleButton<Option: string> extends HTMLElement {
     this.options = options;
     this.handlers = handlers;
     this.append(this.button);
-    this.paint();
 
     this.addEventListener('click', () => {
-      this.index =
-        this.index === this.options.length - 1 ? 0 : this.index + 1;
-      this.paint();
+      this.index = (this.index + 1) % options.length;
+      this.update();
     });
   }
 
-  paint() {
+  connectedCallback() {
+    this.update();
+  }
+
+  update() {
     const handler = this.handlers[this.options[this.index]];
     if (handler != null) {
       handler();
@@ -35,4 +37,4 @@ export default class ToggleButton<Option: string> extends HTMLElement {
   }
 }
 
-customElements.define('toggle-button', ToggleButton);
+customElements.define('sy-toggle-button', ToggleButton);
