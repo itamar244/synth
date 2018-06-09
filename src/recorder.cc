@@ -5,12 +5,8 @@ namespace synth {
 
 namespace {
 
-inline uint8_t StoreGetPhraseLength(uint16_t pos) {
-	return store::Get(pos + 1);
-}
-
 inline uint32_t MillisScale(uint32_t milliseconds) {
-	return milliseconds / 16;
+	return milliseconds / 10;
 }
 
 uint16_t GetSongStartFromPos(uint8_t song_pos) {
@@ -23,7 +19,7 @@ uint16_t GetSongStartFromPos(uint8_t song_pos) {
 		} else {
 			// adding phrase's tones size and
 			// the bytes representings amount of tones and length
-			pos += StoreGetPhraseLength(pos) + 2;
+			pos += store::Get(pos) + 2;
 		}
 	}
 
@@ -43,26 +39,27 @@ void Recorder::PushTones(const Audio::ToneList& tones) {
 	if (!added_notes_) added_notes_ = true;
 	uint32_t passed_time = GetUpdateTime();
 
-	store::Push(MillisScale(passed_time));
 	store::Push(tones.size());
 
 	for (auto& tone : tones) {
 		store::Push(tone);
 	}
+
+	store::Push(MillisScale(passed_time));
 }
 
 RecordsPlayer::RecordsPlayer(uint16_t song_pos)
 		: pos_(GetSongStartFromPos(song_pos)) {}
 
 void RecordsPlayer::ParsePhrase() {
-	uint8_t tones_size = StoreGetPhraseLength(pos_);
+	uint8_t tones_size = store::Get(pos_);
 	Phrase::Tones tones(tones_size);
 
 	for (uint16_t i = 0; i < tones_size; i++) {
-		tones[i] = store::Get(pos_ + i + 2);
+		tones[i] = store::Get(pos_ + i + 1);
 	}
 
-	cur_phrase_ = {tones, store::Get(pos_)};
+	cur_phrase_ = {tones, store::Get(pos_ + tones_size + 1)};
 }
 
 const Phrase::Tones& RecordsPlayer::GetPhraseTones() const {
