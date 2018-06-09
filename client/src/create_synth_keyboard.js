@@ -39,6 +39,8 @@ const attachKeyListeners = (onKeyDown, onKeyUp) => {
         ['[', 'SWITCH_BACKWARD_SYNTH_TYPE'],
         [']', 'SWITCH_FORWARD_SYNTH_TYPE'],
         ['0', 'RESET_STORE'],
+        [';', 'START_RECORDING'],
+        ["'", 'STOP_RECORDING'],
       ]);
     }
   };

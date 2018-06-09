@@ -1,4 +1,5 @@
 // @flow
+import EventEmitter from 'events';
 import {
   PolySynth,
   Synth,
@@ -17,12 +18,13 @@ const SYNTHES = [
   DuoSynth,
 ];
 
-export default class Environment {
+export default class Environment extends EventEmitter {
   synth: PolySynth;
   port = createSerialPort();
   curSynth = 0;
 
   constructor() {
+    super();
     this.initSynth();
     this.port.subscribe(this.handleMessage)
   }
@@ -54,6 +56,12 @@ export default class Environment {
         break;
       case msg.SWITCH_FORWARD_SYNTH_TYPE:
         this.updatePolySynth(1);
+        break;
+      case msg.START_RECORDING:
+        this.emit('recording-change', true);
+        break;
+      case msg.STOP_RECORDING:
+        this.emit('recording-change', false);
         break;
     }
   }

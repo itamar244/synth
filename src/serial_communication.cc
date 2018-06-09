@@ -26,8 +26,16 @@ void Receive(Environment& env) {
 		case kResetStore:
 			store::ClearAll();
 			break;
+		case kStartRecording:
+			env.StartRecording();
+			Send(request_data);
+			break;
+		case kStopRecording:
+			env.StopRecording();
+			Send(request_data);
+			break;
 		default:
-			Send(Message(request_data[0]), request_data[1]);
+			Send(request_data);
 			break;
 	}
 }

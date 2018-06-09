@@ -18,6 +18,8 @@ enum Message {
 	kIncrementOctave = 3,
 	kLogData         = 4,
 	kResetStore      = 5,
+	kStartRecording  = 6,
+	kStopRecording   = 7,
 };
 
 void Receive(Environment& env);
@@ -25,6 +27,9 @@ void Receive(Environment& env);
 inline void Send(Message message, uint8_t data) {
 	char buffer[] = {char(message), char(data)};
 	Serial.write(buffer, 2);
+}
+inline void Send(uint8_t data[]) {
+	Send(Message(data[0]), data[1]);
 }
 
 inline void Log(uint8_t data) {

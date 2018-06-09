@@ -7,7 +7,6 @@
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
   V(Player)                                                                    \
   V(PracticePlayerList)                                                        \
-  V(Recorder)                                                                  \
   V(RecordsPlayer)                                                             \
   V(Settings)
 
@@ -24,7 +23,6 @@ ROUTE_INIT(Menu) {
   return PaintMenu({
   	"Player",
   	"Practice Player",
-  	"Recorder",
   	"Records Player",
   	"Settings",
 	});
