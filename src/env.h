@@ -50,13 +50,13 @@ public:
 	inline void StopRecording() {	utils::MaybeDeletePtr(recorder_); }
 
 	void DeletePlayer();
-	// the pair holds two values, first - if the there is next section,
-	// second - if there isn't another section than the comparator's grade
-	std::pair<bool, float> ComparatorNextSection();
+	std::pair<
+			bool /* has_next_section */,
+			float /* grade */>
+			ComparatorNextSection();
   void SetAudioType(Audio::AudioType type);
 
 private:
-	// the audio manager. the default is `SerialPort`
   Audio* audio_ = new SerialPortAudio();
 	Player* player_ = nullptr;
 	Recorder* recorder_ = nullptr;

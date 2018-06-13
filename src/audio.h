@@ -1,4 +1,4 @@
-// Audio is an abstract object managing the current state of the played tones.
+// Audio is an abstract class managing the current state of the played tones.
 // Each Audio implementation implements specific Audio's lifecycles
 // and must implement `virtual Type AudioType` to determine
 // the type of handler at runtime.

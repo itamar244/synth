@@ -22,6 +22,8 @@ void setup() {
 	sound::Init();
 	store::MaybeInit();
 
+	store::IterateAllBytes(serial::Log);
+
 	lcd.begin();
 	lcdtouch.InitTypeTouch(1);
 }

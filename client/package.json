@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "babel-preset-flow": "^7.0.0-beta.3",
-    "serialport": "^6.0.4",
+    "serialport": "^6.2.0",
     "tone": "^0.12.44"
   },
   "devDependencies": {

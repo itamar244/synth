@@ -1,6 +1,6 @@
 {
   "terminal.integrated.env.linux": {
-    "PATH": "/home/itamar/.platformio/penv/bin:/home/itamar/.platformio/penv:/home/itamar/.cargo/bin:/usr/lib/dart/bin:/home/itamar/buck/bin:/usr/lib/java/jdk1.8.0_144/bin:/home/itamar/.nvm/versions/node/v9.5.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games",
+    "PATH": "/home/itamar/.platformio/penv/bin:/home/itamar/.platformio/penv:/home/itamar/.cargo/bin:/usr/lib/dart/bin:/home/itamar/buck/bin:/usr/lib/java/jdk1.8.0_144/bin:/home/itamar/.nvm/versions/node/v10.3.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games",
     "PLATFORMIO_CALLER": "vscode"
   },
   "files.associations": {
@@ -30,6 +30,7 @@
     "string": "cpp",
     "iterator_base": "cpp",
     "functional": "cpp",
-    "type_traits": "cpp"
+    "type_traits": "cpp",
+    "basic_definitions": "cpp"
   }
 }
