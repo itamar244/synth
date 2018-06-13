@@ -3,13 +3,12 @@
 #include <StandardCplusplus.h>
 #include <vector>
 #include <stdint.h>
+#include "audio.h"
 
 namespace synth {
 
 struct Phrase {
-	using Tones = std::vector<uint8_t>;
-
-	Tones tones;
+	Audio::ToneList tones;
 	uint8_t length;
 
 	inline const uint8_t Size() const {

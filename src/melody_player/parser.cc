@@ -10,9 +10,9 @@ MelodyParser::MelodyParser(const MelodyContainer& container)
 
 void MelodyParser::ParsePhrase() {
   uint8_t tones_count = melody_[pos_];
-  phrase_.tones.resize(tones_count);
+  phrase_.tones.clear();
   for (uint8_t i = 0; i < tones_count; i++) {
-    phrase_.tones[i] = melody_[pos_ + i + 1];
+    phrase_.tones.push_back(melody_[pos_ + i + 1]);
   }
   phrase_.length = melody_[pos_ + tones_count + 1];
 }
@@ -25,7 +25,6 @@ Phrase MelodyParser::ParsePhraseAt(uint16_t pos) {
 	Phrase phrase;
 	uint8_t tones_count = melody_[pos];
 
-  phrase.tones.reserve(tones_count);
   for (uint8_t i = 0; i < tones_count; i++) {
     phrase.tones.push_back(melody_[pos + i + 1]);
   }

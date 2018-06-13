@@ -3,6 +3,7 @@
 #include <StandardCplusplus.h>
 #include <vector>
 #include <stdint.h>
+#include "audio.h"
 #include "melody_player/melody_container.h"
 #include "melody_player/pgm_array.h"
 #include "phrase.h"
@@ -16,7 +17,7 @@ public:
 	inline bool HasNextPhrase() const {
 		return pos_ < melody_.size();
 	}
-	inline const std::vector<uint8_t>& phrase_tones() const {
+	inline const Audio::ToneList& phrase_tones() const {
 		return phrase_.tones;
 	}
 

@@ -1,6 +1,6 @@
 #include "melody_player/melody_player.h"
 #include <Arduino.h>
-#include "phrase.h"
+#include "audio.h"
 
 namespace synth {
 
@@ -8,7 +8,7 @@ void MelodyPlayer::ParsePhrase() {
 	MelodyParser::ParsePhrase();
 }
 
-const Phrase::Tones& MelodyPlayer::GetPhraseTones() const {
+const Audio::ToneList& MelodyPlayer::GetPhraseTones() const {
 	return phrase_tones();
 }
 

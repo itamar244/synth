@@ -53,16 +53,16 @@ RecordsPlayer::RecordsPlayer(uint16_t song_pos)
 
 void RecordsPlayer::ParsePhrase() {
 	uint8_t tones_size = store::Get(pos_);
-	Phrase::Tones tones(tones_size);
+	Audio::ToneList tones;
 
 	for (uint16_t i = 0; i < tones_size; i++) {
-		tones[i] = store::Get(pos_ + i + 1);
+		tones.push_back(store::Get(pos_ + i + 1));
 	}
 
 	cur_phrase_ = {tones, store::Get(pos_ + tones_size + 1)};
 }
 
-const Phrase::Tones& RecordsPlayer::GetPhraseTones() const {
+const Audio::ToneList& RecordsPlayer::GetPhraseTones() const {
 	return cur_phrase_.tones;
 }
 

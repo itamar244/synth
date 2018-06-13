@@ -32,12 +32,15 @@ const std::initializer_list<const char*> kMelodyNames = {
 	}
 
 inline MelodyContainer GetContainer(const char* name) {
-	if (utils::Is(name, "The Small Jonathan"))
+	if (utils::Is(name, "The Small Jonathan")) {
 		return CONTAINER(THE_SMALL_JONATHAN, 1);
-	if (utils::Is(name, "Seven Nation Army"))
+	}
+	if (utils::Is(name, "Seven Nation Army")) {
 		return CONTAINER(SEVEN_NATION_ARMY, 1);
-	if (utils::Is(name, "The Wall"))
+	}
+	if (utils::Is(name, "The Wall")) {
 		return CONTAINER(ANOTHER_BRICK_IN_THE_WALL, 0.8);
+	}
 
 	return {{nullptr, 0}, {nullptr, 0}, 0};
 }

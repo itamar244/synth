@@ -7,7 +7,6 @@
 
 #include <Arduino.h>
 #include "audio.h"
-#include "phrase.h"
 #include "timer.h"
 
 namespace synth {
@@ -16,7 +15,7 @@ class MelodyComparator;
 
 #define PLAYER_CALLBACKS(PREFIX, POSTFIX)                                      \
 	PREFIX void ParsePhrase() POSTFIX;                                           \
-	PREFIX const Phrase::Tones& GetPhraseTones() const POSTFIX;                  \
+	PREFIX const Audio::ToneList& GetPhraseTones() const POSTFIX;                \
 	PREFIX bool ShouldChangeToNextPhrase() const POSTFIX;                        \
 	PREFIX void NextPhrase() POSTFIX;                                            \
 	PREFIX bool ShouldContinue() const POSTFIX;                                  \
@@ -33,7 +32,7 @@ public:
 	// if the instance is comparator or not. UGLY ESACPE HATCH
 	virtual MelodyComparator* ToComparator() { return nullptr; }
 
-	friend inline const Phrase::Tones& GetPlayerCurrentTones(const Player*);
+	friend inline const Audio::ToneList& GetPlayerCurrentTones(const Player*);
 
 protected:
 	bool started_ = false, ended_ = false;
@@ -42,7 +41,7 @@ protected:
 	PLAYER_CALLBACKS(virtual, = 0)
 };
 
-inline const Phrase::Tones& GetPlayerCurrentTones(const Player* player) {
+inline const Audio::ToneList& GetPlayerCurrentTones(const Player* player) {
 	return player->GetPhraseTones();
 }
 
