@@ -1,9 +1,4 @@
 // @flow
-// This helper remembers the size and position of your windows (and restores
-// them in that place after app relaunch).
-// Can be used for more than one window, just construct many
-// instances of it and give each different name.
-
 import { app, BrowserWindow, screen } from 'electron';
 import fs from 'fs';
 import { resolve } from 'path';
@@ -23,10 +18,7 @@ export default (name: string, options: Object) => {
     try {
       restoredState = JSON.parse(fs.readFileSync(stateStoreFile).toString());
       console.log(restoredState);
-    } catch (err) {
-      // For some reason json can't be read (might be corrupted).
-      // No worries, we have defaults.
-    }
+    } catch (err) {}
     return Object.assign({}, defaultSize, restoredState);
   };
 
@@ -63,8 +55,6 @@ export default (name: string, options: Object) => {
       return windowWithinBounds(windowState, display.bounds);
     });
     if (!visible) {
-      // Window is partially or fully not visible now.
-      // Reset it to safe defaults.
       return resetToDefaults();
     }
     return windowState;
@@ -73,7 +63,6 @@ export default (name: string, options: Object) => {
   const saveState = () => {
     if (!win.isMinimized() && !win.isMaximized()) {
       Object.assign(state, getCurrentPosition());
-      console.log(state);
     }
     fs.writeFileSync(stateStoreFile, JSON.stringify(state));
   };
