@@ -1,5 +1,6 @@
 #include "store.h"
 #include "serial_communication.h"
+#include "utils.h"
 
 namespace synth {
 namespace store {
@@ -13,8 +14,8 @@ uint16_t* cur_size = nullptr;
 
 // going through all bytes
 // store could be a sparsed array so stopping when reaching an empty address
-uint16_t* __SizePtr() {
-	if (cur_size != nullptr) return cur_size;
+uint16_t& __SizeRef() {
+	if (cur_size != nullptr) return *cur_size;
 	uint16_t size = 0;
 
 	for (uint16_t i = 0; i < MaxSize(); i++) {
@@ -23,12 +24,12 @@ uint16_t* __SizePtr() {
 		}
 	}
 
-	return (cur_size = new uint16_t(size));
+	return *(cur_size = new uint16_t(size));
 }
 
 
 void Init() {
-	cur_size = new uint16_t(0);
+	utils::SetPtr(cur_size, new uint16_t(0));
 
 	EEPROM.write(0, 123);
 	EEPROM.write(1, 234);

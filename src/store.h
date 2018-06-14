@@ -19,8 +19,8 @@ namespace synth {
 namespace store {
 
 // Getting the current store size.
-// Using pointer for caching techniques.
-uint16_t* __SizePtr();
+// Using pointer for caching and sharing the size.
+uint16_t& __SizeRef();
 
 void Init();
 
@@ -38,7 +38,7 @@ inline uint16_t MaxSize() {
 }
 
 inline uint16_t Size() {
-	return *__SizePtr();
+	return __SizeRef();
 }
 
 inline uint8_t __GetActual(uint16_t pos) {
@@ -62,11 +62,12 @@ inline void Push() {}
 template<class... Values>
 inline void Push(uint8_t value, Values... values) {
 	Set(Size(), value);
-	(*__SizePtr())++;
+	__SizeRef()++;
 	Push(values...);
 }
 
 inline void ClearAll() {
+	__SizeRef() = 0;
 	for (uint16_t i = 0; i < MaxSize(); i++) {
 		Clear(i);
 	}
