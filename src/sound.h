@@ -1,6 +1,6 @@
 // Wrapper for DTMF's sound generation.
 // Solves the limitation of I2C which can only generate 2 simultaneously sounds
-// by using a synthetic I2C which can generate another 2  simultaneously sounds.
+// by using a synthetic I2C which can generate another 2 simultaneously sounds.
 #pragma once
 
 #include "audio.h"
