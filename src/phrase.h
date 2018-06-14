@@ -8,11 +8,11 @@
 namespace synth {
 
 struct Phrase {
-	Audio::ToneList tones;
+	Audio::NoteList notes;
 	uint8_t length;
 
 	inline const uint8_t Size() const {
-		return tones.size();
+		return notes.size();
 	}
 };
 

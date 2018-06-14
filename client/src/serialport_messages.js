@@ -1,6 +1,6 @@
 // @flow
-export const REMOVE_TONE = 0;
-export const ADD_TONE = 1;
+export const REMOVE_NOTE = 0;
+export const ADD_NOTE = 1;
 
 export const DECREMENT_OCTAVE = 2;
 export const INCREMENT_OCTAVE = 3;

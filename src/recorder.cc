@@ -17,8 +17,8 @@ uint16_t GetSongStartFromPos(uint8_t song_pos) {
 			++cur_song_pos;
 			pos += 2;
 		} else {
-			// adding phrase's tones size and
-			// the bytes representings amount of tones and length
+			// adding phrase's notes size and
+			// the bytes representings amount of notes and length
 			pos += store::Get(pos) + 2;
 		}
 	}
@@ -35,14 +35,14 @@ Recorder::~Recorder() {
 	}
 }
 
-void Recorder::PushTones(const Audio::ToneList& tones) {
+void Recorder::PushNotes(const Audio::NoteList& notes) {
 	if (!added_notes_) added_notes_ = true;
 	uint32_t passed_time = GetUpdateTime();
 
-	store::Push(tones.size());
+	store::Push(notes.size());
 
-	for (auto& tone : tones) {
-		store::Push(tone);
+	for (auto& note : notes) {
+		store::Push(note);
 	}
 
 	store::Push(MillisScale(passed_time));
@@ -52,18 +52,18 @@ RecordsPlayer::RecordsPlayer(uint16_t song_pos)
 		: pos_(GetSongStartFromPos(song_pos)) {}
 
 void RecordsPlayer::ParsePhrase() {
-	uint8_t tones_size = store::Get(pos_);
-	Audio::ToneList tones;
+	uint8_t notes_size = store::Get(pos_);
+	Audio::NoteList notes;
 
-	for (uint16_t i = 0; i < tones_size; i++) {
-		tones.push_back(store::Get(pos_ + i + 1));
+	for (uint16_t i = 0; i < notes_size; i++) {
+		notes.push_back(store::Get(pos_ + i + 1));
 	}
 
-	cur_phrase_ = {tones, store::Get(pos_ + tones_size + 1)};
+	cur_phrase_ = {notes, store::Get(pos_ + notes_size + 1)};
 }
 
-const Audio::ToneList& RecordsPlayer::GetPhraseTones() const {
-	return cur_phrase_.tones;
+const Audio::NoteList& RecordsPlayer::GetPhraseNotes() const {
+	return cur_phrase_.notes;
 }
 
 bool RecordsPlayer::ShouldChangeToNextPhrase() const {
@@ -71,7 +71,7 @@ bool RecordsPlayer::ShouldChangeToNextPhrase() const {
 }
 
 void RecordsPlayer::NextPhrase() {
-	pos_ += cur_phrase_.tones.size() + 2;
+	pos_ += cur_phrase_.notes.size() + 2;
 }
 
 bool RecordsPlayer::ShouldContinue() const {

@@ -4,11 +4,11 @@
 // Both classes use the same data format of melodies and read and write
 //
 // The data format:
-// - PHRASE = [LENGTH, SIZE, ...TONES]
+// - PHRASE = [LENGTH, SIZE, ...NOTES]
 // - MELODY = [...PHRASES, 0]
 // - STORE  = [...SONGS]
 //
-// Each phrase made from length in `milliseconds / 16`, size of tones, and tone values.
+// Each phrase made from length in `milliseconds / 16`, size of notes, and note values.
 // Each melody consists from many phrases, ending with zero
 #pragma once
 
@@ -23,7 +23,7 @@ namespace synth {
 class Recorder : private Timer {
 public:
 	~Recorder();
-	void PushTones(const Audio::ToneList& tones);
+	void PushNotes(const Audio::NoteList& notes);
 
 private:
 	bool added_notes_ = false;
@@ -42,4 +42,3 @@ private:
 };
 
 } // namespace synth
-

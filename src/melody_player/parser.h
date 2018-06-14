@@ -17,8 +17,8 @@ public:
 	inline bool HasNextPhrase() const {
 		return pos_ < melody_.size();
 	}
-	inline const Audio::ToneList& phrase_tones() const {
-		return phrase_.tones;
+	inline const Audio::NoteList& phrase_notes() const {
+		return phrase_.notes;
 	}
 
 protected:

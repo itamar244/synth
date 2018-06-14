@@ -11,11 +11,11 @@ void Receive(Environment& env) {
 	Serial.readBytes(request_data, 2);
 
 	switch (Message(request_data[0])) {
-		case kRemoveTone:
-			env.RemoveToneWithOctave(request_data[1]);
+		case kRemoveNote:
+			env.RemoveNoteWithOctave(request_data[1]);
 			break;
-		case kAddTone:
-			env.AddToneWithOctave(request_data[1]);
+		case kAddNote:
+			env.AddNoteWithOctave(request_data[1]);
 			break;
 		case kDecrementOctave:
 			env.DecrementOctave();

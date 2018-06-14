@@ -38,7 +38,7 @@ void Environment::SetAudioType(Audio::AudioType type) {
 void Environment::DeletePlayer() {
 	if (player_ == nullptr) return;
 
-	audio_->RemoveTones(GetPlayerCurrentTones(player_));
+	audio_->RemoveNotes(GetPlayerCurrentNotes(player_));
 
 	utils::DeletePtr(player_);
 }
@@ -58,14 +58,14 @@ std::pair<bool, float> Environment::ComparatorNextSection() {
 	return {false, 0};
 }
 
-void Environment::OnToneWithOctaveCall(uint8_t tone) {
+void Environment::OnNoteWithOctaveCall(uint8_t note) {
 	if (player_ != nullptr) {
 		if (MelodyComparator* comparator = player_->ToComparator()) {
-				comparator->AddTonesToCompare(audio_->current_tones());
+				comparator->AddNotesToCompare(audio_->current_notes());
 		}
 	}
 	if (recorder_ != nullptr) {
-		recorder_->PushTones(audio_->current_tones());
+		recorder_->PushNotes(audio_->current_notes());
 	}
 }
 

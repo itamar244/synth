@@ -42,10 +42,10 @@ export default class Environment extends EventEmitter {
 
   handleMessage = (type: number, data: number) => {
     switch (type) {
-      case msg.REMOVE_TONE:
+      case msg.REMOVE_NOTE:
         this.synth.triggerRelease(parseToNote(data));
         break;
-      case msg.ADD_TONE:
+      case msg.ADD_NOTE:
         this.synth.triggerAttack(parseToNote(data));
         break;
       case msg.LOG_DATA:

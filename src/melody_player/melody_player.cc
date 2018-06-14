@@ -8,8 +8,8 @@ void MelodyPlayer::ParsePhrase() {
 	MelodyParser::ParsePhrase();
 }
 
-const Audio::ToneList& MelodyPlayer::GetPhraseTones() const {
-	return phrase_tones();
+const Audio::NoteList& MelodyPlayer::GetPhraseNotes() const {
+	return phrase_notes();
 }
 
 bool MelodyPlayer::ShouldChangeToNextPhrase() const {

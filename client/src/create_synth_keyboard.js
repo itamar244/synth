@@ -25,12 +25,12 @@ const attachKeyListeners = (onKeyDown, onKeyUp) => {
   }
 
   const keydown = ({ key }: KeyboardEvent) => {
-    const tone = KEY_VALUES.get(key);
+    const note = KEY_VALUES.get(key);
 
-    if (tone != null) {
-      if (!pressedKeys.has(tone)) {
-        pressedKeys.add(tone);
-        onKeyDown(msg.ADD_TONE, tone);
+    if (note != null) {
+      if (!pressedKeys.has(note)) {
+        pressedKeys.add(note);
+        onKeyDown(msg.ADD_NOTE, note);
       }
     } else if (pressedKeys.size === 0) {
       callOnKeyDownEvents(key, [
@@ -46,11 +46,11 @@ const attachKeyListeners = (onKeyDown, onKeyUp) => {
   };
 
   const keyup = ({ key }: KeyboardEvent) => {
-    const tone = KEY_VALUES.get(key);
+    const note = KEY_VALUES.get(key);
 
-    if (tone != null) {
-      pressedKeys.delete(tone);
-      onKeyUp(tone);
+    if (note != null) {
+      pressedKeys.delete(note);
+      onKeyUp(note);
     }
   };
 
@@ -66,25 +66,25 @@ const attachKeyListeners = (onKeyDown, onKeyUp) => {
 
 export function serialPortSynthKeyboard(port: SerialPort) {
   return attachKeyListeners(
-    (type, tone) => port.send(type, tone),
-    tone => port.send(msg.REMOVE_TONE, tone),
+    (type, note) => port.send(type, note),
+    note => port.send(msg.REMOVE_NOTE, note),
   );
 }
 
 export function localSynthKeyboard(env: Environment) {
-  const getTone = tone => tone + currentOctave * 12;
+  const getNote = note => note + currentOctave * 12;
   let currentOctave = 4;
 
   return attachKeyListeners(
-    (type, tone) => {
+    (type, note) => {
       if (type === msg.DECREMENT_OCTAVE) {
         currentOctave--;
       } else if (type === msg.INCREMENT_OCTAVE) {
         currentOctave++;
       } else {
-        env.handleMessage(type, getTone(tone));
+        env.handleMessage(type, getNote(note));
       }
     },
-    tone => env.handleMessage(msg.REMOVE_TONE, getTone(tone)),
+    note => env.handleMessage(msg.REMOVE_NOTE, getNote(note)),
   );
 }

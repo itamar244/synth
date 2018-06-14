@@ -7,44 +7,44 @@
 
 namespace synth {
 
-bool Audio::AddTone(Tone tone) {
-  if (current_tones_.size() == kMaxTones) return false;
-  if (!utils::HasItem(current_tones_, tone)) {
-    current_tones_.push_back(tone);
+bool Audio::AddNote(Note note) {
+  if (current_notes_.size() == kMaxNotes) return false;
+  if (!utils::HasItem(current_notes_, note)) {
+    current_notes_.push_back(note);
     return true;
   }
   return false;
 }
 
-bool Audio::RemoveTone(Tone tone) {
-  auto searched_tone = utils::FindItem(current_tones_, tone);
-  if (searched_tone != current_tones_.end()) {
-    current_tones_.erase(searched_tone);
+bool Audio::RemoveNote(Note note) {
+  auto searched_note = utils::FindItem(current_notes_, note);
+  if (searched_note != current_notes_.end()) {
+    current_notes_.erase(searched_note);
     return true;
   }
   return false;
 }
 
-// wrapper for all tone lifecycles. receives a audio class's prefix name
+// wrapper for all note lifecycles. receives a audio class's prefix name
 // and a macro method to call on update with the lifecycle type
-#define TONE_LIFECYLCES(CLASS, V)                                              \
+#define NOTE_LIFECYLCES(CLASS, V)                                              \
 	__CREATOR(CLASS, Add, V)                                                     \
 	__CREATOR(CLASS, Remove, V)
 
 #define __CREATOR(CLASS, FUNC, V)                                              \
-	bool CLASS ## Audio::FUNC ## Tone(Tone tone) {                               \
-		bool updated_tones = Audio::FUNC ## Tone(tone);                            \
+	bool CLASS ## Audio::FUNC ## Note(Note note) {                               \
+		bool updated_notes = Audio::FUNC ## Note(note);                            \
 		/* V's call is inside a block for potentially a multi line code */         \
-		if (updated_tones) { V(FUNC) }                                             \
-		return updated_tones;                                                      \
+		if (updated_notes) { V(FUNC) }                                             \
+		return updated_notes;                                                      \
 	}
 
-#define V(_) sound::SetPlayedTones(current_tones_);
-	TONE_LIFECYLCES(Builtin, V)
+#define V(_) sound::SetPlayedNotes(current_notes_);
+	NOTE_LIFECYLCES(Builtin, V)
 #undef V
 
-#define V(FUNC) serial::Send(serial::k ## FUNC ## Tone, tone);
-	TONE_LIFECYLCES(SerialPort, V)
+#define V(FUNC) serial::Send(serial::k ## FUNC ## Note, note);
+	NOTE_LIFECYLCES(SerialPort, V)
 #undef V
 
 } // namespace synth

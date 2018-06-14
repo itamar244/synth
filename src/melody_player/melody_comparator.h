@@ -19,7 +19,7 @@ public:
 		return grade_ / max_grade_ * 100.0;
 	}
 
-	void AddTonesToCompare(const Audio::ToneList& tones);
+	void AddNotesToCompare(const Audio::NoteList& notes);
 	bool NextSection();
 	MelodyComparator* ToComparator() override { return this; }
 

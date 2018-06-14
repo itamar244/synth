@@ -1,11 +1,11 @@
-// Audio is an abstract class managing the current state of the played tones.
+// Audio is an abstract class managing the current state of the played notes.
 // Each Audio implementation implements specific Audio's lifecycles
 // and must implement `virtual Type AudioType` to determine
 // the type of handler at runtime.
 //
 // The following lifecycles are:
-//   - `AddTone`. should always call super if inherited
-//   - `RemoveTone`. should always call super even inherited
+//   - `AddNote`. should always call super if inherited
+//   - `RemoveNote`. should always call super even inherited
 #pragma once
 
 #include <StandardCplusplus.h>
@@ -18,48 +18,48 @@ namespace synth {
 
 class Audio {
 public:
-	const static uint8_t kMaxTones = 4;
+	const static uint8_t kMaxNotes = 4;
 
   enum AudioType {
     kBuiltin,
     kSerialPort,
   };
 
-  using Tone = uint8_t;
-  using ToneList = std::list<Tone>;
+  using Note = uint8_t;
+  using NoteList = std::list<Note>;
 
   virtual ~Audio() {}
   virtual AudioType Type() const = 0;
 
-  virtual bool AddTone(Tone tone);
-  virtual bool RemoveTone(Tone tone);
+  virtual bool AddNote(Note note);
+  virtual bool RemoveNote(Note note);
 
-	inline const ToneList& current_tones() const {
-		return current_tones_;
+	inline const NoteList& current_notes() const {
+		return current_notes_;
 	}
 
-	// `AddTones` and `RemoveTones` are wrappers for calling their singular functions
+	// `AddNotes` and `RemoveNotes` are wrappers for calling their singular functions
 	// with iterable classes
 	template<class Iterable>
-	inline void AddTones(const Iterable& tones) {
-		for (Tone tone : tones) AddTone(tone);
+	inline void AddNotes(const Iterable& notes) {
+		for (Note note : notes) AddNote(note);
 	}
 
 	template<class Iterable>
-	inline void RemoveTones(const Iterable& tones) {
-		for (Tone tone : tones) RemoveTone(tone);
+	inline void RemoveNotes(const Iterable& notes) {
+		for (Note note : notes) RemoveNote(note);
 	}
 
 protected:
-  ToneList current_tones_;
+  NoteList current_notes_;
 };
 
 #define AUDIO_IMPLEMENTATION_CLASS(NAME)                                       \
 	class NAME ## Audio: public Audio {                                          \
 	public:                                                                      \
 		AudioType Type() const override { return k ## NAME; }                      \
-		bool AddTone(Tone tone) override;                                          \
-		bool RemoveTone(Tone tone) override;                                       \
+		bool AddNote(Note note) override;                                          \
+		bool RemoveNote(Note note) override;                                       \
 	};
 	AUDIO_IMPLEMENTATION_CLASS(Builtin)
 	AUDIO_IMPLEMENTATION_CLASS(SerialPort)

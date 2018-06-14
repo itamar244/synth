@@ -27,13 +27,13 @@ public:
 		if (current_octave_ > 0) current_octave_--;
 	}
 
-	inline void AddToneWithOctave(uint8_t tone) {
-		OnToneWithOctaveCall(tone);
-		audio_->AddTone(tone + current_octave_ * 12);
+	inline void AddNoteWithOctave(Audio::Note note) {
+		OnNoteWithOctaveCall(note);
+		audio_->AddNote(note + current_octave_ * 12);
 	}
-	inline void RemoveToneWithOctave(uint8_t tone) {
-		OnToneWithOctaveCall(tone);
-		audio_->RemoveTone(tone + current_octave_ * 12);
+	inline void RemoveNoteWithOctave(Audio::Note note) {
+		OnNoteWithOctaveCall(note);
+		audio_->RemoveNote(note + current_octave_ * 12);
 	}
 
 	inline void SetPlayer(Player* player) {
@@ -64,7 +64,7 @@ private:
 
   int8_t current_octave_ = 4;
 
-	void OnToneWithOctaveCall(uint8_t tone);
+	void OnNoteWithOctaveCall(Audio::Note note);
 };
 
 } // namespace synth

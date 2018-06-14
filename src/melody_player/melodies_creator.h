@@ -7,19 +7,19 @@
 #include <avr/pgmspace.h>
 #include "melody_player/melody_container.h"
 
-#define TONE_C   0
-#define TONE_CS  1
-#define TONE_D   2
-#define TONE_DS  3
-#define TONE_E   4
-#define TONE_F   5
-#define TONE_FS  6
-#define TONE_G   7
-#define TONE_GS  8
-#define TONE_A   9
-#define TONE_AS 10
-#define TONE_B  11
-#define TONE(NAME, OCTAVE) TONE_ ## NAME + (OCTAVE + 1) * 12
+#define NOTE_C   0
+#define NOTE_CS  1
+#define NOTE_D   2
+#define NOTE_DS  3
+#define NOTE_E   4
+#define NOTE_F   5
+#define NOTE_FS  6
+#define NOTE_G   7
+#define NOTE_GS  8
+#define NOTE_A   9
+#define NOTE_AS 10
+#define NOTE_B  11
+#define NOTE(NAME, OCTAVE) NOTE_ ## NAME + (OCTAVE + 1) * 12
 
 // NUMBER / quarter
 #define Q32 1
@@ -42,19 +42,19 @@ namespace melodies {
 } // namespace melodies
 } // namespace synth
 
-#undef TONE_C
-#undef TONE_CS
-#undef TONE_D
-#undef TONE_DS
-#undef TONE_E
-#undef TONE_F
-#undef TONE_FS
-#undef TONE_G
-#undef TONE_GS
-#undef TONE_A
-#undef TONE_AS
-#undef TONE_B
-#undef TONE
+#undef NOTE_C
+#undef NOTE_CS
+#undef NOTE_D
+#undef NOTE_DS
+#undef NOTE_E
+#undef NOTE_F
+#undef NOTE_FS
+#undef NOTE_G
+#undef NOTE_GS
+#undef NOTE_A
+#undef NOTE_AS
+#undef NOTE_B
+#undef NOTE
 #undef MELODY
 #undef SECTIONS
 #undef Q32

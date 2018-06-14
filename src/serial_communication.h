@@ -12,8 +12,8 @@ namespace synth {
 namespace serial {
 
 enum Message {
-	kRemoveTone      = 0,
-	kAddTone         = 1,
+	kRemoveNote      = 0,
+	kAddNote         = 1,
 	kDecrementOctave = 2,
 	kIncrementOctave = 3,
 	kLogData         = 4,

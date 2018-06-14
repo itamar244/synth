@@ -15,7 +15,7 @@ class MelodyComparator;
 
 #define PLAYER_CALLBACKS(PREFIX, POSTFIX)                                      \
 	PREFIX void ParsePhrase() POSTFIX;                                           \
-	PREFIX const Audio::ToneList& GetPhraseTones() const POSTFIX;                \
+	PREFIX const Audio::NoteList& GetPhraseNotes() const POSTFIX;                \
 	PREFIX bool ShouldChangeToNextPhrase() const POSTFIX;                        \
 	PREFIX void NextPhrase() POSTFIX;                                            \
 	PREFIX bool ShouldContinue() const POSTFIX;                                  \
@@ -32,7 +32,7 @@ public:
 	// if the instance is comparator or not. UGLY ESACPE HATCH
 	virtual MelodyComparator* ToComparator() { return nullptr; }
 
-	friend inline const Audio::ToneList& GetPlayerCurrentTones(const Player*);
+	friend inline const Audio::NoteList& GetPlayerCurrentNotes(const Player*);
 
 protected:
 	bool started_ = false, ended_ = false;
@@ -41,8 +41,8 @@ protected:
 	PLAYER_CALLBACKS(virtual, = 0)
 };
 
-inline const Audio::ToneList& GetPlayerCurrentTones(const Player* player) {
-	return player->GetPhraseTones();
+inline const Audio::NoteList& GetPlayerCurrentNotes(const Player* player) {
+	return player->GetPhraseNotes();
 }
 
 } // namespace synth

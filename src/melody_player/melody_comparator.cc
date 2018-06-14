@@ -6,15 +6,15 @@
 
 namespace synth {
 
-using Tone = Audio::Tone;
-using ToneList = Audio::ToneList;
+using Note = Audio::Note;
+using NoteList = Audio::NoteList;
 
-inline uint8_t CountToneListInPhrase(
-		const ToneList& tones, const Phrase& phrase) {
+inline uint8_t CountNoteListInPhrase(
+		const NoteList& notes, const Phrase& phrase) {
 	return std::count_if(
-		tones.begin(), tones.end(),
-		[&phrase](Tone tone) {
-			return utils::HasItem(phrase.tones, tone);
+		notes.begin(), notes.end(),
+		[&phrase](Note note) {
+			return utils::HasItem(phrase.notes, note);
 		});
 }
 
@@ -42,7 +42,7 @@ bool MelodyComparator::NextSection() {
 
 // prev_millis_ is being used only for extremely short phrases to guard
 // against tiny user mistakes
-void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
+void MelodyComparator::AddNotesToCompare(const NoteList& notes) {
 	// if user played more phrases than needed
 	// than it will decrease five precents from grade for each phrase
 	if (compare_pos_ >= pos()) {
@@ -67,8 +67,8 @@ void MelodyComparator::AddTonesToCompare(const ToneList& tones) {
 				}
 			}
 
-			if (tones.size() > 0) {
-				grade_ += CountToneListInPhrase(tones, to_compare);
+			if (notes.size() > 0) {
+				grade_ += CountNoteListInPhrase(notes, to_compare);
 				max_grade_ += to_compare.Size();
 				compare_pos_ += to_compare.Size() + 2;
 			}

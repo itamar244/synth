@@ -1,24 +1,24 @@
 #define MAIN_LINE1                                                             \
-  1, TONE(D, 4), Q8,                                                           \
-  1, TONE(E, 4), Q4,                                                           \
-  1, TONE(F, 4), Q4,                                                           \
-  1, TONE(E, 4), Q4 + Q8,                                                      \
+  1, NOTE(D, 4), Q8,                                                           \
+  1, NOTE(E, 4), Q4,                                                           \
+  1, NOTE(F, 4), Q4,                                                           \
+  1, NOTE(E, 4), Q4 + Q8,                                                      \
 
 #define MAIN_LINE2                                                             \
-  1, TONE(D, 4), Q4,                                                           \
-  1, TONE(E, 4), Q8,                                                           \
-  1, TONE(F, 4), Q4 + Q8,                                                      \
-  1, TONE(E, 4), Q4,                                                           \
+  1, NOTE(D, 4), Q4,                                                           \
+  1, NOTE(E, 4), Q8,                                                           \
+  1, NOTE(F, 4), Q4 + Q8,                                                      \
+  1, NOTE(E, 4), Q4,                                                           \
 
 #define CHORDS_BEAT_WITHOUT_END                                                \
-	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q8 + Q16,                             \
-	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q16,                                  \
-	1, TONE(D, 3), Q4,                                                           \
-	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q16,                                  \
-	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q16,                                  \
+	3, NOTE(A, 3), NOTE(D, 4), NOTE(F, 4), Q8 + Q16,                             \
+	3, NOTE(A, 3), NOTE(D, 4), NOTE(F, 4), Q16,                                  \
+	1, NOTE(D, 3), Q4,                                                           \
+	3, NOTE(A, 3), NOTE(D, 4), NOTE(F, 4), Q16,                                  \
+	3, NOTE(A, 3), NOTE(D, 4), NOTE(F, 4), Q16,                                  \
 	0, Q8,                                                                       \
-	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q16,                                  \
-	3, TONE(A, 3), TONE(D, 4), TONE(F, 4), Q16,
+	3, NOTE(A, 3), NOTE(D, 4), NOTE(F, 4), Q16,                                  \
+	3, NOTE(A, 3), NOTE(D, 4), NOTE(F, 4), Q16,
 
 #define CHORDS_BEAT                                                            \
 	CHORDS_BEAT_WITHOUT_END                                                      \
@@ -26,7 +26,7 @@
 
 #define CHORDS_BEAT_WITH_A                                                     \
 	CHORDS_BEAT_WITHOUT_END                                                      \
-	1, TONE(A, 3), Q8,
+	1, NOTE(A, 3), Q8,
 
 MELODY(ANOTHER_BRICK_IN_THE_WALL) = {
   MAIN_LINE1

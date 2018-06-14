@@ -5,7 +5,7 @@ namespace synth {
 
 Player::~Player() {}
 
-#define AUDIO(PHASE) audio->PHASE ## Tones(GetPhraseTones())
+#define AUDIO(PHASE) audio->PHASE ## Notes(GetPhraseNotes())
 
 bool Player::Play(Audio* audio) {
 	if (ended_) {

@@ -9,7 +9,7 @@ namespace synth {
 namespace sound {
 
 void Init();
-void SetPlayedTones(const Audio::ToneList& tones);
+void SetPlayedNotes(const Audio::NoteList& notes);
 
 } // namespace sound
 } // namespace synth
