@@ -9,21 +9,21 @@ namespace sound {
 
 namespace {
 
-void SendNoteThroughWire(uint8_t dev, Audio::Note notes) {
+void SendNoteThroughWire(uint8_t dev, Audio::Note note) {
 	if (dev < 2) {
 		Wire.beginTransmission(0x24 + dev);
-		Wire.write(notes);
+		Wire.write(note);
 		Wire.endTransmission();
 	} else {
 		Wire2.beginTransmission(0x24 + dev - 2);
-		Wire2.write(notes);
+		Wire2.write(note);
 		Wire2.endTransmission();
 	}
 }
 
-// returns the notes but as a DTMF data
-uint8_t GetNote(Audio::Note notes) {
-	switch (notes % 24) {
+// returns the note but as a DTMF data
+uint8_t GetNote(Audio::Note note) {
+	switch (note % 24) {
 		case 0:  return 0x30;
 		case 1:  return 0x31;
 		case 2:  return 0x32;
@@ -60,11 +60,11 @@ void Init() {
 	Wire2.begin();
 }
 
-void SetPlayedNotes(const Audio::NoteList& notess) {
+void SetPlayedNotes(const Audio::NoteList& notes) {
 	uint8_t i = 0;
 
-	for (const auto& notes : notess) {
-		SendNoteThroughWire(i++, GetNote(notes));
+	for (const auto& note : notes) {
+		SendNoteThroughWire(i++, GetNote(note));
 	}
 	for (; i < Audio::kMaxNotes; i++) {
 		SendNoteThroughWire(i, 0);
