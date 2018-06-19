@@ -17,7 +17,7 @@ export default class ToggleButton<Option: string> extends HTMLElement {
     this.append(this.button);
 
     this.addEventListener('click', () => {
-      this.index = (this.index + 1) % options.length;
+      this.index = (this.index + 1) % this.options.length;
       this.update();
     });
   }
@@ -33,7 +33,7 @@ export default class ToggleButton<Option: string> extends HTMLElement {
     }
 
     this.button.textContent =
-      `Switch to ${this.options[this.index]}`;
+      `Switch to ${this.options[(this.index + 1) % this.options.length]}`;
   }
 }
 

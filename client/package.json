@@ -1,12 +1,12 @@
 {
-  "name": "synth-sound-client",
+  "name": "synth-client",
   "description": "Sound client for davidson project synthesizer",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "author": "Itamar Yatom <itamary24@gmail.com>",
   "main": "app/background.js",
   "build": {
-    "appId": "com.example.electron-boilerplate",
+    "appId": "com.itamar.synth-client",
     "files": [
       "app/**/*",
       "node_modules/**/*",
