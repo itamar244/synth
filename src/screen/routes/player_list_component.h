@@ -20,7 +20,9 @@ inline std::vector<Button> PlayerListInit() {
 
 template<typename PlayerType, typename Callback>
 inline auto PlayerListTouchHandler(
-		Controller* controller, Environment& env, const Callback& on_melody_set) {
+		Controller* controller,
+		Environment& env,
+		const Callback& on_melody_set) {
 	return [&](uint8_t index) {
 			if (index == 0) {
 				controller->set_route(Route::kMenu);

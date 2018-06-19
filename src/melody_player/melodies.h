@@ -27,7 +27,10 @@ const std::initializer_list<const char*> kMelodyNames = {
 #define CONTAINER(NAME, SPEED)                                                 \
 	MelodyContainer{                                                             \
 		{ NAME, sizeof(NAME) / sizeof(NAME[0]) },                                  \
-		{ NAME, sizeof(NAME ## _SECTIONS) / sizeof(NAME ## _SECTIONS[0]) },        \
+		{                                                                          \
+			NAME ## _SECTIONS,                                                       \
+			sizeof(NAME ## _SECTIONS) / sizeof(NAME ## _SECTIONS[0]),                \
+		},                                                                         \
 		SPEED,                                                                     \
 	}
 
