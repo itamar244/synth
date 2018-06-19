@@ -15,6 +15,7 @@
 
 declare module 'tone' {
   declare export class AudioNode {
+    dispose(): this;
     toMaster(): this;
   }
   declare export class Instrument extends AudioNode {}

@@ -35,6 +35,9 @@ export default class Environment extends EventEmitter {
   }
 
   initSynth() {
+    if (this.synth != null) {
+      this.synth.dispose();
+    }
     this.synth = new PolySynth(4, SYNTHES[this.curSynth])
       .set('oscillator', { type: 'sine' })
       .toMaster();
