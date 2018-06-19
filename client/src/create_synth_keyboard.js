@@ -12,17 +12,17 @@ const KEY_VALUES = arrayToMap([
   'q', '2', 'w', '3', 'e', 'r', '5', 't', '6', 'y', '7', 'u', 'i',
 ]);
 
-
-const attachKeyListeners = (onKeyDown, onKeyUp) => {
-  const pressedKeys = new Set();
-  const callOnKeyDownEvents = (key, options) => {
-    for (const option of options) {
-      if (key === option[0]) {
-        onKeyDown(msg[option[1]], 0);
-        return;
-      }
+const callOnKeyDownEvents = (key, callback, options) => {
+  for (const option of options) {
+    if (key === option[0]) {
+      callback(msg[option[1]]);
+      return;
     }
   }
+}
+
+const attachKeyListeners = (onKeyDown, onKeyUp, onInternalKeyDown) => {
+  const pressedKeys = new Set();
 
   const keydown = ({ key }: KeyboardEvent) => {
     const note = KEY_VALUES.get(key);
@@ -33,14 +33,16 @@ const attachKeyListeners = (onKeyDown, onKeyUp) => {
         onKeyDown(msg.ADD_NOTE, note);
       }
     } else if (pressedKeys.size === 0) {
-      callOnKeyDownEvents(key, [
+      callOnKeyDownEvents(key, type => onKeyDown(type, 0), [
         ['-', 'DECREMENT_OCTAVE'],
         ['=', 'INCREMENT_OCTAVE'],
-        ['[', 'SWITCH_BACKWARD_SYNTH_TYPE'],
-        [']', 'SWITCH_FORWARD_SYNTH_TYPE'],
         ['0', 'RESET_STORE'],
         [';', 'START_RECORDING'],
         ["'", 'STOP_RECORDING'],
+      ]);
+      callOnKeyDownEvents(key, onInternalKeyDown, [
+        ['[', 'SWITCH_BACKWARD_SYNTH_TYPE'],
+        [']', 'SWITCH_FORWARD_SYNTH_TYPE'],
       ]);
     }
   };
@@ -64,10 +66,11 @@ const attachKeyListeners = (onKeyDown, onKeyUp) => {
   };
 };
 
-export function serialPortSynthKeyboard(port: SerialPort) {
+export function serialPortSynthKeyboard(env: Environment) {
   return attachKeyListeners(
-    (type, note) => port.send(type, note),
-    note => port.send(msg.REMOVE_NOTE, note),
+    (type, note) => env.port.send(type, note),
+    note => env.port.send(msg.REMOVE_NOTE, note),
+    type => env.internalMessage(type),
   );
 }
 
@@ -86,5 +89,6 @@ export function localSynthKeyboard(env: Environment) {
       }
     },
     note => env.handleMessage(msg.REMOVE_NOTE, getNote(note)),
+    type => env.internalMessage(type),
   );
 }

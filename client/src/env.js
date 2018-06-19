@@ -54,17 +54,22 @@ export default class Environment extends EventEmitter {
       case msg.LOG_DATA:
         console.log(`loged ${data}`);
         break;
-      case msg.SWITCH_BACKWARD_SYNTH_TYPE:
-        this.updatePolySynth(-1);
-        break;
-      case msg.SWITCH_FORWARD_SYNTH_TYPE:
-        this.updatePolySynth(1);
-        break;
       case msg.START_RECORDING:
         this.emit('recording-change', true);
         break;
       case msg.STOP_RECORDING:
         this.emit('recording-change', false);
+        break;
+    }
+  }
+
+  internalMessage = (type: number) => {
+    switch (type) {
+      case msg.SWITCH_BACKWARD_SYNTH_TYPE:
+        this.updatePolySynth(-1);
+        break;
+      case msg.SWITCH_FORWARD_SYNTH_TYPE:
+        this.updatePolySynth(1);
         break;
     }
   }

@@ -5,24 +5,26 @@ import ToggleButton from './toggle_button';
 
 export default class App extends HTMLElement {
   button: ToggleButton<'synth' | 'port'>;
+  env: Environment;
   detach = null;
   paragraph = document.createElement('p');
 
   constructor(env: Environment) {
     super();
-    this.button = new ToggleButton(['synth', 'port'], {
-      synth: () => {
-        if (this.detach !== null) setTimeout(this.detach);
-        this.detach = keyboard.serialPortSynthKeyboard(env.port);
-      },
+    this.env = env
+    this.button = new ToggleButton(['port', 'synth'], {
+      synth: this.changeKeyboardType(keyboard.localSynthKeyboard),
 
-      port: () => {
-        if (this.detach !== null) setTimeout(this.detach);
-        this.detach = keyboard.localSynthKeyboard(env);
-      },
+      port: this.changeKeyboardType(keyboard.serialPortSynthKeyboard),
     });
+
     this.append(this.button, this.paragraph);
-    env.on('recording-change', this.onRecordingChange);
+    this.env.on('recording-change', this.onRecordingChange);
+  }
+
+  changeKeyboardType = (handler: typeof keyboard.localSynthKeyboard) => () => {
+    if (this.detach !== null) setTimeout(this.detach);
+    this.detach = handler(this.env);
   }
 
   onRecordingChange = (isStarted: bool) => {
