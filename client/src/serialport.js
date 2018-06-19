@@ -1,4 +1,5 @@
 // @flow
+import os from 'os';
 import SerialPortClass, { parsers } from 'serialport';
 
 type RequestHandler = (type: number, data: number) => mixed;
@@ -8,8 +9,8 @@ export type SerialPort = {
   +subscribe: (listener: RequestHandler) => mixed,
 }
 
-export default function createSerialPort(): SerialPort {
-  const port = new SerialPortClass('/dev/ttyACM0');
+function createSerialPortForPath(path: string): SerialPort {
+  const port = new SerialPortClass(path);
   const parser = port.pipe(new parsers.ByteLength({ length: 2 }));
 
   return {
@@ -17,4 +18,12 @@ export default function createSerialPort(): SerialPort {
     subscribe: listener =>
       parser.on('data', data => listener(data[0], data[1])),
   };
+}
+
+export default function createSerialPort(): SerialPort {
+  const platform = os.platform();
+
+  return createSerialPortForPath(
+    platform === 'win32' ? 'COM5' : '/dev/ttyACM0',
+  );
 }
