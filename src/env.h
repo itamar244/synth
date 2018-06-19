@@ -6,6 +6,7 @@
 #include <vector>
 #include <utility.h>
 #include "audio.h"
+#include "led_bulb.h"
 #include "melody_player/melody_comparator.h"
 #include "melody_player/melody_player.h"
 #include "melody_player/melodies.h"
@@ -46,8 +47,14 @@ public:
 
 	inline void StartPlaying() { is_song_played_ = true; }
 
-	inline void StartRecording() { utils::SetPtr(recorder_, new Recorder()); }
-	inline void StopRecording() {	utils::MaybeDeletePtr(recorder_); }
+	inline void StartRecording() {
+		utils::SetPtr(recorder_, new Recorder());
+		SetLedBulbColor(255, 0, 0);
+	}
+	inline void StopRecording() {
+		utils::MaybeDeletePtr(recorder_);
+		ClearLedBulb();
+	}
 
 	void DeletePlayer();
 	std::pair<
