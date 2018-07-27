@@ -2,16 +2,17 @@
 // in different locations in the project.
 #pragma once
 
-#include <algorithm>
 #include <cstring>
+#include <algorithm>
+#include <vector>
 
 namespace synth {
 namespace utils {
 
-template<class Iterable, class V>
-inline typename Iterable::iterator FindItem(
+template<class Iterable>
+inline typename Iterable::const_iterator FindItem(
 		const Iterable& iterable,
-		const V& item) {
+		const typename Iterable::value_type& item) {
 	return std::find(iterable.begin(), iterable.end(), item);
 }
 
