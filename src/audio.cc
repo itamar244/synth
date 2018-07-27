@@ -43,8 +43,8 @@ bool Audio::RemoveNote(Note note) {
 	NOTE_LIFECYLCES(Builtin, V)
 #undef V
 
-#define V(FUNC) serial::Send(serial::k ## FUNC ## Note, note);
-	NOTE_LIFECYLCES(SerialPort, V)
-#undef V
+// #define V(FUNC) serial::Send(serial::k ## FUNC ## Note, note);
+// 	NOTE_LIFECYLCES(SerialPort, V)
+// #undef V
 
 } // namespace synth

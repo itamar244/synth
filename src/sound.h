@@ -5,11 +5,9 @@
 
 #include "audio.h"
 
-namespace synth {
-namespace sound {
+namespace synth::sound {
 
-void Init();
+// void Init();
 void SetPlayedNotes(const Audio::NoteList& notes);
 
-} // namespace sound
-} // namespace synth
+} // namespace synth::sound

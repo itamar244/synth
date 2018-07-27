@@ -4,13 +4,12 @@
  */
 #pragma once
 
-#include <StandardCplusplus.h>
 #include <vector>
-#include "env.h"
-#include "screen/button.h"
+#include <SFML/Graphics.hpp>
+#include "../env.h"
+#include "./button.h"
 
-namespace synth {
-namespace screen {
+namespace synth::screen {
 
 enum class Route;
 
@@ -25,9 +24,10 @@ public:
     is_painted_ = false;
   }
 
-  void Paint(Environment& env);
-  void Touch(Environment& env);
-  void Touchend(Environment& env);
+  void Paint(Environment&, sf::RenderWindow&);
+  void Touch(
+			Environment& env, sf::RenderWindow& window, sf::Vector2i point_vec);
+  void Touchend(Environment&, sf::RenderWindow&);
 
 private:
   std::vector<Button> buttons_;
@@ -35,5 +35,4 @@ private:
   bool is_painted_ = false, is_touched_ = false;
 };
 
-}  // namespace screen
-}  // namespace synth
+} // namespace synth::screen

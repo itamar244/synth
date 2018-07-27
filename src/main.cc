@@ -1,42 +1,50 @@
-#include <Arduino.h>
-#include <TFT9341.h>
-#include "store.h"
-#include "env.h"
-#include "screen/routes.h"
-#include "screen/screen.h"
-#include "serial_communication.h"
-#include "sound.h"
+#include <SFML/Graphics.hpp>
+// #include "store.h"
+#include "./env.h"
+#include "./screen/screen.h"
 
-namespace serial = synth::serial;
-namespace sound = synth::sound;
-namespace store = synth::store;
+// namespace serial = synth::serial;
+// namespace sound = synth::sound;
+// namespace store = synth::store;
+//
 using synth::Environment;
 using ScreenController = synth::screen::Controller;
-using Route = synth::screen::Route;
+// using Route = synth::screen::Route;
+
 
 Environment env;
 ScreenController screen_controller;
 
-void setup() {
-	Serial.begin(9600);
-	sound::Init();
-	store::MaybeInit();
+inline void Loop(sf::RenderWindow& window) {
+	env.Tick();
+	screen_controller.Paint(env, window);
 
-	lcd.begin();
-	lcdtouch.InitTypeTouch(1);
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		screen_controller.Touch(env, window, sf::Mouse::getPosition(window));
+	} else if (screen_controller.is_touched()) {
+		screen_controller.Touchend(env, window);
+	}
 }
 
-void loop() {
-	env.Tick();
+int main() {
+	// store::MaybeInit();
 
-	if (Serial.available()) {
-		serial::Receive(env);
+	sf::RenderWindow window(sf::VideoMode(500, 300), "Synth");
+
+	window.setVerticalSyncEnabled(true);
+	window.clear(sf::Color::Black);
+
+	while (window.isOpen()) {
+		sf::Event event;
+		while (window.pollEvent(event))	{
+			if (event.type == sf::Event::Closed) {
+				window.close();
+			} else {
+				Loop(window);
+			}
+		}
 	}
-	screen_controller.Paint(env);
 
-  if (digitalRead(2) == 0) {
-    screen_controller.Touch(env);
-  } else if (screen_controller.is_touched()) {
-    screen_controller.Touchend(env);
-  }
+
+	return 0;
 }

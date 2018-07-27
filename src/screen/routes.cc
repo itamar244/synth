@@ -3,15 +3,12 @@
  * that are used in `screen/pages/` files to
  * generate screen output.
  */
-#include "screen/routes.h"
-#include <StandardCplusplus.h>
+#include "./routes.h"
 #include <cstring>
-#include <TFT9341.h>
-#include "screen/button.h"
-#include <StandardCplusplus.h>
+#include <SFML/Graphics.hpp>
+#include "./button.h"
 
-namespace synth {
-namespace screen {
+namespace synth::screen {
 
 void ClearButtonClicks(std::vector<Button>& buttons) {
 	for (auto& button : buttons) {
@@ -21,75 +18,105 @@ void ClearButtonClicks(std::vector<Button>& buttons) {
 	}
 }
 
+sf::RectangleShape CreateRectShape(
+		const Button& button, sf::Color color) {
+	sf::RectangleShape shape{ sf::Vector2f{ button.width, button.height } };
+	shape.setPosition(button.x, button.y);
+	shape.setFillColor(color);
+	return shape;
+}
+
+sf::Text CreateText(const sf::String& str, float x, float y) {
+	// TODO: might fix this ugly trick
+	static sf::Font font;
+	static bool loaded = false;
+	if (!loaded) {
+		font.loadFromFile("/usr/share/fonts/truetype/tlwg/Loma.ttf");
+		loaded = true;
+	}
+	sf::Text text(str, font);
+
+	text.setFont(font);
+	text.setString(str);
+	text.setPosition(x, y - 5);
+	text.setCharacterSize(20);
+	text.setColor(sf::Color::White);
+	return text;
+}
+
 void PaintMenuLoop(
+		sf::RenderWindow& window,
 		const PaintMenuNames& names,
 		std::vector<Button>& buttons,
 		uint8_t& i) {
-	for (auto name : names) {
-		uint8_t name_len = std::strlen(name);
-    uint16_t x = 30, y = (i++) * 45 + 20;
-    uint16_t width = 80, height = 35;
+	for (auto& name : names) {
+		auto name_len = name.getSize();
+		float x = 30, y = (i++) * 45 + 20;
+		float width = 80, height = 35;
+
 
 		if (name_len > 4) {
 			width = name_len * 12 + 36;
 		}
-    buttons.push_back({ x, y, width, height });
-    lcd.fillRoundRect(x, y, width, height, 5, Color::RED);
-    lcd.gotoxy(x + 18, y + 8);
-    lcd.setColor(Color::WHITE, Color::RED);
-    lcd.print(name);
-  }
-}
+		Button button = { x, y, width, height };
+		buttons.push_back(button);
 
-std::vector<Button> PaintMenu(const PaintMenuNames& names) {
-  std::vector<Button> buttons;
-	uint8_t i = 0;
-  buttons.reserve(names.size());
-
-  PaintMenuLoop(names, buttons, i);
-
-  return buttons;
+		window.draw(CreateRectShape(button, sf::Color::Red));
+		window.draw(CreateText(name, x + 10, y + 10));
+	}
 }
 
 std::vector<Button> PaintMenu(
+		sf::RenderWindow& window, const PaintMenuNames& names) {
+	std::vector<Button> buttons;
+	uint8_t i = 0;
+	buttons.reserve(names.size());
+
+	PaintMenuLoop(window, names, buttons, i);
+
+	return buttons;
+}
+
+std::vector<Button> PaintMenu(
+		sf::RenderWindow& window,
 		const std::initializer_list<PaintMenuNames>& names_list) {
 	std::vector<Button> buttons;
 	uint8_t i = 0;
 
 	for (auto& names : names_list) {
-  	PaintMenuLoop(names, buttons, i);
+		PaintMenuLoop(window, names, buttons, i);
 	}
 
-  return buttons;
+	return buttons;
 }
 
-std::vector<Button> PaintKeyboard(const char* names[], uint16_t size) {
+std::vector<Button> PaintKeyboard(
+		sf::RenderWindow& window,
+		const char* names[],
+		uint16_t size) {
 	std::vector<Button> buttons;
-  buttons.reserve(size + 1);
 
-  for (uint8_t i = 0; i < size && i < 11; i++) {
-    const uint16_t x = (i % 3) * 100 + 30;
-    const uint16_t y = (i / 3) * 50 + 40;
-    const int width = 50, height = 40;
+	buttons.reserve(size + 1);
 
-    buttons.push_back({ x, y, width, height });
-    lcd.fillRoundRect(x, y, width, height, 5, Color::RED);
-    lcd.gotoxy(x + (21 - std::strlen(names[i]) * 3), y + 10);
-    lcd.setColor(Color::WHITE, Color::RED);
-    lcd.print(names[i]);
-  }
+	for (uint8_t i = 0; i < size && i < 11; i++) {
+		const float x = (i % 3) * 100 + 30;
+		const float y = (i / 3) * 50 + 40;
+		const float width = 50, height = 40;
+		Button button = { x, y, width, height };
 
-  Button menu = { lcd.getWidth() - 100, lcd.getHeight() - 50, 100, 40 };
-  buttons.push_back(menu);
-  lcd.fillRoundRect(
-    menu.x, menu.y,
-    menu.width, menu.height, 5, Color::RED);
-  lcd.gotoxy(menu.x + 18, menu.y + 10);
-  lcd.setColor(Color::WHITE, Color::RED);
-  lcd.print("Back");
+		buttons.push_back(button);
+		window.draw(CreateRectShape(button, sf::Color::Red));
+		window.draw(
+			CreateText(names[i], x + (21 - std::strlen(names[i]) * 3), y + 10));
+	}
 
-  return buttons;
+	auto dimensions = window.getSize();
+	Button menu = { dimensions.x - 100, dimensions.y - 50, 100, 40 };
+	buttons.push_back(menu);
+	window.draw(CreateRectShape(menu, sf::Color::Red));
+	window.draw(CreateText("Back", menu.x + 18, menu.y + 10));
+
+	return buttons;
 }
 
-} // namespace synth
-} // namespace screen
+} // namespace synth::screen
