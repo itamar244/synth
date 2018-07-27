@@ -9,7 +9,7 @@ namespace synth {
 namespace utils {
 
 template<class Iterable, class V>
-inline typename Iterable::iterator FindItem(
+inline auto FindItem(
 		const Iterable& iterable,
 		const V& item) {
 	return std::find(iterable.begin(), iterable.end(), item);
