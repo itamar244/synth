@@ -1,21 +1,22 @@
 #pragma once
 
-#include <Arduino.h>
-#include <stdint.h>
-#include "screen/point.h"
+#include "./point.h"
 
-namespace synth {
-namespace screen {
+namespace synth::screen {
 
 struct Button : public Point {
-  uint8_t width, height;
+  float width, height;
   bool is_pressed = false;
 
-  Button(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
+  Button(float x, float y, float width, float height)
+    : Point(x, y), width(width), height(height) {}
+
+	template<class X, class Y>
+  Button(X x, Y y, float width, float height)
     : Point(x, y), width(width), height(height) {}
 
   inline bool IsTapped(const Point& point) const {
-    const int16_t diff_x = point.x - x, diff_y = point.y - y;
+    const float diff_x = point.x - x, diff_y = point.y - y;
 
     return diff_x < width && diff_x > 0 && diff_y < height && diff_y > 0;
   }
@@ -39,5 +40,4 @@ struct Button : public Point {
 	}
 };
 
-}  // namespace screen
-}  // namespace synth
+} // namespace synth::screen

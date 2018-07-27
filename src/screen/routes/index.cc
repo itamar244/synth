@@ -1,24 +1,21 @@
-#include "screen/routes.h"
-#include <Arduino.h>
-#include <TFT9341.h>
+#include <SFML/Graphics.hpp>
+#include "../routes.h"
 
 namespace synth {
 namespace screen {
 
 ROUTE_INIT(Index) {
+	const auto dimensions = window.getSize();
 	const int width = 120, height = 40;
-	const uint16_t x = lcd.getWidth() / 2 - width / 2;
-	const uint16_t y = lcd.getHeight() / 2 - height / 2;
+	const float x = dimensions.x / 2 - width / 2;
+	const float y = dimensions.y / 2 - height / 2;
+	Button button = { x, y, width, height };
 
-	lcd.gotoxy(x - 70, y - 20);
-	lcd.setColor(Color::WHITE, Color::BLACK);
-	lcd.print("Itamar Yatom Project");
-	lcd.fillRoundRect(x, y, width, height, 5, Color::BLUE);
-	lcd.gotoxy(x + 12, y + 10);
-	lcd.setColor(Color::WHITE, Color::BLUE);
-	lcd.print("continue");
+	window.draw(CreateText("Itamar Yatom Project", x - 40, y - 30));
+	window.draw(CreateRectShape(button, sf::Color::Blue));
+	window.draw(CreateText("Continue", x + 15, y + 10));
 
-	return {{ x, y, width, height }};
+	return {button};
 }
 
 ROUTE_TOUCH(Index) {

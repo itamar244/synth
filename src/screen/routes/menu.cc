@@ -1,8 +1,5 @@
-#include "screen/routes.h"
-#include <Arduino.h>
-#include <StandardCplusplus.h>
-#include <vector>
-#include "screen/button.h"
+#include "../routes.h"
+#include "../button.h"
 
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
   V(Player)                                                                    \
@@ -20,7 +17,7 @@ enum class Setting {
 #undef V
 
 ROUTE_INIT(Menu) {
-  return PaintMenu({
+  return PaintMenu(window, {
   	"Player",
   	"Practice Player",
   	"Records Player",
@@ -30,16 +27,16 @@ ROUTE_INIT(Menu) {
 
 ROUTE_TOUCH(Menu) {
   Button::IteratePressed(buttons, point,
-		[&](uint8_t index) {
-			switch (Setting(index)) {
-#define V(TYPE)                                                              \
-				case Setting::k ## TYPE:                                             \
-					controller->set_route(Route::k ## TYPE);                           \
-					break;
-				SYNTH_MENU_ITEM_TYPES(V)
+			[&](uint8_t index) {
+				switch (Setting(index)) {
+#define V(TYPE)//                                                                \
+					case Setting::k ## TYPE:                                             \
+						controller->set_route(Route::k ## TYPE);                           \
+						break;
+					SYNTH_MENU_ITEM_TYPES(V)
 #undef V
-			}
-  	});
+				}
+	  	});
 }
 
 } // namespace screen

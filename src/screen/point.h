@@ -1,21 +1,19 @@
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 
-namespace synth {
-namespace screen {
+namespace synth::screen {
 
 struct Point {
-  uint16_t x, y;
+  float x, y;
 
-  Point(uint16_t x, uint16_t y)
+  Point(float x, float y)
     : x(x), y(y) {}
 
   template<class X, class Y>
   Point(X x, Y y)
-    : x(static_cast<uint16_t>(x))
-    , y(static_cast<uint16_t>(y)) {}
+    : x(static_cast<float>(x))
+    , y(static_cast<float>(y)) {}
 };
 
-}  // namespace screen
-}  // namespace synth
+}  // namespace synth::screen

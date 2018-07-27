@@ -1,9 +1,7 @@
-#include "audio.h"
-#include <Arduino.h>
-#include <stdint.h>
-#include "utils.h"
-#include "serial_communication.h"
-#include "sound.h"
+#include "./audio.h"
+#include <cstdint>
+#include "./utils.h"
+#include "./sound.h"
 
 namespace synth {
 
@@ -43,8 +41,8 @@ bool Audio::RemoveNote(Note note) {
 	NOTE_LIFECYLCES(Builtin, V)
 #undef V
 
-#define V(FUNC) serial::Send(serial::k ## FUNC ## Note, note);
-	NOTE_LIFECYLCES(SerialPort, V)
-#undef V
+// #define V(FUNC) serial::Send(serial::k ## FUNC ## Note, note);
+// 	NOTE_LIFECYLCES(SerialPort, V)
+// #undef V
 
 } // namespace synth

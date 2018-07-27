@@ -1,7 +1,6 @@
-#include "screen/screen.h"
-#include <TFT9341.h>
-#include "env.h"
-#include "screen/routes.h"
+#include "./screen.h"
+#include <iostream>
+#include "./routes.h"
 
 #define CASE_ROUTE_TYPES(V, ROUTE)                                             \
   case Route::k ## ROUTE:                                                      \
@@ -14,47 +13,36 @@
     WRAPPED_ROUTE_TYPES(CASE_ROUTE_TYPES, V)                                   \
   }
 
-namespace synth {
-namespace screen {
-
-// fixing some weird inconsistencies with screen's touch
-inline Point GetClickedPoint() {
-  lcdtouch.readxy();
-  const uint16_t x = lcdtouch.readx(), y = lcdtouch.ready();
-
-  return {
-    (WIDTH - x - 80) * 1.3,
-    (y - 13) / 1.3,
-  };
-}
+namespace synth::screen {
 
 Controller::Controller()
   : route_(Route::kIndex) {}
 
-void Controller::Paint(Environment& env) {
+void Controller::Paint(Environment& env, sf::RenderWindow& window) {
   if (!is_painted_) {
     is_painted_ = true;
-    lcd.setBackground(Color::BLACK);
-    lcd.clrscr();
-    lcd.setColor(Color::RED);
+		window.clear(sf::Color::Black);
 
-    Touchend(env);
-#define V(ROUTE) buttons_ = RouteInit ## ROUTE();
+    Touchend(env, window);
+#define V(ROUTE) buttons_ = RouteInit ## ROUTE(window);
     SWITCH_ROUTE_TYPES(V)
 #undef V
   }
+
+	window.display();
 }
 
-void Controller::Touch(Environment& env) {
-  const Point point = GetClickedPoint();
+void Controller::Touch(
+		Environment& env, sf::RenderWindow& window, sf::Vector2i point_vec) {
+  const Point point = { point_vec.x, point_vec.y };
 	is_touched_ = true;
 
-#define V(ROUTE) RouteTouch ## ROUTE(this, buttons_, env, point);
+#define V(ROUTE) RouteTouch ## ROUTE(this, window, buttons_, env, point);
   SWITCH_ROUTE_TYPES(V)
 #undef V
 }
 
-void Controller::Touchend(Environment& env) {
+void Controller::Touchend(Environment& env, sf::RenderWindow& window) {
 	is_touched_ = false;
 
 	for (auto& button : buttons_) {
@@ -64,5 +52,4 @@ void Controller::Touchend(Environment& env) {
 	}
 }
 
-}  // namespace screen
-}  // namespace synth
+} // namespace synth::screen

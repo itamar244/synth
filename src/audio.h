@@ -8,11 +8,10 @@
 //   - `RemoveNote`. should always call super even inherited
 #pragma once
 
-#include <StandardCplusplus.h>
 #include <list>
 #include <algorithm>
-#include <stdint.h>
-#include "utils.h"
+#include <cstdint>
+#include "./utils.h"
 
 namespace synth {
 
@@ -62,7 +61,7 @@ protected:
 		bool RemoveNote(Note note) override;                                       \
 	};
 	AUDIO_IMPLEMENTATION_CLASS(Builtin)
-	AUDIO_IMPLEMENTATION_CLASS(SerialPort)
+	// AUDIO_IMPLEMENTATION_CLASS(SerialPort)
 #undef AUDIO_IMPLEMENTATION_CLASS
 
 } // namespace synth

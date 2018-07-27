@@ -2,7 +2,6 @@
 // in different locations in the project.
 #pragma once
 
-#include <StandardCplusplus.h>
 #include <algorithm>
 #include <cstring>
 
