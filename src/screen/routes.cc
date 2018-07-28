@@ -3,10 +3,10 @@
  * that are used in `screen/pages/` files to
  * generate screen output.
  */
-#include "./routes.h"
+#include "routes.h"
 #include <cstring>
 #include <SFML/Graphics.hpp>
-#include "./button.h"
+#include "button.h"
 
 namespace synth::screen {
 

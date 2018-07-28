@@ -9,8 +9,8 @@
 // #include <string>
 #include <SFML/Graphics.hpp>
 #include "../env.h"
-#include "./button.h"
-#include "./screen.h"
+#include "button.h"
+#include "screen.h"
 
 #define ROUTE_TYPES(V)                                                         \
   V(Index)                                                                     \

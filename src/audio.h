@@ -11,7 +11,7 @@
 #include <list>
 #include <algorithm>
 #include <cstdint>
-#include "./utils.h"
+#include "utils.h"
 
 namespace synth {
 

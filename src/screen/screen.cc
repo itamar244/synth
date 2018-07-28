@@ -1,6 +1,6 @@
-#include "./screen.h"
+#include "screen.h"
 #include <iostream>
-#include "./routes.h"
+#include "routes.h"
 
 #define CASE_ROUTE_TYPES(V, ROUTE)                                             \
   case Route::k ## ROUTE:                                                      \

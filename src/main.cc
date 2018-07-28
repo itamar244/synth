@@ -1,9 +1,9 @@
 #include <SFML/Graphics.hpp>
 // #include "store.h"
-#include "./env.h"
-#include "./keyboard.h"
-#include "./sound.h"
-#include "./screen/screen.h"
+#include "env.h"
+#include "keyboard.h"
+#include "sound.h"
+#include "screen/screen.h"
 
 // namespace serial = synth::serial;
 // namespace sound = synth::sound;

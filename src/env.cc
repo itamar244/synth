@@ -1,4 +1,4 @@
-#include "./env.h"
+#include "env.h"
 // #include "audio.h"
 // #include "serial_communication.h"
 

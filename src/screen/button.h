@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./point.h"
+#include "point.h"
 
 namespace synth::screen {
 

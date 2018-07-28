@@ -1,7 +1,7 @@
-#include "./audio.h"
+#include "audio.h"
 #include <cstdint>
-#include "./utils.h"
-#include "./sound.h"
+#include "utils.h"
+#include "sound.h"
 
 namespace synth {
 

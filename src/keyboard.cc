@@ -1,7 +1,7 @@
-#include "./keyboard.h"
+#include "keyboard.h"
 #include <iostream>
 #include <vector>
-#include "./audio.h"
+#include "audio.h"
 
 namespace synth {
 

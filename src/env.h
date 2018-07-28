@@ -2,7 +2,7 @@
 // It controls the audio and the melody comparator, also the current octave
 #pragma once
 
-#include "./audio.h"
+#include "audio.h"
 // #include "led_bulb.h"
 // #include "melody_player/melody_comparator.h"
 // #include "melody_player/melody_player.h"

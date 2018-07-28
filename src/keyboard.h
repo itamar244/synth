@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Window.hpp>
-#include "./env.h"
+#include "env.h"
 
 namespace synth {
 
