@@ -10,9 +10,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(PROJECT_SOURCE_DIR src)
 
 # links sfml object files by adding link flags to compiler
-set(CMAKE_CXX_LINK_FLAGS
-	${CMAKE_CXX_LINK_FLAGS} "-lsfml-graphics -lsfml-window -lsfml-system")
-
+set(
+	CMAKE_CXX_LINK_FLAGS
+	${CMAKE_CXX_LINK_FLAGS}
+	"-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio"
+)
 file(GLOB_RECURSE Synth_SRC
   "src/*.cc"
 )
