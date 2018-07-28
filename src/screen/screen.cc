@@ -27,9 +27,9 @@ void Controller::Paint(Environment& env, sf::RenderWindow& window) {
 #define V(ROUTE) buttons_ = RouteInit ## ROUTE(window);
     SWITCH_ROUTE_TYPES(V)
 #undef V
-  }
 
-	window.display();
+		window.display();
+	}
 }
 
 void Controller::Touch(
