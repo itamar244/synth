@@ -91,9 +91,7 @@ std::vector<Button> PaintMenu(
 }
 
 std::vector<Button> PaintKeyboard(
-		sf::RenderWindow& window,
-		const char* names[],
-		uint16_t size) {
+		sf::RenderWindow& window, const char* names[], uint16_t size) {
 	std::vector<Button> buttons;
 
 	buttons.reserve(size + 1);

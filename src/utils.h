@@ -21,15 +21,6 @@ inline bool HasItem(const Iterable& iterable, const V& item) {
 	return FindItem(iterable, item) != iterable.end();
 }
 
-template<class Iterator>
-auto Advance(Iterator it, unsigned n) -> decltype(*it) {
-	for (unsigned i = 0; i < n; i++) {
-		++it;
-	}
-
-	return *it;
-}
-
 template<class Lhs, class Rhs>
 inline bool Is(const Lhs& lhs, const Rhs& rhs) {
 	return lhs == rhs;

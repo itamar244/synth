@@ -55,8 +55,7 @@ enum class Route {
 
 using PaintMenuNames = std::initializer_list<const sf::String>;
 
-sf::RectangleShape CreateRectShape(
-		const Button& button, sf::Color color);
+sf::RectangleShape CreateRectShape(const Button& button, sf::Color color);
 sf::Text CreateText(const sf::String& str, float x, float y);
 /*
  * Paints a menu with buttons for each name, and a `back` button.
