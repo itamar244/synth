@@ -57,16 +57,16 @@ void Environment::Tick() {
 //
 // 	return {false, 0};
 // }
-//
-// void Environment::OnNoteWithOctaveCall(uint8_t note) {
-// 	if (player_ != nullptr) {
-// 		if (MelodyComparator* comparator = player_->ToComparator()) {
-// 				comparator->AddNotesToCompare(audio_->current_notes());
-// 		}
-// 	}
-// 	if (recorder_ != nullptr) {
-// 		recorder_->PushNotes(audio_->current_notes());
-// 	}
-// }
+
+void Environment::OnNoteWithOctaveCall(uint8_t note) {
+	// if (player_ != nullptr) {
+	// 	if (MelodyComparator* comparator = player_->ToComparator()) {
+	// 			comparator->AddNotesToCompare(audio_->current_notes());
+	// 	}
+	// }
+	// if (recorder_ != nullptr) {
+	// 	recorder_->PushNotes(audio_->current_notes());
+	// }
+}
 
 } // namespace synth

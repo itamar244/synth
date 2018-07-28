@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 // #include "store.h"
 #include "./env.h"
+#include "./keyboard.h"
+#include "./sound.h"
 #include "./screen/screen.h"
 
 // namespace serial = synth::serial;
@@ -8,6 +10,7 @@
 // namespace store = synth::store;
 //
 using synth::Environment;
+using synth::ListenToKeyboardInput;
 using ScreenController = synth::screen::Controller;
 // using Route = synth::screen::Route;
 
@@ -18,6 +21,7 @@ ScreenController screen_controller;
 inline void Loop(sf::RenderWindow& window) {
 	env.Tick();
 	screen_controller.Paint(env, window);
+	ListenToKeyboardInput(env);
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		screen_controller.Touch(env, window, sf::Mouse::getPosition(window));
@@ -45,6 +49,7 @@ int main() {
 		}
 	}
 
+	for(;;);
 
 	return 0;
 }

@@ -2,7 +2,7 @@
 // It controls the audio and the melody comparator, also the current octave
 #pragma once
 
-// #include "audio.h"
+#include "./audio.h"
 // #include "led_bulb.h"
 // #include "melody_player/melody_comparator.h"
 // #include "melody_player/melody_player.h"
@@ -19,20 +19,20 @@ public:
 	void Tick();
 
 	// Audio
-	// inline Audio* audio() const { return audio_; }
-	// inline void IncrementOctave() { current_octave_++; }
-	// inline void DecrementOctave() {
-	// 	if (current_octave_ > 0) current_octave_--;
-	// }
-	//
-	// inline void AddNoteWithOctave(Audio::Note note) {
-	// 	OnNoteWithOctaveCall(note);
-	// 	audio_->AddNote(note + current_octave_ * 12);
-	// }
-	// inline void RemoveNoteWithOctave(Audio::Note note) {
-	// 	OnNoteWithOctaveCall(note);
-	// 	audio_->RemoveNote(note + current_octave_ * 12);
-	// }
+	inline Audio* audio() const { return audio_; }
+	inline void IncrementOctave() { current_octave_++; }
+	inline void DecrementOctave() {
+		if (current_octave_ > 0) current_octave_--;
+	}
+
+	inline void AddNoteWithOctave(Audio::Note note) {
+		OnNoteWithOctaveCall(note);
+		audio_->AddNote(note + current_octave_ * 12);
+	}
+	inline void RemoveNoteWithOctave(Audio::Note note) {
+		OnNoteWithOctaveCall(note);
+		audio_->RemoveNote(note + current_octave_ * 12);
+	}
 	//
 	// inline void SetPlayer(Player* player) {
 	// 	utils::SetPtr(player_, player);
@@ -61,14 +61,14 @@ public:
   // void SetAudioType(Audio::AudioType type);
 
 private:
-  // Audio* audio_ = new SerialPortAudio();
+  Audio* audio_ = new BuiltinAudio();
 	// Player* player_ = nullptr;
 	// Recorder* recorder_ = nullptr;
   // bool is_song_played_ = false;
 
-  // int8_t current_octave_ = 4;
+  int8_t current_octave_ = 4;
 
-	// void OnNoteWithOctaveCall(Audio::Note note);
+	void OnNoteWithOctaveCall(Audio::Note note);
 };
 
 } // namespace synth
