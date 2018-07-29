@@ -3,15 +3,14 @@
 #include <cstdlib>
 #include <cstdint>
 #include <functional>
-#include <iostream>
-#include <limits>
 #include <memory>
+#include "base.h"
 #include "fs.h"
 
 namespace synth::storage {
 
 template<class T>
-class CommaSeperated {
+class CommaSeperated : public BaseStorage {
 public:
 	using Parse = std::function<T(char const*)>;
 
@@ -19,13 +18,10 @@ public:
 	class iterator {
 	public:
 		iterator(const fs::path path, const Parse& parse)
-		: file_(fs::ifstream(path))
-		, size_(fs::file_size(path))
-		, parse_(parse) {}
+				: file_(fs::ifstream(path))
+				, size_(fs::file_size(path))
+				, parse_(parse) {}
 
-		~iterator() {
-			file_.close();
-		}
 
 		inline iterator& operator++() {
 			start_ = GetItemEnd() + 1;
@@ -49,6 +45,7 @@ public:
 			return parse_(buffer);
 		}
 	private:
+
 		fs::ifstream file_;
 		const Parse& parse_;
 		std::size_t start_ = 0, size_;
@@ -64,36 +61,14 @@ public:
 	// --------------------------- end class iterator ----------------------------
 
 	CommaSeperated(const fs::path& path, Parse parse)
-		: path_(path)
+		: BaseStorage(path)
 		, parse_(parse) {}
 
 	iterator begin() const { return iterator(path_, parse_); }
 	bool end() const { return false; }
 
-	constexpr inline std::size_t MaxSize() {
-		return std::numeric_limits<std::size_t>::max();
-	}
-
-	inline bool IsInited() {
-		return fs::is_regular_file(path_);
-	}
-
 	inline void MaybeInit() {
 		if (!IsInited()) Init();
-	}
-
-	void Init() {
-		std::cout << "asdf" << '\n';
-		fs::create_directory(path_.parent_path());
-
-		fs::fstream file(path_,
-				fs::fstream::in | fs::fstream::out | fs::fstream::trunc);
-		if (!file) {
-			file << '\n';
-		} else {
-			file.clear();
-		}
-		file.close();
 	}
 
 	std::size_t Size() {
@@ -112,15 +87,14 @@ public:
 
 	template<class Value>
 	void Push(Value value) {
-		fs::wfstream file(path_);
-		auto size = fs::file_size(path_);
+		fs::fstream file(path_);
+		auto end = fs::file_size(path_);
 
-		file.seekg(fs::file_size(path_));
-		if (size > 0) {
+		file.seekg(end);
+		if (end > 0) {
 			file.put(',');
 		}
 		file << value;
-		file.close();
 
 		if (size_ != nullptr) {
 			(*size_)++;
@@ -131,7 +105,6 @@ public:
 
 private:
 	const Parse parse_;
-	const fs::path path_;
 	std::unique_ptr<std::size_t> size_ = nullptr;
 };
 
