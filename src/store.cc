@@ -1,60 +1,45 @@
 #include "store.h"
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
-#include <iostream>
-#include <memory>
-#include <string>
+#include "storage/comma_seperated.h"
 
-namespace fs = boost::filesystem;
-
-namespace synth {
-namespace store {
+namespace synth::store {
 
 namespace {
 
-const fs::path kStoreDirectoryName = "./.cache";
-const fs::path kStoreFileName = kStoreDirectoryName / "store.txt";
+storage::CommaSeperated<float> database("./.store/store", std::atof);
 
 } // namespace
 
 bool __IsInited() {
-	return fs::is_regular_file(kStoreFileName);
+	return database.IsInited();
 }
 
 // going through all bytes
 // store could be a sparsed array so stopping when reaching an empty address
 std::size_t Size() {
-	return fs::file_size(kStoreFileName);
+	return database.Size();
 }
 
 void Init() {
-	fs::create_directory(kStoreDirectoryName);
+	database.Init();
+}
 
-	fs::fstream file(kStoreFileName,
-			fs::fstream::in | fs::fstream::out | fs::fstream::trunc);
-	if (!file) {
-		file << '\n';
-		file.close();
-	} else {
-		file.clear();
+void MaybeInit() {
+	std::cout << "asdf" << '\n';
+	database.MaybeInit();
+}
+
+float Get(std::size_t pos) {
+	return database.Get(pos);
+}
+
+void Iterate(std::function<void(float)> func) {
+	for (float val : database) {
+		func(val);
 	}
 }
 
-wchar_t __GetActual(std::size_t pos) {
-	fs::ifstream file(kStoreFileName);
-	char ch[1];
-
-	file.seekg(pos);
-	file.read(ch, 1);
-	std::cout << ch[0] << '\n';
-	return wchar_t(ch[0]);
+void Push(float value) {
+	database.Push(value);
 }
 
-void Push(wchar_t value) {
-	fs::fstream file(kStoreFileName);
-	file.seekg(Size());
-	file << uint32_t(value) + 1;
-}
-
-} // namespace store
-} // namespace synth
+} // namespace synth::store
