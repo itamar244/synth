@@ -1,11 +1,14 @@
 #include "store.h"
 #include "storage/comma_seperated.h"
 
+
 namespace synth::store {
+
+using Database = storage::CommaSeperated<double>;
 
 namespace {
 
-storage::CommaSeperated<float> database("./.store/store", std::atof);
+Database database("./.store/store", std::atof);
 
 } // namespace
 
@@ -30,6 +33,10 @@ void MaybeInit() {
 
 float Get(std::size_t pos) {
 	return database.Get(pos);
+}
+
+Database::iterator GetIterateor() {
+	return database.begin();
 }
 
 void Iterate(std::function<void(float)> func) {

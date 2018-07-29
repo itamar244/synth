@@ -27,9 +27,14 @@ public:
 			file_.close();
 		}
 
-		inline bool operator++() {
+		inline iterator& operator++() {
 			start_ = GetItemEnd() + 1;
-			return start_ < size_;
+			return *this;
+		}
+
+		inline iterator& operator+=(std::size_t to_move) {
+			for (std::size_t i = 0; i < to_move && ++(*this); i++);
+			return *this;
 		}
 
 		// functions to be used by builtin for Range-based for loops
