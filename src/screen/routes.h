@@ -18,7 +18,7 @@
   /*V(Player)*/                                                                    \
   /*V(PracticePlayerList)*/                                                        \
   /*V(PracticePlayerPlaying)*/                                                     \
-  /*V(RecordsPlayer)*/                                                             \
+  V(RecordsPlayer)                                                             \
   /*V(Settings)*/
 
 #define WRAPPED_ROUTE_TYPES(WRAPPER, V)                                        \
@@ -27,7 +27,7 @@
   /*WRAPPER(V, Player)*/                                                           \
   /*WRAPPER(V, PracticePlayerList)*/                                               \
   /*WRAPPER(V, PracticePlayerPlaying)*/                                            \
-  /*WRAPPER(V, RecordsPlayer)*/                                                    \
+  WRAPPER(V, RecordsPlayer)                                                    \
   /*WRAPPER(V, Settings)*/
 
 #define ROUTE_INIT(ROUTE)                                                      \

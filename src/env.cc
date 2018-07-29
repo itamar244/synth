@@ -1,25 +1,25 @@
 #include "env.h"
-// #include "audio.h"
+#include "audio.h"
 // #include "serial_communication.h"
 
 namespace synth {
 
 Environment::~Environment() {
-	// if (player_ != nullptr) utils::DeletePtr(player_);
-	// if (recorder_ != nullptr) utils::DeletePtr(recorder_);
-  // delete audio_;
+	if (player_ != nullptr) delete player_;
+  delete audio_;
 }
 
 void Environment::Tick() {
-	// if (player_ != nullptr) {
-	// 	if (MelodyComparator* comparator = player_->ToComparator()) {
-	// 		if (is_song_played_	&& !comparator->Play(audio_)) {
-	// 			is_song_played_ = false;
-	// 		}
-	// 	} else if (!player_->Play(audio_)) {
-	// 		utils::DeletePtr(player_);
-	// 	}
-	// }
+	if (player_ != nullptr) {
+		// if (MelodyComparator* comparator = player_->ToComparator()) {
+		// 	if (is_song_played_	&& !comparator->Play(audio_)) {
+		// 		is_song_played_ = false;
+		// 	}
+		// } else
+		if (!player_->Play(audio_)) {
+			utils::DeletePtr(player_);
+		}
+	}
 }
 //
 // void Environment::SetAudioType(Audio::AudioType type) {
@@ -35,13 +35,13 @@ void Environment::Tick() {
 //   }
 // }
 //
-// void Environment::DeletePlayer() {
-// 	if (player_ == nullptr) return;
-//
-// 	audio_->RemoveNotes(GetPlayerCurrentNotes(player_));
-//
-// 	utils::DeletePtr(player_);
-// }
+void Environment::DeletePlayer() {
+	if (player_ == nullptr) return;
+
+	audio_->RemoveNotes(GetPlayerCurrentNotes(player_));
+
+	utils::DeletePtr(player_);
+}
 //
 // std::pair<bool, float> Environment::ComparatorNextSection() {
 // 	if (player_ == nullptr) return {false, 0};
@@ -64,9 +64,9 @@ void Environment::OnNoteWithOctaveCall(uint8_t note) {
 	// 			comparator->AddNotesToCompare(audio_->current_notes());
 	// 	}
 	// }
-	// if (recorder_ != nullptr) {
-	// 	recorder_->PushNotes(audio_->current_notes());
-	// }
+	if (recorder_ != nullptr) {
+		recorder_->PushNotes(audio_->current_notes());
+	}
 }
 
 } // namespace synth

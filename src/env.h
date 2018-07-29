@@ -2,13 +2,15 @@
 // It controls the audio and the melody comparator, also the current octave
 #pragma once
 
+#include <memory>
 #include "audio.h"
 // #include "led_bulb.h"
 // #include "melody_player/melody_comparator.h"
 // #include "melody_player/melody_player.h"
 // #include "melody_player/melodies.h"
+#include "player.h"
 // #include "utils.h"
-// #include "recorder.h"
+#include "recorder.h"
 
 namespace synth {
 
@@ -33,10 +35,10 @@ public:
 		OnNoteWithOctaveCall(note);
 		audio_->RemoveNote(note + current_octave_ * 12);
 	}
-	//
-	// inline void SetPlayer(Player* player) {
-	// 	utils::SetPtr(player_, player);
-	// }
+
+	inline void SetPlayer(Player* player) {
+		utils::SetPtr(player_, player);
+	}
 	// template<class PlayerType>
 	// inline void SetPlayer(const char* melody_name) {
 	// 	SetPlayer(new PlayerType(melodies::GetContainer(melody_name)));
@@ -44,16 +46,16 @@ public:
 	//
 	// inline void StartPlaying() { is_song_played_ = true; }
 	//
-	// inline void StartRecording() {
-	// 	utils::SetPtr(recorder_, new Recorder());
-	// 	SetLedBulbColor(255, 0, 0);
-	// }
-	// inline void StopRecording() {
-	// 	utils::MaybeDeletePtr(recorder_);
-	// 	ClearLedBulb();
-	// }
+	inline void StartRecording() {
+		recorder_ = std::make_unique<Recorder>();
+		// SetLedBulbColor(255, 0, 0);
+	}
+	inline void StopRecording() {
+		recorder_ = nullptr;
+		// ClearLedBulb();
+	}
 	//
-	// void DeletePlayer();
+	void DeletePlayer();
 	// std::pair<
 	// 		bool /* has_next_section */,
 	// 		float /* grade */>
@@ -62,9 +64,9 @@ public:
 
 private:
   Audio* audio_ = new BuiltinAudio();
-	// Player* player_ = nullptr;
-	// Recorder* recorder_ = nullptr;
-  // bool is_song_played_ = false;
+	Player* player_ = nullptr;
+	std::unique_ptr<Recorder> recorder_ = nullptr;
+  bool is_song_played_ = false;
 
   int8_t current_octave_ = 4;
 

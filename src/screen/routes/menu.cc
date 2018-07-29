@@ -2,10 +2,10 @@
 #include "../button.h"
 
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
-	// V(Player)                                                                    \
-	V(PracticePlayerList)                                                        \
+	/*(Player)*/                                                                    \
+	/*(PracticePlayerList)*/                                                        \
 	V(RecordsPlayer)                                                             \
-	V(Settings)
+	/*(Settings)*/
 
 namespace synth {
 namespace screen {
@@ -18,9 +18,9 @@ enum class Setting {
 
 ROUTE_INIT(Menu) {
 	return PaintMenu(window, {
+		"Records Player",
 		"Player",
 		"Practice Player",
-		"Records Player",
 		"Settings",
 	});
 }
@@ -31,8 +31,8 @@ ROUTE_TOUCH(Menu) {
 				switch (Setting(index)) {
 #define V(TYPE)                                                                \
 					case Setting::k ## TYPE:                                             \
-					controller->set_route(Route::k ## TYPE);                             \
-					break;
+						controller->set_route(Route::k ## TYPE);                           \
+						break;
 	SYNTH_MENU_ITEM_TYPES(V)
 #undef V
 				}

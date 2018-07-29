@@ -37,6 +37,10 @@ inline void ListenToSpecialKeys(Environment& env) {
 		env.DecrementOctave();
 	} else if (kb::isKeyPressed(kb::Equal)) {
 		env.IncrementOctave();
+	} else if (kb::isKeyPressed(kb::Num9)) {
+		env.StartRecording();
+	} else if (kb::isKeyPressed(kb::Num0)) {
+		env.StopRecording();
 	}
 }
 
