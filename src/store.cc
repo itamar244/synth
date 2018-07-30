@@ -1,14 +1,14 @@
 #include "store.h"
-#include "storage/comma_seperated.h"
+#include "storage/list.h"
 
 
 namespace synth::store {
 
-using Database = storage::CommaSeperated<double>;
+using Database = storage::List<double>;
 
 namespace {
 
-Database database("./.store/store", std::atof);
+Database database("./.store/store", std::atof, ',');
 
 } // namespace
 
@@ -27,7 +27,6 @@ void Init() {
 }
 
 void MaybeInit() {
-	std::cout << "asdf" << '\n';
 	database.MaybeInit();
 }
 

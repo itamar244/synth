@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <functional>
 #include <limits>
-#include "storage/comma_seperated.h"
+#include "storage/list.h"
 
 namespace synth {
 namespace store {
@@ -18,7 +18,7 @@ inline std::size_t MaxSize() {
 
 std::size_t Size();
 float Get(std::size_t pos);
-storage::CommaSeperated<double>::iterator GetIterateor();
+storage::List<double>::iterator GetIterateor();
 void Iterate(std::function<void(float)> func);
 void Push(float value);
 

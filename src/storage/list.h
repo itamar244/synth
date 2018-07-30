@@ -10,21 +10,21 @@
 namespace synth::storage {
 
 template<class T>
-class CommaSeperated : public BaseStorage {
+class List : public BaseStorage {
 public:
 	using Parse = std::function<T(char const*)>;
 
 	// -------------------------- start class iterator ---------------------------
 	class iterator {
 	public:
-		iterator(const fs::path path, const Parse& parse)
+		iterator(const fs::path path, const Parse& parse, char seperator)
 				: file_(fs::ifstream(path))
 				, size_(fs::file_size(path))
-				, parse_(parse) {}
-
+				, parse_(parse)
+				, seperator_(seperator) {}
 
 		inline iterator& operator++() {
-			start_ = GetItemEnd() + 1;
+			pos_ = GetItemEnd() + 1;
 			return *this;
 		}
 
@@ -34,25 +34,26 @@ public:
 		}
 
 		// functions to be used by builtin for Range-based for loops
-		inline operator bool() const { return start_ < size_; }
+		inline operator bool() const { return pos_ < size_; }
 		inline bool operator!=(bool rhs) const { return bool(*this) != rhs; }
 		T operator*() {
-			std::size_t buffer_size = GetItemEnd() - start_;
-			char buffer[buffer_size];
-			file_.seekg(start_);
-			file_.read(buffer, buffer_size);
+			std::string value;
 
-			return parse_(buffer);
+			file_.seekg(pos_);
+			std::getline(file_, value, seperator_);
+
+			return parse_(value.c_str());
 		}
-	private:
 
+	private:
 		fs::ifstream file_;
 		const Parse& parse_;
-		std::size_t start_ = 0, size_;
+		const char seperator_;
+		std::size_t pos_ = 0, size_;
 
 		std::size_t GetItemEnd() {
-			std::size_t end = start_;
-			while (end < size_ && GetCharFromFStream(file_, end) != ',') {
+			std::size_t end = pos_;
+			while (end < size_ && GetCharFromFStream(file_, end) != seperator_) {
 				end++;
 			}
 			return end;
@@ -60,11 +61,12 @@ public:
 	};
 	// --------------------------- end class iterator ----------------------------
 
-	CommaSeperated(const fs::path& path, Parse parse)
+	List(const fs::path& path, Parse parse, char seperator)
 		: BaseStorage(path)
-		, parse_(parse) {}
+		, parse_(parse)
+		, seperator_(seperator) {}
 
-	iterator begin() const { return iterator(path_, parse_); }
+	iterator begin() const { return iterator(path_, parse_, seperator_); }
 	bool end() const { return false; }
 
 	inline void MaybeInit() {
@@ -90,9 +92,9 @@ public:
 		fs::fstream file(path_);
 		auto end = fs::file_size(path_);
 
-		file.seekg(end);
 		if (end > 0) {
-			file.put(',');
+			file.seekg(end);
+			file.put(seperator_);
 		}
 		file << value;
 
@@ -103,8 +105,9 @@ public:
 		}
 	}
 
-private:
+protected:
 	const Parse parse_;
+	const char seperator_;
 	std::unique_ptr<std::size_t> size_ = nullptr;
 };
 
