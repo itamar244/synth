@@ -9,7 +9,7 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(PROJECT_SOURCE_DIR src)
 
-# SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 # links sfml object files by adding link flags to compiler
 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS}

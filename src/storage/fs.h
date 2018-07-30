@@ -7,6 +7,7 @@
 namespace synth::storage {
 
 namespace fs = boost::filesystem;
+using Path = fs::path;
 
 template<class Stream>
 inline char GetCharFromFStream(Stream& file, std::size_t pos) {

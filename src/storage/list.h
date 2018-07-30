@@ -47,7 +47,7 @@ public:
 
 	private:
 		fs::ifstream file_;
-		const Parse& parse_;
+		const Parse parse_;
 		const char seperator_;
 		std::size_t pos_ = 0, size_;
 
