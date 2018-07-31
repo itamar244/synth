@@ -1,9 +1,10 @@
 #pragma once
 
-#include "screen/routes.h"
-#include <Arduino.h>
-#include "screen/button.h"
-#include "utils.h"
+#include "../routes.h"
+#include <cstdint>
+#include <SFML/Graphics.hpp>
+#include "../button.h"
+#include "../../utils.h"
 
 namespace synth {
 
@@ -11,8 +12,8 @@ using melodies::kMelodyNames;
 
 namespace screen {
 
-inline std::vector<Button> PlayerListInit() {
-	return PaintMenu({
+inline std::vector<Button> PlayerListInit(sf::RenderWindow& window) {
+	return PaintMenu(window, {
 		{ "Back" },
 		kMelodyNames,
 	});

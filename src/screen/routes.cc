@@ -26,7 +26,7 @@ sf::RectangleShape CreateRectShape(
 	return shape;
 }
 
-sf::Text CreateText(const sf::String& str, float x, float y) {
+sf::Text CreateText(const std::string& str, float x, float y) {
 	// TODO: might fix this ugly trick
 	static sf::Font font;
 	static bool loaded = false;
@@ -50,7 +50,7 @@ void PaintMenuLoop(
 		std::vector<Button>& buttons,
 		uint8_t& i) {
 	for (auto& name : names) {
-		auto name_len = name.getSize();
+		auto name_len = name.size();
 		float x = 30, y = (i++) * 45 + 20;
 		float width = 80, height = 35;
 
