@@ -3,11 +3,11 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include "audio.h"
-// #include "led_bulb.h"
-// #include "melody_player/melody_comparator.h"
-// #include "melody_player/melody_player.h"
-// #include "melody_player/melodies.h"
+#include "melody_player/melody_comparator.h"
+#include "melody_player/melody_player.h"
+#include "melody_player/melodies.h"
 #include "player.h"
 // #include "utils.h"
 #include "recorder.h"
@@ -39,13 +39,13 @@ public:
 	inline void SetPlayer(Player* player) {
 		utils::SetPtr(player_, player);
 	}
-	// template<class PlayerType>
-	// inline void SetPlayer(const char* melody_name) {
-	// 	SetPlayer(new PlayerType(melodies::GetContainer(melody_name)));
-	// }
-	//
-	// inline void StartPlaying() { is_song_played_ = true; }
-	//
+	template<class PlayerType>
+	inline void SetPlayer(const std::string& melody_name) {
+		SetPlayer(new PlayerType(melodies::GetContainer(melody_name)));
+	}
+
+	inline void StartPlaying() { is_song_played_ = true; }
+
 	inline void StartRecording() {
 		recorder_ = std::make_unique<Recorder>();
 		// SetLedBulbColor(255, 0, 0);

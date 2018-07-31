@@ -2,18 +2,19 @@
 // progmem melodies from `synth::melodies` and play them
 #pragma once
 
-#include "./parser.h"
+#include "parser.h"
 #include "../player.h"
-#include "../storage/fs.h"
 
 namespace synth {
 
 class MelodyPlayer : public Player, public MelodyParser {
 public:
-	MelodyPlayer(const storage::Path& path)
-			: MelodyParser(path) {}
+	inline MelodyPlayer(const MelodyContainer& container)
+		: MelodyParser(container)
+		, speed_(container.speed) {}
 
 protected:
+	const float speed_;
 	PLAYER_CALLBACKS_INHERIT
 };
 

@@ -4,6 +4,8 @@
 #include "store.h"
 #include "env.h"
 #include "keyboard.h"
+#include "melody_player/melody_player.h"
+#include "melody_player/melodies.h"
 #include "screen/screen.h"
 
 namespace store = synth::store;

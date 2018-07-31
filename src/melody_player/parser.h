@@ -1,36 +1,37 @@
 #pragma once
 
 #include <cstdint>
-#include <cstdlib>
 #include <vector>
-#include "../storage/list.h"
 #include "../audio.h"
 #include "../phrase.h"
+#include "melody_container.h"
+#include "pgm_array.h"
 
 namespace synth {
 
 class MelodyParser {
 public:
-  MelodyParser(const storage::Path& filename);
+  MelodyParser(const MelodyContainer& container);
 
 	inline bool HasNextPhrase() const {
-		return bool(database_iterator_);
+		return pos_ < melody_.size();
 	}
 	inline const Audio::NoteList& phrase_notes() const {
 		return phrase_.notes;
 	}
 
+protected:
 	inline const Phrase& phrase() const { return phrase_; }
 	inline const uint16_t pos() const { return pos_; }
 
-	void ParsePhrase();
+  void ParsePhrase();
   void NextPhrase();
-  // Phrase ParsePhraseAt(uint16_t pos);
+  Phrase ParsePhraseAt(uint16_t pos);
 
 private:
-  storage::List<Phrase>::iterator database_iterator_;
-	Phrase phrase_;
-	std::size_t pos_;
+  const PGMArray melody_;
+  Phrase phrase_;
+  uint16_t pos_;
 };
 
 } // namespace synth

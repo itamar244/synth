@@ -2,7 +2,7 @@
 #include "../button.h"
 
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
-	/*(Player)*/                                                                    \
+	V(Player)                                                                    \
 	/*(PracticePlayerList)*/                                                        \
 	V(RecordsPlayer)                                                             \
 	/*(Settings)*/
@@ -18,8 +18,8 @@ enum class Setting {
 
 ROUTE_INIT(Menu) {
 	return PaintMenu(window, {
-		"Records Player",
 		"Player",
+		"Records Player",
 		"Practice Player",
 		"Settings",
 	});

@@ -1,5 +1,4 @@
-#include "./player.h"
-#include <iostream>
+#include "melody_player.h"
 #include "../audio.h"
 
 namespace synth {
@@ -13,8 +12,7 @@ const Audio::NoteList& MelodyPlayer::GetPhraseNotes() const {
 }
 
 bool MelodyPlayer::ShouldChangeToNextPhrase() const {
-	bool change = PassedTime() >= PhraseLengthInMillis(phrase(), 1);
-	return change;
+	return PassedTime() >= PhraseLengthInMillis(phrase(), speed_);
 }
 
 void MelodyPlayer::NextPhrase() {

@@ -6,7 +6,7 @@
 
 #include <initializer_list>
 #include <vector>
-// #include <string>
+#include <string>
 #include <SFML/Graphics.hpp>
 #include "../env.h"
 #include "button.h"
@@ -15,7 +15,7 @@
 #define ROUTE_TYPES(V)                                                         \
   V(Index)                                                                     \
   V(Menu)                                                                      \
-  /*V(Player)*/                                                                    \
+  V(Player)                                                                    \
   /*V(PracticePlayerList)*/                                                        \
   /*V(PracticePlayerPlaying)*/                                                     \
   V(RecordsPlayer)                                                             \
@@ -24,7 +24,7 @@
 #define WRAPPED_ROUTE_TYPES(WRAPPER, V)                                        \
   WRAPPER(V, Index)                                                            \
   WRAPPER(V, Menu)                                                             \
-  /*WRAPPER(V, Player)*/                                                           \
+  WRAPPER(V, Player)                                                           \
   /*WRAPPER(V, PracticePlayerList)*/                                               \
   /*WRAPPER(V, PracticePlayerPlaying)*/                                            \
   WRAPPER(V, RecordsPlayer)                                                    \
@@ -53,10 +53,10 @@ enum class Route {
   ROUTE_TYPES(V)
 #undef V
 
-using PaintMenuNames = std::initializer_list<const sf::String>;
+using PaintMenuNames = std::initializer_list<const std::string>;
 
 sf::RectangleShape CreateRectShape(const Button& button, sf::Color color);
-sf::Text CreateText(const sf::String& str, float x, float y);
+sf::Text CreateText(const std::string& str, float x, float y);
 /*
  * Paints a menu with buttons for each name, and a `back` button.
  * Returns the buttons representing the names with the same order,
