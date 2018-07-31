@@ -1,0 +1,128 @@
+#include "parser.h"
+#include <exception>
+#include <utility>
+#include "../ast.h"
+
+namespace melo::parser {
+
+using namespace ast;
+
+Parser::Parser(const std::string& input)
+		: state_(std::make_shared<State>(input))
+		, t_(Tokenizer(state_)) {}
+
+BlockPtr Parser::Parse() {
+	t_.Next();
+	return ParseBlock(true);
+}
+
+BlockPtr Parser::ParseBlock(bool top_level) {
+	std::vector<StatementPtr> statements;
+
+	while (!t_.Match(top_level ? tt::eof : tt::braceR)) {
+		auto& statement = statements.emplace_back(ParseStatement(top_level));
+		if (!statement->IsFunctionDeclaration()) {
+			t_.Expect(tt::semi);
+			t_.Next();
+		}
+	}
+	// skipping the closing '}'
+	if (!top_level) t_.Next();
+
+	return std::make_unique<Block>(std::move(statements));
+}
+
+// ------------------------------- expressions ---------------------------------
+ExpressionPtr Parser::ParseExpression() {
+	switch (state_->type) {
+		case tt::bracketL:
+			return ParseSection();
+		default:
+			throw std::logic_error(
+					"unsupported token for expression: " +
+					TokenTypeToString(state_->type));
+	}
+}
+
+SectionPtr Parser::ParseSection() {
+	std::vector<PhrasePtr> sections;
+
+	t_.Next();
+	while (!t_.Eat(tt::bracketR)) {
+		sections.push_back(ParsePhrase());
+		if (!t_.Eat(tt::comma) && !t_.Match(tt::bracketR)) {
+			throw std::logic_error("unfinished section");
+		}
+	}
+
+	return std::make_unique<Section>(std::move(sections));
+}
+
+PhrasePtr Parser::ParsePhrase() {
+	t_.Expect(tt::parenL);
+	t_.Next();
+	t_.Expect(tt::num);
+	auto length = ParseLengthLiteral();
+	std::vector<IdentifierPtr> notes;
+
+	while (!t_.Eat(tt::parenR)) {
+		notes.push_back(ParseIdentifier());
+	}
+
+	return std::make_unique<Phrase>(std::move(length), std::move(notes));
+}
+
+IdentifierPtr Parser::ParseIdentifier() {
+	auto id = std::make_unique<Identifier>(state_->value);
+	t_.Next();
+	return std::move(id);
+}
+
+LengthLiteralPtr Parser::ParseLengthLiteral() {
+	auto num = std::make_unique<LengthLiteral>(state_->value);
+	t_.Next();
+	return std::move(num);
+}
+
+// ------------------------------- statements ----------------------------------
+StatementPtr Parser::ParseStatement(bool top_level) {
+	switch (state_->type) {
+		// case tt::_var:
+		// 	return ParseVarDeclaration();
+		// 	break;
+		case tt::_func:
+			if (!top_level) {
+				throw std::logic_error("function must be at top level");
+			}
+			return ParseFunctionDeclaration();
+			break;
+		case tt::_return:
+			if (top_level) {
+				throw std::logic_error("return must be inside a function");
+			}
+			return ParseReturn();
+		default:
+			throw std::logic_error(
+					"unsupported token for statement: " +
+					TokenTypeToString(state_->type));
+	}
+}
+
+FunctionDeclarationPtr Parser::ParseFunctionDeclaration() {
+	t_.Next();
+	t_.Expect(tt::name);
+	auto id = ParseIdentifier();
+	t_.Expect(tt::braceL);
+	t_.Next();
+
+	return std::make_unique<FunctionDeclaration>(
+			std::move(id),
+			ParseBlock(false));
+}
+
+ReturnPtr Parser::ParseReturn() {
+	t_.Next();
+	return std::make_unique<Return>(ParseExpression());
+}
+
+} // namespace melo::parser
