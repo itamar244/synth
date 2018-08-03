@@ -2,8 +2,8 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <atic/iterables.h>
 #include "phrase.h"
-#include "../utils.h"
 
 namespace melo {
 
@@ -50,7 +50,7 @@ inline uint8_t StringToNote(const std::string& str) {
 
 inline Phrase ToPhrase(const ast::PhrasePtr& phrase) {
 	return {
-		utils::MapIterable<decltype(phrase->notes), std::list<uint8_t> >(
+		atic::MapIterable<decltype(phrase->notes), std::list<uint8_t> >(
 				phrase->notes, [](const ast::IdentifierPtr& id) {
 					return StringToNote(id->name);
 				}),

@@ -1,5 +1,6 @@
 #include "melody_comparator.h"
 #include <algorithm>
+#include <atic/iterables.h>
 #include "../phrase.h"
 
 namespace synth {
@@ -12,7 +13,7 @@ inline uint8_t CountNoteListInPhrase(
 	return std::count_if(
 		notes.begin(), notes.end(),
 		[&phrase](Note note) {
-			return utils::HasItem(phrase.notes, note);
+			return atic::HasItem(phrase.notes, note);
 		});
 }
 

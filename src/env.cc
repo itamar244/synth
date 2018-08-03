@@ -1,5 +1,6 @@
 #include "env.h"
 #include "audio.h"
+#include <atic/ptr.h>
 // #include "serial_communication.h"
 
 namespace synth {
@@ -17,7 +18,7 @@ void Environment::Tick() {
 		// 	}
 		// } else
 		if (!player_->Play(audio_)) {
-			utils::DeletePtr(player_);
+			atic::DeletePtr(player_);
 		}
 	}
 }
@@ -40,7 +41,7 @@ void Environment::DeletePlayer() {
 
 	audio_->RemoveNotes(GetPlayerCurrentNotes(player_));
 
-	utils::DeletePtr(player_);
+	atic::DeletePtr(player_);
 }
 //
 // std::pair<bool, float> Environment::ComparatorNextSection() {

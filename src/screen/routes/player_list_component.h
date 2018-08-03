@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <SFML/Graphics.hpp>
 #include "../button.h"
-#include "../../utils.h"
+#include <atic/iterables.h>
 
 namespace synth {
 
@@ -31,7 +31,7 @@ inline auto PlayerListTouchHandler(
 			} else {
 				on_melody_set();
 				env.SetPlayer<PlayerType>(
-						utils::Advance(kMelodyNames.begin(), index - 1));
+						atic::Advance(kMelodyNames.begin(), index - 1));
 			}
 		};
 }

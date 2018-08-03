@@ -1,13 +1,13 @@
 #include "audio.h"
 #include <cstdint>
-#include "utils.h"
+#include <atic/iterables.h>
 #include "sound.h"
 
 namespace synth {
 
 bool Audio::AddNote(Note note) {
   if (current_notes_.size() == kMaxNotes) return false;
-  if (!utils::HasItem(current_notes_, note)) {
+  if (!atic::HasItem(current_notes_, note)) {
     current_notes_.push_back(note);
     return true;
   }
@@ -15,7 +15,7 @@ bool Audio::AddNote(Note note) {
 }
 
 bool Audio::RemoveNote(Note note) {
-  auto searched_note = utils::FindItem(current_notes_, note);
+  auto searched_note = atic::FindItem(current_notes_, note);
   if (searched_note != current_notes_.end()) {
     current_notes_.erase(searched_note);
     return true;

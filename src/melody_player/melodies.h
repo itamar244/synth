@@ -12,7 +12,6 @@
 #include <string>
 #include "melodies_creator.h"
 #include "melody_container.h"
-#include "../utils.h"
 
 namespace synth {
 namespace melodies {

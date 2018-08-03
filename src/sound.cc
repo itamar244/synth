@@ -7,7 +7,7 @@
 #include <utility>
 #include <SFML/Audio.hpp>
 #include "audio.h"
-#include "utils.h"
+#include <atic/iterables.h>
 
 namespace synth::sound {
 
@@ -100,7 +100,7 @@ void SetPlayedNotes(const Audio::NoteList& notes) {
 	int16_t* raw_wave = GetWave(notes.size());
 
 	for (auto pair : waves) {
-		if (!utils::HasItem(notes, pair.first)) {
+		if (!atic::HasItem(notes, pair.first)) {
 			delete pair.second;
 			waves.erase(pair.first);
 		} else {

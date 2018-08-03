@@ -9,7 +9,7 @@
 #include "melody_player/melody_player.h"
 #include "melody_player/melodies.h"
 #include "player.h"
-// #include "utils.h"
+#include <atic/ptr.h>
 #include "recorder.h"
 
 namespace synth {
@@ -37,7 +37,7 @@ public:
 	}
 
 	inline void SetPlayer(Player* player) {
-		utils::SetPtr(player_, player);
+		atic::SetPtr(player_, player);
 	}
 	template<class PlayerType>
 	inline void SetPlayer(const std::string& melody_name) {
