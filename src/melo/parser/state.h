@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <istream>
 #include <memory>
 #include <string>
 #include "./token_types.h"
@@ -11,7 +12,11 @@ namespace melo::parser {
 struct State {
   using Ptr = std::shared_ptr<State>;
 
-	const std::string input;
+	static Ptr Create(std::istream& input) {
+		return std::make_shared<State>(input);
+	}
+
+	std::istream& input;
 	TokenType type = tt::eof;
 	uint32_t pos = 0;
 	uint32_t line = 0;
@@ -19,15 +24,24 @@ struct State {
 	uint32_t lineStart = 0;
 	std::string value = "";
 
-	State(const std::string& input)
-		: input(input) {}
+	State(std::istream& input) : input(input) {}
 
-	inline std::string::size_type size() const {
-		return input.size();
+	inline bool ended() {
+		input.seekg(pos);
+		return input.peek() == -1;
 	}
 
-	inline const char CurChar() const {
-		return pos >= size() ? '\x00' : input.at(pos);
+	inline char CurChar() {
+		// ended already seeks position
+		return ended() ? '\x00' : input.peek();
+	}
+
+	inline std::string CurValue() {
+		uint32_t size = pos - start;
+		char buffer[size];
+		input.seekg(start);
+		input.read(buffer, size);
+		return std::string(buffer, size);
 	}
 };
 

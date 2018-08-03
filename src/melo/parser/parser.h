@@ -10,7 +10,7 @@ namespace melo::parser {
 
 class Parser {
 public:
-	Parser(const std::string& state);
+	Parser(const State::Ptr& state);
 	ast::BlockPtr Parse();
 
 private:

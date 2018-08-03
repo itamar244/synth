@@ -10,7 +10,7 @@ void Tokenizer::Next() {
 	char ch = state_->CurChar();
 
 	state_->start = state_->pos;
-	if (state_->pos >= state_->size()) {
+	if (state_->ended()) {
 		FinishToken(tt::eof);
 	} else if (std::isdigit(ch) || ch == '.') {
 		ReadNumber();
@@ -63,10 +63,7 @@ void Tokenizer::ReadIdentifier() {
 		ch = state_->CurChar();
 	} while (std::isalnum(ch) || ch ==  '_');
 
-	const std::string word = state_->input.substr(
-		state_->start,
-		state_->pos - state_->start
-	);
+	const std::string word = state_->CurValue();
 	const auto keyword = keywords.find(word);
 
 	if (keyword != keywords.end()) {
@@ -96,22 +93,19 @@ void Tokenizer::ReadNumber() {
 void Tokenizer::SkipLine() {
 	char ch = state_->CurChar();
 
-	while (ch != '\n' && state_->pos < state_->size()) {
+	while (ch != '\n' && state_->ended()) {
 		state_->pos += 1;
 		ch = state_->CurChar();
 	}
 }
 
-void Tokenizer::FinishToken(TokenType type, std::string value) {
+void Tokenizer::FinishToken(TokenType type, const std::string& value) {
 	state_->type = type;
 	state_->value = value;
 }
 
 void Tokenizer::FinishTokenWithValue(TokenType type) {
-	FinishToken(
-		type,
-		state_->input.substr(state_->start, state_->pos - state_->start)
-	);
+	FinishToken(type, state_->CurValue());
 }
 
 void Tokenizer::SkipSpace() {

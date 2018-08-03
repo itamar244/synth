@@ -4,9 +4,9 @@
 
 #include <cstring>
 #include <algorithm>
+#include <functional>
 #include <vector>
 
-namespace synth {
 namespace utils {
 
 template<class Iterable>
@@ -53,8 +53,18 @@ auto Advance(Iterator it, unsigned n) -> decltype(*it) {
 	return *it;
 }
 
+template<class T, class U>
+U MapIterable(
+		const T& origin,
+		const std::function<
+			typename U::value_type(const typename T::value_type&)
+		>& pred) {
+	U mapped;
 
+	for (const auto& val : origin) {
+		mapped.push_back(pred(val));
+	}
+	return mapped;
 }
 
 } // namespace utils
-} // namespace synth

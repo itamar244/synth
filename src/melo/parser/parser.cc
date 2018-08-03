@@ -7,9 +7,9 @@ namespace melo::parser {
 
 using namespace ast;
 
-Parser::Parser(const std::string& input)
-		: state_(std::make_shared<State>(input))
-		, t_(Tokenizer(state_)) {}
+Parser::Parser(const State::Ptr& state)
+		: state_(state)
+		, t_(Tokenizer(state)) {}
 
 BlockPtr Parser::Parse() {
 	t_.Next();

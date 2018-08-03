@@ -43,7 +43,7 @@ private:
 	void ReadIdentifier();
 	void ReadNumber();
 	void GetTokenFromChar(char);
-	void FinishToken(TokenType, std::string value = "");
+	void FinishToken(TokenType, const std::string& value = "");
 	void FinishTokenWithValue(TokenType);
 	void SkipSpace();
 };
