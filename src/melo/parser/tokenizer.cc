@@ -74,14 +74,16 @@ void Tokenizer::ReadIdentifier() {
 }
 
 void Tokenizer::ReadNumber() {
+	bool hasDot = false;
+
 	for (;;) {
 		char ch = state_->CurChar();
 
 		if (std::isdigit(ch)) {
 			state_->pos += 1;
-		} else if (ch == '.') {
+		} else if (ch == '.' && !hasDot) {
 			state_->pos += 1;
-			break;
+			hasDot = true;
 		} else {
 			break;
 		}

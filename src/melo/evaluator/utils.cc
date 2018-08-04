@@ -1,9 +1,11 @@
 #include "utils.h"
+#include <exception>
 #include <map>
 #include <memory>
 #include <string>
 #include <atic/iterables.h>
 #include "../phrase.h"
+#include "values.h"
 
 namespace melo::evaluator {
 
@@ -13,7 +15,7 @@ const std::map<char, uint8_t> kNotesToInt({
 	{'C', 0}, {'D', 2}, {'E', 4}, {'F', 5}, {'G', 7}, {'A', 9}, {'B', 11},
 });
 
-inline float LengthToFloat(const ast::LengthLiteralPtr& length) {
+inline float LengthToFloat(const ast::NumericLiteralPtr& length) {
 	auto size = length->value.size();
 	bool plus_half = *length->value.crbegin() == '.';
 
@@ -58,6 +60,18 @@ Phrase PhraseNodeToPhrase(const ast::PhraseLiteralPtr& phrase) {
 			}),
 			LengthToFloat(phrase->length),
 	};
+}
+
+Value* ExpressionToValue(const ast::ExpressionPtr& expr) {
+	switch (expr->type) {
+		case ast::kNumericLiteral:
+			return new NumberValue(
+					std::atof(expr->AsNumericLiteral()->value.c_str()));
+		case ast::kSection:
+			return new SectionValue(expr->AsSection());
+		default:
+			throw std::logic_error("expression type isn't supported as value");
+	}
 }
 
 }  // namespace melo::evaluator

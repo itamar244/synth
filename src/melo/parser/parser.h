@@ -22,7 +22,7 @@ private:
 	// expressions
 	ast::ExpressionPtr ParseExpression();
 	ast::IdentifierPtr ParseIdentifier();
-	ast::LengthLiteralPtr ParseLengthLiteral();
+	ast::NumericLiteralPtr ParseNumber();
 	ast::SectionPtr ParseSection();
 	ast::PhraseLiteralPtr ParsePhraseLiteral();
 

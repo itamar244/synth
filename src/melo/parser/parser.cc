@@ -37,6 +37,8 @@ ExpressionPtr Parser::ParseExpression() {
 	switch (state_->type) {
 		case tt::bracketL:
 			return ParseSection();
+		case tt::num:
+			return ParseNumber();
 		default:
 			throw std::logic_error(
 					"unsupported token for expression: " +
@@ -62,7 +64,7 @@ PhraseLiteralPtr Parser::ParsePhraseLiteral() {
 	t_.Expect(tt::parenL);
 	t_.Next();
 	t_.Expect(tt::num);
-	auto length = ParseLengthLiteral();
+	auto length = ParseNumber();
 	std::vector<IdentifierPtr> notes;
 
 	while (!t_.Eat(tt::parenR)) {
@@ -78,8 +80,8 @@ IdentifierPtr Parser::ParseIdentifier() {
 	return std::move(id);
 }
 
-LengthLiteralPtr Parser::ParseLengthLiteral() {
-	auto num = std::make_unique<LengthLiteral>(state_->value);
+NumericLiteralPtr Parser::ParseNumber() {
+	auto num = std::make_unique<NumericLiteral>(state_->value);
 	t_.Next();
 	return std::move(num);
 }

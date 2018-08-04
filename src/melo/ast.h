@@ -18,10 +18,10 @@ namespace melo::ast {
 
 #define MELO_EXPRESSION_NODE_TYPES(V)                                          \
 	V(Section)                                                                   \
-	V(PhraseLiteral)                                                                    \
+	V(PhraseLiteral)                                                             \
 	V(Identifier)                                                                \
 	V(NoteLiteral)                                                               \
-	V(LengthLiteral)
+	V(NumericLiteral)
 
 #define MELO_AST_NODE_TYPES(V)                                                 \
 	MELO_WRAPPERS_NODE_TYPES(V)                                                  \
@@ -75,10 +75,10 @@ struct Identifier : public Expression {
 };
 
 struct PhraseLiteral : public Expression {
-	const LengthLiteralPtr length;
+	const NumericLiteralPtr length;
 	const std::vector<IdentifierPtr> notes;
 
-	PhraseLiteral(LengthLiteralPtr length, std::vector<IdentifierPtr> notes)
+	PhraseLiteral(NumericLiteralPtr length, std::vector<IdentifierPtr> notes)
 			: Expression(kPhraseLiteral)
 			, length(std::move(length))
 			, notes(std::move(notes)) {}
@@ -99,11 +99,11 @@ struct NoteLiteral : public Expression {
 			: Expression(kNoteLiteral), name(name), octave(octave) {}
 };
 
-struct LengthLiteral : public Expression {
+struct NumericLiteral : public Expression {
 	const std::string value;
 
-	LengthLiteral(const std::string& value)
-			: Expression(kLengthLiteral), value(value) {}
+	NumericLiteral(const std::string& value)
+			: Expression(kNumericLiteral), value(value) {}
 };
 
 struct Block : public Statement {
