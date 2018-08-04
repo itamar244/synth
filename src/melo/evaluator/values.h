@@ -36,7 +36,10 @@ protected:
 };
 
 struct SectionValue : public Value {
+	const ast::Section* section;
 
+	SectionValue(const ast::Section* section)
+			: Value(kSectionValue), section(section) {}
 }
 
 }  // namespace melo::evaluator

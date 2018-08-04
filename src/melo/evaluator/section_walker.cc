@@ -1,12 +1,8 @@
 #include "section_walker.h"
 #include <memory>
-#include "evaluator.h"
+#include "utils.h"
 
 namespace melo::evaluator {
-
-SectionWalker::SectionWalker(ast::ExpressionPtr& section)
- 		: section_unique_ptr_(std::move(section))
-		, section_(section_unique_ptr_->AsSection()) {}
 
 bool SectionWalker::HasNextPhrase() const {
 	auto& phrases = section_->phrases;

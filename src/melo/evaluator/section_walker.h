@@ -8,7 +8,7 @@ namespace melo::evaluator {
 
 class SectionWalker {
 public:
-	SectionWalker(ast::ExpressionPtr& section);
+	SectionWalker(ast::Section* section) : section_(section) {};
 
 	inline std::size_t pos() const {
 		return pos_;
@@ -22,8 +22,7 @@ public:
 	Phrase GetCurPhrase();
 
 private:
-	ast::ExpressionPtr section_unique_ptr_;
-	ast::Section* section_;
+	const ast::Section* section_;
 
 	std::unique_ptr<Phrase> phrase_cache_ = nullptr;
 	std::size_t pos_ = 0;
