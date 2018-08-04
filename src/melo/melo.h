@@ -1,6 +1,7 @@
 #include <istream>
 #include "ast.h"
-#include "evaluator.h"
+#include "evaluator/evaluator.h"
+#include "evaluator/section_walker.h"
 #include "parser/parser.h"
 #include "parser/state.h"
 
@@ -10,12 +11,9 @@ ast::BlockPtr Parse(std::istream& stream) {
 	return parser::Parser(parser::State::Create(stream)).Parse();
 }
 
-Evaluator CreateEvaluator(ast::BlockPtr& program) {
-	return {program};
-}
-
-Evaluator CreateEvaluator(std::istream& stream) {
-	return {Parse(stream)};
+evaluator::SectionWalker CreateMainSectionWalker(std::istream& stream) {
+	auto ast = Parse(stream);
+	return {evaluator::GetMain(ast)};
 }
 
 } // namespace melo
