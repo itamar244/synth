@@ -20,7 +20,12 @@ set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS}
 
 file(GLOB_RECURSE Synth_SRC ${PROJECT_SOURCE_DIR}/*.cc)
 
+add_subdirectory(${PROJECT_LIB_DIR}/melolang)
+add_subdirectory(${PROJECT_LIB_DIR}/atic)
+
 add_executable(${PROJECT_NAME} ${Synth_SRC})
 
-add_subdirectory(${PROJECT_LIB_DIR}/atic)
+target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR})
+
 target_link_libraries(${PROJECT_NAME} PRIVATE Atic)
+target_link_libraries(${PROJECT_NAME} PRIVATE MeloLang)

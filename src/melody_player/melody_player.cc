@@ -1,6 +1,6 @@
 #include "melody_player.h"
-#include "../melo/melo.h"
 #include <boost/filesystem/fstream.hpp>
+#include <melo/melo.h>
 #include "../audio.h"
 
 namespace synth {

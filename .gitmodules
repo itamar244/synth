@@ -1,3 +1,6 @@
 [submodule "lib/atic"]
 	path = lib/atic
 	url = https://github.com/itamar244/atic
+[submodule "lib/melolang"]
+	path = lib/melolang
+	url = https://github.com/itamar244/melolang.git
