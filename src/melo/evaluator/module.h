@@ -17,6 +17,7 @@ public:
 	Module(ast::BlockPtr&& program);
 
 	inline SectionWalker& main_walker() { return main_walker_; }
+	inline const SectionWalker& main_walker() const { return main_walker_; }
 	// FIXME:
 	inline const Value* Get(const std::string name) {
 		auto pair = exports_.find(name);

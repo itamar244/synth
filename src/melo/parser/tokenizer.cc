@@ -95,7 +95,7 @@ void Tokenizer::ReadNumber() {
 void Tokenizer::SkipLine() {
 	char ch = state_->CurChar();
 
-	while (ch != '\n' && state_->ended()) {
+	while (ch != '\n' && !state_->ended()) {
 		state_->pos += 1;
 		ch = state_->CurChar();
 	}

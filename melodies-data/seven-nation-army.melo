@@ -1,5 +1,7 @@
+export speed 1;
+
 export main [
-	(4 E4 G#4),
+	(4 E4),
 	(8),
 	(8 E4),
 	(8. G4),

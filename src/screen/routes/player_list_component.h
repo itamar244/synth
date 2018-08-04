@@ -1,14 +1,18 @@
 #pragma once
 
-#include "../routes.h"
 #include <cstdint>
+#include <initializer_list>
+#include <string>
 #include <SFML/Graphics.hpp>
-#include "../button.h"
 #include <atic/iterables.h>
+#include "../routes.h"
+#include "../button.h"
 
 namespace synth {
 
-using melodies::kMelodyNames;
+const std::initializer_list<const std::string> kMelodyNames = {
+	"seven-nation-army",
+};
 
 namespace screen {
 
@@ -30,8 +34,9 @@ inline auto PlayerListTouchHandler(
 				env.DeletePlayer();
 			} else {
 				on_melody_set();
-				env.SetPlayer<PlayerType>(
-						atic::Advance(kMelodyNames.begin(), index - 1));
+				const std::string file_name =
+						atic::Advance(kMelodyNames.begin(), index - 1);
+				env.SetPlayer<PlayerType>("melodies-data/" + file_name + ".melo");
 			}
 		};
 }
