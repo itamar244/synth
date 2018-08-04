@@ -8,9 +8,9 @@
 #include <vector>
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "../env.h"
-#include "button.h"
-#include "screen.h"
+#include "env.h"
+#include "screen/button.h"
+#include "screen/screen.h"
 
 #define ROUTE_TYPES(V)                                                         \
   V(Index)                                                                     \

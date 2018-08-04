@@ -5,8 +5,8 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include <atic/iterables.h>
-#include "../routes.h"
-#include "../button.h"
+#include "screen/routes.h"
+#include "screen/button.h"
 
 namespace synth {
 

@@ -5,8 +5,8 @@
 #include <map>
 #include <string>
 #include <utility>
-#include "base.h"
-#include "fs.h"
+#include "storage/base.h"
+#include "storage/fs.h"
 
 namespace synth::storage {
 

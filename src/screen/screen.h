@@ -6,8 +6,8 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "../env.h"
-#include "button.h"
+#include "env.h"
+#include "screen/button.h"
 
 namespace synth::screen {
 

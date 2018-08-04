@@ -4,8 +4,8 @@
 
 #include <fstream>
 #include <melo/evaluator/module.h>
-#include "../player.h"
-#include "../phrase.h"
+#include "player.h"
+#include "phrase.h"
 
 namespace synth {
 

@@ -26,6 +26,7 @@ add_subdirectory(${PROJECT_LIB_DIR}/atic)
 add_executable(${PROJECT_NAME} ${Synth_SRC})
 
 target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Atic)
 target_link_libraries(${PROJECT_NAME} PRIVATE MeloLang)

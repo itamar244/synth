@@ -4,8 +4,8 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
-#include "base.h"
-#include "fs.h"
+#include "storage/base.h"
+#include "storage/fs.h"
 
 namespace synth::storage {
 

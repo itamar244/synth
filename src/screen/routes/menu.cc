@@ -1,5 +1,5 @@
-#include "../routes.h"
-#include "../button.h"
+#include "screen/routes.h"
+#include "screen/button.h"
 
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
 	V(Player)                                                                    \

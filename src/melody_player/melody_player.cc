@@ -1,7 +1,7 @@
-#include "melody_player.h"
+#include "melody_player/melody_player.h"
 #include <boost/filesystem/fstream.hpp>
 #include <melo/melo.h>
-#include "../audio.h"
+#include "audio.h"
 
 namespace synth {
 

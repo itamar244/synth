@@ -1,6 +1,6 @@
 #pragma once
 
-#include "fs.h"
+#include "storage/fs.h"
 
 namespace synth::storage {
 

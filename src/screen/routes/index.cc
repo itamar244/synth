@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "../routes.h"
+#include "screen/routes.h"
 
 namespace synth {
 namespace screen {

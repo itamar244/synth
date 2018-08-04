@@ -1,5 +1,5 @@
-#include "../routes.h"
-#include "../../recorder.h"
+#include "screen/routes.h"
+#include "recorder.h"
 
 #define BUTTON_ITEMS 11
 

@@ -5,8 +5,8 @@
 #include <map>
 #include <utility>
 #include <SFML/Audio.hpp>
-#include "audio.h"
 #include <atic/iterables.h>
+#include "audio.h"
 
 namespace synth::sound {
 

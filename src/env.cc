@@ -1,7 +1,6 @@
 #include "env.h"
 #include "audio.h"
 #include <atic/ptr.h>
-// #include "serial_communication.h"
 
 namespace synth {
 

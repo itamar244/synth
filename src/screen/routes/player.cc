@@ -1,5 +1,5 @@
-#include "../routes.h"
-#include "player_list_component.h"
+#include "screen/routes.h"
+#include "screen/routes/player_list_component.h"
 
 namespace synth {
 namespace screen {
