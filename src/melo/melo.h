@@ -1,3 +1,5 @@
+#pragma once
+
 #include <istream>
 #include "ast.h"
 #include "evaluator/evaluator.h"
@@ -7,11 +9,11 @@
 
 namespace melo {
 
-ast::BlockPtr Parse(std::istream& stream) {
+inline ast::BlockPtr Parse(std::istream& stream) {
 	return parser::Parser(parser::State::Create(stream)).Parse();
 }
 
-evaluator::SectionWalker CreateMainSectionWalker(std::istream& stream) {
+inline evaluator::SectionWalker CreateMainSectionWalker(std::istream& stream) {
 	auto ast = Parse(stream);
 	return {evaluator::GetMain(ast)};
 }

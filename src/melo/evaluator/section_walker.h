@@ -10,12 +10,15 @@ class SectionWalker {
 public:
 	SectionWalker(ast::ExpressionPtr& section);
 
+	inline std::size_t pos() const {
+		return pos_;
+	}
 	inline void Next() {
 		phrase_cache_ = nullptr;
 		++pos_;
 	}
 
-	bool HasNextPhrase();
+	bool HasNextPhrase() const;
 	Phrase GetCurPhrase();
 
 private:

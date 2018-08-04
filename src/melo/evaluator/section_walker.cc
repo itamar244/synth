@@ -8,7 +8,7 @@ SectionWalker::SectionWalker(ast::ExpressionPtr& section)
  		: section_unique_ptr_(std::move(section))
 		, section_(section_unique_ptr_->AsSection()) {}
 
-bool SectionWalker::HasNextPhrase() {
+bool SectionWalker::HasNextPhrase() const {
 	auto& phrases = section_->phrases;
 
 	return pos_ < phrases.size();
