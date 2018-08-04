@@ -45,11 +45,11 @@ ExpressionPtr Parser::ParseExpression() {
 }
 
 SectionPtr Parser::ParseSection() {
-	std::vector<PhrasePtr> sections;
+	std::vector<PhraseLiteralPtr> sections;
 
 	t_.Next();
 	while (!t_.Eat(tt::bracketR)) {
-		sections.push_back(ParsePhrase());
+		sections.push_back(ParsePhraseLiteral());
 		if (!t_.Eat(tt::comma) && !t_.Match(tt::bracketR)) {
 			throw std::logic_error("unfinished section");
 		}
@@ -58,7 +58,7 @@ SectionPtr Parser::ParseSection() {
 	return std::make_unique<Section>(std::move(sections));
 }
 
-PhrasePtr Parser::ParsePhrase() {
+PhraseLiteralPtr Parser::ParsePhraseLiteral() {
 	t_.Expect(tt::parenL);
 	t_.Next();
 	t_.Expect(tt::num);
@@ -69,7 +69,7 @@ PhrasePtr Parser::ParsePhrase() {
 		notes.push_back(ParseIdentifier());
 	}
 
-	return std::make_unique<Phrase>(std::move(length), std::move(notes));
+	return std::make_unique<PhraseLiteral>(std::move(length), std::move(notes));
 }
 
 IdentifierPtr Parser::ParseIdentifier() {

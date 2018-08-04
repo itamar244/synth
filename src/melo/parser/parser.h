@@ -24,7 +24,7 @@ private:
 	ast::IdentifierPtr ParseIdentifier();
 	ast::LengthLiteralPtr ParseLengthLiteral();
 	ast::SectionPtr ParseSection();
-	ast::PhrasePtr ParsePhrase();
+	ast::PhraseLiteralPtr ParsePhraseLiteral();
 
 	// statements
 	ast::StatementPtr ParseStatement(bool top_level);

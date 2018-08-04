@@ -50,7 +50,7 @@ ast::ExpressionPtr& GetMain(ast::BlockPtr& program) {
 	throw std::logic_error("no 'main' function in ast");
 }
 
-Phrase PhraseNodeToPhrase(const ast::PhrasePtr& phrase) {
+Phrase PhraseNodeToPhrase(const ast::PhraseLiteralPtr& phrase) {
 	return {
 		atic::MapIterable<decltype(phrase->notes), std::list<uint8_t> >(
 			phrase->notes, [](const ast::IdentifierPtr& id) {

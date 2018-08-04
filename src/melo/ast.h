@@ -18,7 +18,7 @@ namespace melo::ast {
 
 #define MELO_EXPRESSION_NODE_TYPES(V)                                          \
 	V(Section)                                                                   \
-	V(Phrase)                                                                    \
+	V(PhraseLiteral)                                                                    \
 	V(Identifier)                                                                \
 	V(NoteLiteral)                                                               \
 	V(LengthLiteral)
@@ -74,20 +74,20 @@ struct Identifier : public Expression {
 	Identifier(const std::string& name) : Expression(kIdentifier), name(name) {}
 };
 
-struct Phrase : public Expression {
+struct PhraseLiteral : public Expression {
 	const LengthLiteralPtr length;
 	const std::vector<IdentifierPtr> notes;
 
-	Phrase(LengthLiteralPtr length, std::vector<IdentifierPtr> notes)
-			: Expression(kPhrase)
+	PhraseLiteral(LengthLiteralPtr length, std::vector<IdentifierPtr> notes)
+			: Expression(kPhraseLiteral)
 			, length(std::move(length))
 			, notes(std::move(notes)) {}
 };
 
 struct Section : public Expression {
-	const std::vector<PhrasePtr> phrases;
+	const std::vector<PhraseLiteralPtr> phrases;
 
-	Section(std::vector<PhrasePtr> phrases)
+	Section(std::vector<PhraseLiteralPtr> phrases)
 	: Expression(kSection), phrases(std::move(phrases)) {}
 };
 
