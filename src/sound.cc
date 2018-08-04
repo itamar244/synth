@@ -2,7 +2,6 @@
 #include <cmath>
 #include <cstdint>
 #include <chrono>
-#include <iostream>
 #include <map>
 #include <utility>
 #include <SFML/Audio.hpp>
@@ -121,8 +120,6 @@ void SetPlayedNotes(const Audio::NoteList& notes) {
 	for (auto pair : waves) {
 		pair.second->Play();
 	}
-
-	std::cout << waves.size() << '\n';
 }
 
 } // namespace synth::sound

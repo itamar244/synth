@@ -3,7 +3,7 @@
 #pragma once
 
 #include <fstream>
-#include <melo/module.h>
+#include <melo/evaluator/module.h>
 #include "../player.h"
 #include "../phrase.h"
 
@@ -21,7 +21,7 @@ public:
 	Phrase ParsePhraseAt(uint16_t pos) { return {{}, 0}; }
 
 protected:
-	melo::Module module_;
+	melo::evaluator::Module module_;
 	Phrase phrase_;
 	const float speed_;
 
