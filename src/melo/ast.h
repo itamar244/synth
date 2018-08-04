@@ -13,6 +13,7 @@ namespace melo::ast {
 
 #define MELO_STATEMENT_NODE_TYPES(V)                                           \
 	V(FunctionDeclaration)                                                       \
+	V(Export)                                                                    \
 	V(Return)
 
 #define MELO_EXPRESSION_NODE_TYPES(V)                                          \
@@ -47,7 +48,9 @@ struct AstNode {
 	const NodeType type;
 
 #define V(NAME)                                                                \
-	NAME* As##NAME();                                                            \
+	inline NAME* As##NAME() {                                                    \
+		return type == k##NAME ? reinterpret_cast<NAME*>(this) : nullptr;          \
+	}                                                                            \
 	inline bool Is##NAME() { return As##NAME() != nullptr; }
 
 	MELO_AST_NODE_TYPES(V)
@@ -108,6 +111,17 @@ struct Block : public Statement {
 
 	Block(std::vector<StatementPtr> statements)
 			: Statement(kBlock), statements(std::move(statements)) {}
+};
+
+struct Export : public Statement {
+	const IdentifierPtr id;
+	// FIX: make const
+	ExpressionPtr value;
+
+	Export(IdentifierPtr id, ExpressionPtr value)
+			: Statement(kExport)
+			, id(std::move(id))
+			, value(std::move(value)) {}
 };
 
 struct FunctionDeclaration : public Statement {

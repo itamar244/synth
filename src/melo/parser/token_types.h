@@ -9,6 +9,7 @@ namespace melo::parser {
 #define MELO_KEYWORD_TYPES(V)                                                  \
 	V(func)                                                                      \
 	V(return)                                                                    \
+	V(export)                                                                    \
 	V(var)
 
 #define MELO_TOKEN_TYPES(V)                                                    \

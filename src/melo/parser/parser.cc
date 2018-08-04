@@ -90,6 +90,12 @@ StatementPtr Parser::ParseStatement(bool top_level) {
 		// case tt::_var:
 		// 	return ParseVarDeclaration();
 		// 	break;
+		case tt::_export:
+			if (!top_level) {
+				throw std::logic_error("export must be at top level");
+			}
+			return ParseExport();
+			break;
 		case tt::_func:
 			if (!top_level) {
 				throw std::logic_error("function must be at top level");
@@ -106,6 +112,13 @@ StatementPtr Parser::ParseStatement(bool top_level) {
 					"unsupported token for statement: " +
 					TokenTypeToString(state_->type));
 	}
+}
+
+ExportPtr Parser::ParseExport() {
+	t_.Next();
+	t_.Expect(tt::name);
+
+	return std::make_unique<Export>(ParseIdentifier(), ParseExpression());
 }
 
 FunctionDeclarationPtr Parser::ParseFunctionDeclaration() {

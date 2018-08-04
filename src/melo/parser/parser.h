@@ -28,6 +28,7 @@ private:
 
 	// statements
 	ast::StatementPtr ParseStatement(bool top_level);
+	ast::ExportPtr ParseExport();
 	ast::FunctionDeclarationPtr ParseFunctionDeclaration();
 	ast::ReturnPtr ParseReturn();
 };
