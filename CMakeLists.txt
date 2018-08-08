@@ -12,10 +12,10 @@ set(PROJECT_LIB_DIR lib)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
+
 # links sfml object files by adding link flags to compiler
 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS}
-	"-lboost_system -lboost_filesystem\
-	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio"
+	"-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio"
 )
 
 file(GLOB_RECURSE Synth_SRC ${PROJECT_SOURCE_DIR}/*.cc)
@@ -25,8 +25,14 @@ add_subdirectory(${PROJECT_LIB_DIR}/atic)
 
 add_executable(${PROJECT_NAME} ${Synth_SRC})
 
-target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR})
+find_package(Boost COMPONENTS system filesystem REQUIRED)
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Atic)
-target_link_libraries(${PROJECT_NAME} PRIVATE MeloLang)
+# link libraries
+target_link_libraries(${PROJECT_NAME}
+  PRIVATE ${Boost_FILESYSTEM_LIBRARY}
+  PRIVATE ${Boost_SYSTEM_LIBRARY}
+	PRIVATE Atic
+	PRIVATE MeloLang
+)
