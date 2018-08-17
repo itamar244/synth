@@ -8,9 +8,10 @@
 //   - `RemoveNote`. should always call super even inherited
 #pragma once
 
+#include <cstdint>
 #include <list>
 #include <algorithm>
-#include <cstdint>
+#include "sound.h"
 
 namespace synth {
 
@@ -52,15 +53,19 @@ protected:
   NoteList current_notes_;
 };
 
-#define AUDIO_IMPLEMENTATION_CLASS(NAME)                                       \
-	class NAME ## Audio: public Audio {                                          \
-	public:                                                                      \
+#define AUDIO_INHERIT_FUNCTIONS(NAME)                                          \
 		AudioType Type() const override { return k ## NAME; }                      \
 		bool AddNote(Note note) override;                                          \
-		bool RemoveNote(Note note) override;                                       \
-	};
-	AUDIO_IMPLEMENTATION_CLASS(Builtin)
-	// AUDIO_IMPLEMENTATION_CLASS(SerialPort)
-#undef AUDIO_IMPLEMENTATION_CLASS
+		bool RemoveNote(Note note) override;
+
+// class SineWavesSynth; // forward declaration from "sound.h"
+
+class BuiltinAudio : public Audio {
+public:
+	AUDIO_INHERIT_FUNCTIONS(Builtin)
+
+private:
+	SineWavesSynth sine_synth_;
+};
 
 } // namespace synth

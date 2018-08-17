@@ -1,13 +1,39 @@
-// Wrapper for DTMF's sound generation.
-// Solves the limitation of I2C which can only generate 2 simultaneously sounds
-// by using a synthetic I2C which can generate another 2 simultaneously sounds.
 #pragma once
 
-#include "audio.h"
+#include "types.h"
+#include <map>
+#include <memory>
+#include <SFML/Audio.hpp>
 
-namespace synth::sound {
+namespace synth {
 
-// void Init();
-void SetPlayedNotes(const Audio::NoteList& notes);
+class SoundWave {
+public:
+	SoundWave(types::Note note, int16_t* raw_wave, float frequency);
 
-} // namespace synth::sound
+	inline void SetBuffer(const sf::SoundBuffer& next_buffer) {
+		sound_.resetBuffer();
+		buffer_ = next_buffer;
+		sound_.setBuffer(buffer_);
+	}
+
+	inline void RestartSound() {
+		sound_.setPlayingOffset(sf::milliseconds(0));
+	}
+
+	inline void Play() { sound_.play(); }
+
+private:
+	sf::SoundBuffer buffer_;
+	sf::Sound sound_;
+};
+
+class SineWavesSynth {
+public:
+  void SetPlayedNotes(const types::NoteList& notes);
+
+private:
+	std::map<types::Note, std::unique_ptr<SoundWave>> waves_;
+};
+
+} // namespace synth

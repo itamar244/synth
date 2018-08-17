@@ -37,7 +37,7 @@ bool Audio::RemoveNote(Note note) {
 		return updated_notes;                                                      \
 	}
 
-#define V(_) sound::SetPlayedNotes(current_notes_);
+#define V(_) sine_synth_.SetPlayedNotes(current_notes_);
 	NOTE_LIFECYLCES(Builtin, V)
 #undef V
 

@@ -1,18 +1,17 @@
 #include "sound.h"
 #include <cmath>
 #include <cstdint>
-#include <chrono>
 #include <map>
-#include <utility>
+#include <memory>
 #include <SFML/Audio.hpp>
 #include <atic/iterables.h>
-#include "audio.h"
+#include "types.h"
 
-namespace synth::sound {
+namespace synth {
 
 namespace {
 
-inline float BaseOctaveNoteToFrequency(Audio::Note note) {
+inline float BaseOctaveNoteToFrequency(types::Note note) {
 	switch (note) {
 		case 0: return 16.35; // C
 		case 1: return 17.32; // C#
@@ -30,78 +29,44 @@ inline float BaseOctaveNoteToFrequency(Audio::Note note) {
 	}
 }
 
-inline float NoteToFrequency(Audio::Note note) {
+inline float NoteToFrequency(types::Note note) {
 	return BaseOctaveNoteToFrequency(note % 12) * std::pow(2, note / 12);
 }
 
-class SoundWave {
-public:
-	SoundWave(sf::SoundBuffer* buffer, sf::Sound* sound)
-			: buffer_(buffer), sound_(sound) {}
-
-	~SoundWave() {
-		delete buffer_;
-		delete sound_;
-	}
-
-	inline void SetBuffer(sf::SoundBuffer* next_buffer) {
-		sound_->setBuffer(*next_buffer);
-		delete buffer_;
-		buffer_ = next_buffer;
-	}
-
-	inline void RestartSound() {
-		sound_->setPlayingOffset(sf::milliseconds(0));
-	}
-
-	inline void Play() { sound_->play(); }
-
-private:
-	sf::SoundBuffer* buffer_;
-	sf::Sound* sound_;
-};
-
 constexpr uint16_t WAVE_PRECISION = 100;
-constexpr double k2Pi = M_PI * 2;
+constexpr double k2PI = M_PI * 2;
 
 inline int16_t* GetWave(uint8_t amount_of_notes) {
 	static int16_t raw_wave[WAVE_PRECISION];
 
 	uint16_t amplitude = (4 - std::log(amount_of_notes + M_E)) * 1e4;
 	for (uint16_t i = 0; i < WAVE_PRECISION; i++) {
-		raw_wave[i] = amplitude * std::sin(k2Pi * (float(i) / WAVE_PRECISION));
+		raw_wave[i] = amplitude * std::sin(k2PI * (float(i) / WAVE_PRECISION));
 	}
 
 	return raw_wave;
 }
 
-inline sf::SoundBuffer* WaveToBuffer(int16_t* raw_wave, float frequency) {
-	auto buffer = new sf::SoundBuffer();
-	buffer->loadFromSamples(
+inline sf::SoundBuffer WaveToBuffer(int16_t* raw_wave, float frequency) {
+	sf::SoundBuffer buffer;
+	buffer.loadFromSamples(
 			raw_wave, WAVE_PRECISION, 1, WAVE_PRECISION * frequency);
 	return buffer;
 }
 
-SoundWave* PlaySineWave(Audio::Note note, int16_t* raw_wave, float frequency) {
-	auto buffer = WaveToBuffer(raw_wave, frequency);
-
-	auto sound = new sf::Sound(*buffer);
-	sound->setLoop(true);
-	return new SoundWave(buffer, sound);
-}
-
 } // namespace
 
+SoundWave::SoundWave(types::Note note, int16_t* raw_wave, float frequency)
+ 		: buffer_(WaveToBuffer(raw_wave, frequency)), sound_(buffer_) {
+	sound_.setLoop(true);
+}
 
-void SetPlayedNotes(const Audio::NoteList& notes) {
-	static std::map<Audio::Note, SoundWave*> waves;
-
+void SineWavesSynth::SetPlayedNotes(const types::NoteList& notes) {
 	int16_t* raw_wave = GetWave(notes.size());
 
-	for (auto pair : waves) {
+	for (auto& pair : waves_) {
 		if (!atic::HasItem(notes, pair.first)) {
-			delete pair.second;
-			waves.erase(pair.first);
+			waves_.erase(pair.first);
 		} else {
 			pair.second->SetBuffer(
 					WaveToBuffer(raw_wave, NoteToFrequency(pair.first)));
@@ -109,17 +74,20 @@ void SetPlayedNotes(const Audio::NoteList& notes) {
 	}
 
 	for (auto note : notes) {
-		auto it = waves.find(note);
-		if (it == waves.end()) {
-			waves[note] = PlaySineWave(note, raw_wave, NoteToFrequency(note));
+		auto it = waves_.find(note);
+		if (it == waves_.end()) {
+			waves_.insert({
+				note,
+				std::make_unique<SoundWave>(note, raw_wave, NoteToFrequency(note)),
+			});
 		} else {
 			it->second->RestartSound();
 		}
 	}
 
-	for (auto pair : waves) {
+	for (auto& pair : waves_) {
 		pair.second->Play();
 	}
 }
 
-} // namespace synth::sound
+} // namespace synth
