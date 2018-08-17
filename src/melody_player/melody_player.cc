@@ -7,10 +7,13 @@ namespace synth {
 
 MelodyPlayer::MelodyPlayer(std::ifstream& file)
 		:	module_(melo::CreateModule(file))
-		, speed_(module_.Get("speed")->AsNumberValue()->value) {}
+		, walker_(module_.GetMain())
+		, speed_(module_.GetExport("speed")->ExpectNumberValue()->value) {}
+
+MelodyPlayer::~MelodyPlayer() {}
 
 void MelodyPlayer::ParsePhrase() {
-	auto melo_phrase = module_.main_walker().GetCurPhrase();
+	auto melo_phrase = walker_.GetCurPhrase();
 	phrase_ = {melo_phrase.notes, melo_phrase.length};
 }
 
@@ -23,11 +26,11 @@ bool MelodyPlayer::ShouldChangeToNextPhrase() const {
 }
 
 void MelodyPlayer::NextPhrase() {
-	module_.main_walker().Next();
+	walker_.Next();
 }
 
 bool MelodyPlayer::ShouldContinue() const {
-	return module_.main_walker().HasNextPhrase();
+	return walker_.HasNextPhrase();
 }
 
 void MelodyPlayer::WhenFinished() {}
