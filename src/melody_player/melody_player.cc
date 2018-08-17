@@ -1,6 +1,5 @@
 #include "melody_player/melody_player.h"
 #include <boost/filesystem/fstream.hpp>
-#include <melo/melo.h>
 #include "audio.h"
 
 namespace synth {
@@ -13,8 +12,7 @@ MelodyPlayer::MelodyPlayer(std::ifstream& file)
 MelodyPlayer::~MelodyPlayer() {}
 
 void MelodyPlayer::ParsePhrase() {
-	auto melo_phrase = walker_.GetCurPhrase();
-	phrase_ = {melo_phrase.notes, melo_phrase.length};
+	phrase_ = walker_.GetCurPhrase();
 }
 
 const Audio::NoteList& MelodyPlayer::GetPhraseNotes() const {

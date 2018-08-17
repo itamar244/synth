@@ -3,7 +3,7 @@
 #pragma once
 
 #include <fstream>
-#include <melo/evaluator/module.h>
+#include <melo/melo.h>
 #include <melo/evaluator/section_walker.h>
 #include "player.h"
 #include "phrase.h"
@@ -16,15 +16,15 @@ public:
 	~MelodyPlayer() override;
 
 	inline const Phrase& phrase() const { return phrase_; }
-	inline const Audio::NoteList& phrase_notes() const { return phrase_.notes; }
+	inline const Audio::NoteList& phrase_notes() const { return phrase_->notes; }
 	inline auto pos() { return walker_.pos(); }
 
 	// fix
-	Phrase ParsePhraseAt(uint16_t pos) { return {{}, 0}; }
+	Phrase ParsePhraseAt(uint16_t pos) { return nullptr; }
 
 protected:
-	melo::evaluator::Module module_;
-	melo::evaluator::SectionWalker walker_;
+	melo::Module module_;
+	melo::SectionWalker walker_;
 	Phrase phrase_;
 	const float speed_;
 
