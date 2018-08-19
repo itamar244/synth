@@ -1,6 +1,6 @@
-#include <SFML/Graphics.hpp>
 #include <chrono>
 #include <thread>
+#include <SFML/Graphics.hpp>
 #include "store.h"
 #include "env.h"
 #include "keyboard.h"

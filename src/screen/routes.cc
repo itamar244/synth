@@ -40,7 +40,7 @@ sf::Text CreateText(const std::string& str, float x, float y) {
 	text.setString(str);
 	text.setPosition(x, y - 5);
 	text.setCharacterSize(20);
-	text.setColor(sf::Color::White);
+	text.setFillColor(sf::Color::White);
 	return text;
 }
 
