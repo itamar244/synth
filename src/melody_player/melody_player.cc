@@ -1,4 +1,5 @@
 #include "melody_player/melody_player.h"
+#include <utility>
 #include <boost/filesystem/fstream.hpp>
 #include "audio.h"
 
@@ -12,7 +13,7 @@ MelodyPlayer::MelodyPlayer(std::ifstream& file)
 MelodyPlayer::~MelodyPlayer() {}
 
 void MelodyPlayer::ParsePhrase() {
-	phrase_ = walker_.GetCurPhrase();
+	phrase_ = std::move(walker_.GetCurPhrase());
 }
 
 const Audio::NoteList& MelodyPlayer::GetPhraseNotes() const {
@@ -20,7 +21,7 @@ const Audio::NoteList& MelodyPlayer::GetPhraseNotes() const {
 }
 
 bool MelodyPlayer::ShouldChangeToNextPhrase() const {
-	return PassedTime() >= PhraseLengthInMillis(phrase(), speed_);
+	return PassedTime() >= PhraseLengthInMillis(phrase_, speed_);
 }
 
 void MelodyPlayer::NextPhrase() {

@@ -4,23 +4,24 @@
 
 #include <fstream>
 #include <melo/melo.h>
-#include <melo/evaluator/section_walker.h>
+#include <melo/phrase.h>
 #include "player.h"
-#include "phrase.h"
 
 namespace synth {
 
 class MelodyPlayer : public Player {
+	using Phrase = melo::Phrase;
+
 public:
 	MelodyPlayer(std::ifstream& file);
 	~MelodyPlayer() override;
 
 	inline const Phrase& phrase() const { return phrase_; }
-	inline const Audio::NoteList& phrase_notes() const { return phrase_->notes; }
+	inline const Audio::NoteList& phrase_notes() const { return phrase_.notes; }
 	inline auto pos() { return walker_.pos(); }
 
 	// fix
-	Phrase ParsePhraseAt(uint16_t pos) { return nullptr; }
+	inline Phrase ParsePhraseAt(uint16_t pos) { return {{}, 0}; }
 
 protected:
 	melo::Module module_;
