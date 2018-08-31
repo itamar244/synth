@@ -14,22 +14,18 @@ class MelodyPlayer : public Player {
 
 public:
 	MelodyPlayer(std::ifstream& file);
-	~MelodyPlayer() override;
 
-	inline const Phrase& phrase() const { return phrase_; }
-	inline const Audio::NoteList& phrase_notes() const { return phrase_.notes; }
-	inline auto pos() { return walker_.pos(); }
-
-	// fix
-	inline Phrase ParsePhraseAt(uint16_t pos) { return {{}, 0}; }
+	inline float phrase_length() const {
+		return 60 * phrase_.length / speed_;
+	}
 
 protected:
+	PLAYER_CALLBACKS_INHERIT
+
 	melo::Module module_;
 	melo::SectionWalker walker_;
 	Phrase phrase_;
 	const float speed_;
-
-	PLAYER_CALLBACKS_INHERIT
 };
 
 } // namespace synth

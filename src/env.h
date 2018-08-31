@@ -4,9 +4,9 @@
 
 #include <fstream>
 #include <memory>
+#include <utility>
 #include <string>
 #include "audio.h"
-// #include "melody_player/melody_comparator.h"
 #include "melody_player/melody_player.h"
 #include "player.h"
 #include <atic/ptr.h>
@@ -57,11 +57,11 @@ public:
 	}
 	//
 	void DeletePlayer();
-	// std::pair<
-	// 		bool /* has_next_section */,
-	// 		float /* grade */>
-	// 		ComparatorNextSection();
-  // void SetAudioType(Audio::AudioType type);
+	std::pair<
+			bool /* has_next_section */,
+			float /* grade */>
+			ComparatorNextSection();
+  void SetAudioType(Audio::AudioType type);
 
 private:
   Audio* audio_ = new BuiltinAudio();

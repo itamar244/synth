@@ -1,7 +1,5 @@
 #include "melody_player/melody_player.h"
 #include <utility>
-#include <boost/filesystem/fstream.hpp>
-#include "audio.h"
 
 namespace synth {
 
@@ -10,18 +8,16 @@ MelodyPlayer::MelodyPlayer(std::ifstream& file)
 		, walker_(module_.GetMain())
 		, speed_(module_.GetExport("speed")->ExpectNumberValue()->value) {}
 
-MelodyPlayer::~MelodyPlayer() {}
-
 void MelodyPlayer::ParsePhrase() {
 	phrase_ = std::move(walker_.GetCurPhrase());
 }
 
 const Audio::NoteList& MelodyPlayer::GetPhraseNotes() const {
-	return phrase_notes();
+	return phrase_.notes;
 }
 
 bool MelodyPlayer::ShouldChangeToNextPhrase() const {
-	return PassedTime() >= PhraseLengthInMillis(phrase_, speed_);
+	return PassedTime() >= phrase_length();
 }
 
 void MelodyPlayer::NextPhrase() {

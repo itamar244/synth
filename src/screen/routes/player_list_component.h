@@ -9,12 +9,12 @@
 #include "screen/button.h"
 
 namespace synth {
+namespace screen {
 
-const std::initializer_list<const std::string> kMelodyNames = {
+static const std::initializer_list<const std::string> kMelodyNames = {
 	"seven-nation-army",
 };
 
-namespace screen {
 
 inline std::vector<Button> PlayerListInit(sf::RenderWindow& window) {
 	return PaintMenu(window, {

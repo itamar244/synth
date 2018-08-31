@@ -13,7 +13,7 @@
 #pragma once
 
 #include <cstdint>
-#include "phrase.h"
+#include <melo/phrase.h>
 #include "player.h"
 #include "timer.h"
 
@@ -37,7 +37,7 @@ protected:
 
 private:
 	uint32_t pos_;
-	Phrase cur_phrase_;
+	melo::Phrase cur_phrase_;
 };
 
 } // namespace synth

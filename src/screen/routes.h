@@ -16,8 +16,8 @@
   V(Index)                                                                     \
   V(Menu)                                                                      \
   V(Player)                                                                    \
-  /*V(PracticePlayerList)*/                                                        \
-  /*V(PracticePlayerPlaying)*/                                                     \
+  V(PracticePlayerList)                                                        \
+  V(PracticePlayerPlaying)                                                     \
   V(RecordsPlayer)                                                             \
   /*V(Settings)*/
 
@@ -25,8 +25,8 @@
   WRAPPER(V, Index)                                                            \
   WRAPPER(V, Menu)                                                             \
   WRAPPER(V, Player)                                                           \
-  /*WRAPPER(V, PracticePlayerList)*/                                               \
-  /*WRAPPER(V, PracticePlayerPlaying)*/                                            \
+  WRAPPER(V, PracticePlayerList)                                               \
+  WRAPPER(V, PracticePlayerPlaying)                                            \
   WRAPPER(V, RecordsPlayer)                                                    \
   /*WRAPPER(V, Settings)*/
 

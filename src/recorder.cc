@@ -1,4 +1,5 @@
 #include "recorder.h"
+#include <utility>
 #include <atic/ptr.h>
 #include "store.h"
 
@@ -51,8 +52,7 @@ void Recorder::PushNotes(const Audio::NoteList& notes) {
 }
 
 RecordsPlayer::RecordsPlayer(uint16_t song_pos)
-		: pos_(GetSongStartFromPos(song_pos))
-		, cur_phrase_(nullptr) {}
+		: pos_(GetSongStartFromPos(song_pos)) {}
 
 void RecordsPlayer::ParsePhrase() {
 	uint8_t notes_size = store::Get(pos_);
@@ -62,21 +62,22 @@ void RecordsPlayer::ParsePhrase() {
 		notes.push_back(store::Get(pos_ + i + 1));
 	}
 
-	atic::SetPtr(
-			cur_phrase_,
-			new PhraseValue{notes, store::Get(pos_ + notes_size + 1)});
+	cur_phrase_ =	{
+		std::move(notes),
+		store::Get(pos_ + notes_size + 1),
+	};
 }
 
 const Audio::NoteList& RecordsPlayer::GetPhraseNotes() const {
-	return cur_phrase_->notes;
+	return cur_phrase_.notes;
 }
 
 bool RecordsPlayer::ShouldChangeToNextPhrase() const {
-	return MillisScale(PassedTime()) >= cur_phrase_->length;
+	return MillisScale(PassedTime()) >= cur_phrase_.length;
 }
 
 void RecordsPlayer::NextPhrase() {
-	pos_ += cur_phrase_->notes.size() + 2;
+	pos_ += cur_phrase_.notes.size() + 2;
 }
 
 bool RecordsPlayer::ShouldContinue() const {

@@ -3,7 +3,7 @@
 
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
 	V(Player)                                                                    \
-	/*(PracticePlayerList)*/                                                        \
+	V(PracticePlayerList)                                                        \
 	V(RecordsPlayer)                                                             \
 	/*(Settings)*/
 
@@ -19,8 +19,8 @@ enum class Setting {
 ROUTE_INIT(Menu) {
 	return PaintMenu(window, {
 		"Player",
-		"Records Player",
 		"Practice Player",
+		"Records Player",
 		"Settings",
 	});
 }
