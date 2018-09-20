@@ -1,47 +1,39 @@
 export speed 1;
 
-func entry() {
-	return [
-		(4 E4),
-		(8),
-		(8 E4),
-		(8. G4),
-		(8. E4),
-		(8 D4)
-	];
-}
+let entry [
+	(4 E4),
+	(8),
+	(8 E4),
+	(8. G4),
+	(8. E4),
+	(8 D4)
+];
 
-func riff() {
-	return [
-		...entry(),
-		(2 C4),
-		(2 B3)
-	];
-}
+let riff [
+	entry,
+	(2 C4),
+	(2 B3)
+];
 
-func break() {
-	return [
-		(8 G4), (8 G4), (8 G4), (8 G4), (8 G4), (8 G4), (8 G4), (8 G4),
-		(8 A4), (8 A4), (8 A4), (8 A4),	(8 A4), (8 A4), (8 A4), (8 A4),
-	];
-}
+let break [
+	(8 G4), (8 G4), (8 G4), (8 G4), (8 G4), (8 G4), (8 G4), (8 G4),
+	(8 A4), (8 A4), (8 A4), (8 A4),	(8 A4), (8 A4), (8 A4), (8 A4),
+];
 
-func chorus() {
-	return [
-		...riff(),
-		...entry(),
-		(8. C4),
-		(8. D4),
-		(4 B3),
-		(8. A3),
-		(8.)
-	];
-}
+let chorus [
+	riff,
+	entry,
+	(8. C4),
+	(8. D4),
+	(4 B3),
+	(8. A3),
+	(8.)
+];
 
 export main [
-  ...riff(),
-  ...riff(),
-  ...break(),
-  ...chorus(),
-  ...chorus()
+  riff,
+  riff,
+  break,
+  chorus,
+  chorus
 ];
