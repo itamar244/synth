@@ -27,9 +27,6 @@ class Player : protected Timer {
 public:
 	virtual ~Player();
 	bool Play(Audio* audio);
-	// FIX: I know this is ugly, but arduino doesn't have dynamic_cast so I can't tell
-	// if the instance is comparator or not. UGLY ESACPE HATCH
-	virtual MelodyComparator* ToComparator() { return nullptr; }
 
 	friend inline const Audio::NoteList& GetPlayerCurrentNotes(const Player*);
 

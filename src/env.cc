@@ -12,7 +12,7 @@ Environment::~Environment() {
 
 void Environment::Tick() {
 	if (player_ != nullptr) {
-		if (MelodyComparator* comparator = player_->ToComparator()) {
+		if (auto comparator = dynamic_cast<MelodyComparator*>(player_)) {
 			if (is_song_played_	&& !comparator->Play(audio_)) {
 				is_song_played_ = false;
 			}
@@ -47,7 +47,7 @@ void Environment::DeletePlayer() {
 std::pair<bool, float> Environment::ComparatorNextSection() {
 	if (player_ == nullptr) return {false, 0};
 
-	if (MelodyComparator* comparator = player_->ToComparator()) {
+	if (auto comparator = dynamic_cast<MelodyComparator*>(player_)) {
 		if (comparator->NextSection()) {
 			is_song_played_ = true;
 			return {true, 0};
@@ -61,8 +61,8 @@ std::pair<bool, float> Environment::ComparatorNextSection() {
 
 void Environment::OnNoteWithOctaveCall(uint8_t note) {
 	if (player_ != nullptr) {
-		if (MelodyComparator* comparator = player_->ToComparator()) {
-				comparator->AddNotesToCompare(audio_->current_notes());
+		if (auto comparator = dynamic_cast<MelodyComparator*>(player_)) {
+			comparator->AddNotesToCompare(audio_->current_notes());
 		}
 	}
 	if (recorder_ != nullptr) {

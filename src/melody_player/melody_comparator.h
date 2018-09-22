@@ -22,7 +22,6 @@ public:
 
 	void AddNotesToCompare(const Audio::NoteList& notes);
 	bool NextSection();
-	MelodyComparator* ToComparator() override { return this; }
 
 protected:
 	bool ShouldContinue() const override;
