@@ -23,7 +23,8 @@ public:
 			fs::create_directory(path_.parent_path());
 		}
 
-		fs::fstream file(path_,
+		fs::fstream file(
+				path_,
 				fs::fstream::in | fs::fstream::out | fs::fstream::trunc);
 		file << '\n';
 	}

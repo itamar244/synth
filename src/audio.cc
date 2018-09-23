@@ -6,21 +6,21 @@
 namespace synth {
 
 bool Audio::AddNote(Note note) {
-  if (current_notes_.size() == kMaxNotes) return false;
-  if (!atic::HasItem(current_notes_, note)) {
-    current_notes_.push_back(note);
-    return true;
-  }
-  return false;
+	if (current_notes_.size() == kMaxNotes) return false;
+	if (!atic::HasItem(current_notes_, note)) {
+		current_notes_.push_back(note);
+		return true;
+	}
+	return false;
 }
 
 bool Audio::RemoveNote(Note note) {
-  auto searched_note = atic::FindItem(current_notes_, note);
-  if (searched_note != current_notes_.end()) {
-    current_notes_.erase(searched_note);
-    return true;
-  }
-  return false;
+	auto searched_note = atic::FindItem(current_notes_, note);
+	if (searched_note != current_notes_.end()) {
+		current_notes_.erase(searched_note);
+		return true;
+	}
+	return false;
 }
 
 // wrapper for all note lifecycles. receives a audio class's prefix name

@@ -27,11 +27,11 @@ public:
   using Note = uint8_t;
   using NoteList = std::list<Note>;
 
-  virtual ~Audio() {}
-  virtual AudioType Type() const = 0;
+	virtual ~Audio() {}
+	virtual AudioType Type() const = 0;
 
-  virtual bool AddNote(Note note);
-  virtual bool RemoveNote(Note note);
+	virtual bool AddNote(Note note);
+	virtual bool RemoveNote(Note note);
 
 	inline const NoteList& current_notes() const {
 		return current_notes_;
@@ -50,7 +50,7 @@ public:
 	}
 
 protected:
-  NoteList current_notes_;
+	NoteList current_notes_;
 };
 
 #define AUDIO_INHERIT_FUNCTIONS(NAME)                                          \

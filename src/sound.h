@@ -30,7 +30,7 @@ private:
 
 class SineWavesSynth {
 public:
-  void SetPlayedNotes(const types::NoteList& notes);
+	void SetPlayedNotes(const types::NoteList& notes);
 
 private:
 	std::map<types::Note, std::unique_ptr<SoundWave>> waves_;

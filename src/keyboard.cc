@@ -11,7 +11,7 @@ namespace {
 
 const std::vector<kb::Key> kNotes({
 	kb::Z, kb::S, kb::X, kb::D, kb::C, kb::V,	kb::G, kb::B,	kb::H, kb::N,	kb::J, kb::M,
-  kb::Q, kb::Num2, kb::W, kb::Num3, kb::E, kb::R, kb::Num5, kb::T, kb::Num6, kb::Y, kb::Num7, kb::U, kb::I
+	kb::Q, kb::Num2, kb::W, kb::Num3, kb::E, kb::R, kb::Num5, kb::T, kb::Num6, kb::Y, kb::Num7, kb::U, kb::I
 });
 
 std::vector<bool> isKeyPressed(kNotes.size(), false);

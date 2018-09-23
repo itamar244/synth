@@ -61,15 +61,15 @@ public:
 			bool /* has_next_section */,
 			float /* grade */>
 			ComparatorNextSection();
-  void SetAudioType(Audio::AudioType type);
+	void SetAudioType(Audio::AudioType type);
 
 private:
   Audio* audio_ = new BuiltinAudio();
 	Player* player_ = nullptr;
 	std::unique_ptr<Recorder> recorder_ = nullptr;
-  bool is_song_played_ = false;
+	bool is_song_played_ = false;
 
-  int8_t current_octave_ = 4;
+	int8_t current_octave_ = 4;
 
 	void OnNoteWithOctaveCall(Audio::Note note);
 };

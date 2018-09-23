@@ -3,29 +3,29 @@
 #include "screen/routes.h"
 
 #define CASE_ROUTE_TYPES(V, ROUTE)                                             \
-  case Route::k ## ROUTE:                                                      \
-    V(ROUTE)                                                                   \
-    break;
+	case Route::k ## ROUTE:                                                      \
+		V(ROUTE)                                                                   \
+		break;
 
 // create a switch-case statement with each possible route
 #define SWITCH_ROUTE_TYPES(V)                                                  \
-  switch (route_) {                                                            \
-    WRAPPED_ROUTE_TYPES(CASE_ROUTE_TYPES, V)                                   \
-  }
+	switch (route_) {                                                            \
+		WRAPPED_ROUTE_TYPES(CASE_ROUTE_TYPES, V)                                   \
+	}
 
 namespace synth::screen {
 
 Controller::Controller()
-  : route_(Route::kIndex) {}
+		: route_(Route::kIndex) {}
 
 void Controller::Paint(Environment& env, sf::RenderWindow& window) {
-  if (!is_painted_) {
-    is_painted_ = true;
+	if (!is_painted_) {
+		is_painted_ = true;
 		window.clear(sf::Color::Black);
 
-    Touchend(env, window);
+		Touchend(env, window);
 #define V(ROUTE) buttons_ = RouteInit ## ROUTE(window);
-    SWITCH_ROUTE_TYPES(V)
+		SWITCH_ROUTE_TYPES(V)
 #undef V
 
 		window.display();
@@ -34,11 +34,11 @@ void Controller::Paint(Environment& env, sf::RenderWindow& window) {
 
 void Controller::Touch(
 		Environment& env, sf::RenderWindow& window, sf::Vector2i point_vec) {
-  const Point point = { point_vec.x, point_vec.y };
+	const Point point = { point_vec.x, point_vec.y };
 	is_touched_ = true;
 
 #define V(ROUTE) RouteTouch ## ROUTE(this, window, buttons_, env, point);
-  SWITCH_ROUTE_TYPES(V)
+	SWITCH_ROUTE_TYPES(V)
 #undef V
 }
 

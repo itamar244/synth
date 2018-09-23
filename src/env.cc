@@ -7,7 +7,7 @@ namespace synth {
 
 Environment::~Environment() {
 	if (player_ != nullptr) delete player_;
-  delete audio_;
+	delete audio_;
 }
 
 void Environment::Tick() {

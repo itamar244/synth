@@ -5,21 +5,21 @@
 namespace synth::screen {
 
 struct Button : public Point {
-  float width, height;
-  bool is_pressed = false;
+	float width, height;
+	bool is_pressed = false;
 
-  Button(float x, float y, float width, float height)
-    : Point(x, y), width(width), height(height) {}
+	Button(float x, float y, float width, float height)
+			: Point(x, y), width(width), height(height) {}
 
 	template<class X, class Y>
-  Button(X x, Y y, float width, float height)
-    : Point(x, y), width(width), height(height) {}
+	Button(X x, Y y, float width, float height)
+			: Point(x, y), width(width), height(height) {}
 
-  inline bool IsTapped(const Point& point) const {
-    const float diff_x = point.x - x, diff_y = point.y - y;
+	inline bool IsTapped(const Point& point) const {
+		const float diff_x = point.x - x, diff_y = point.y - y;
 
-    return diff_x < width && diff_x > 0 && diff_y < height && diff_y > 0;
-  }
+		return diff_x < width && diff_x > 0 && diff_y < height && diff_y > 0;
+	}
 
 	template<class Cb>
 	static void IteratePressed(
