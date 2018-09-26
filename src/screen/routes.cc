@@ -91,12 +91,13 @@ std::vector<Button> PaintMenu(
 }
 
 std::vector<Button> PaintKeyboard(
-		sf::RenderWindow& window, const char* names[], uint16_t size) {
+		sf::RenderWindow& window, const PaintMenuNames& names) {
 	std::vector<Button> buttons;
+	auto name_it = names.begin();
 
-	buttons.reserve(size + 1);
+	buttons.reserve(names.size() + 1);
 
-	for (uint8_t i = 0; i < size && i < 11; i++) {
+	for (uint8_t i = 0; i < names.size() && i < 11; i++, name_it++) {
 		const float x = (i % 3) * 100 + 30;
 		const float y = (i / 3) * 50 + 40;
 		const float width = 50, height = 40;
@@ -105,7 +106,7 @@ std::vector<Button> PaintKeyboard(
 		buttons.push_back(button);
 		window.draw(CreateRectShape(button, sf::Color::Red));
 		window.draw(
-			CreateText(names[i], x + (21 - std::strlen(names[i]) * 3), y + 10));
+			CreateText(*name_it, x + (21 - (*name_it).size() * 3), y + 10));
 	}
 
 	auto dimensions = window.getSize();

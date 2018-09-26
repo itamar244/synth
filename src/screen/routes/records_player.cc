@@ -1,8 +1,6 @@
 #include "screen/routes.h"
 #include "recorder.h"
 
-#define BUTTON_ITEMS 11
-
 namespace synth {
 namespace screen {
 
@@ -11,15 +9,13 @@ namespace {
 // used to store the keyboard value
 uint8_t keyboard_value = 0;
 
-const char* kRecordsPlayerButtonNames[BUTTON_ITEMS] = {
-	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Run",
-};
-
 } // namespace
 
 ROUTE_INIT(RecordsPlayer) {
 	keyboard_value = 0;
-	return PaintKeyboard(window, kRecordsPlayerButtonNames, BUTTON_ITEMS);
+	return PaintKeyboard(window, {
+		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Run",
+	});
 }
 
 ROUTE_TOUCH(RecordsPlayer) {
