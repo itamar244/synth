@@ -9,13 +9,9 @@ ROUTE_INIT(PracticePlayerList) {
 }
 
 ROUTE_TOUCH(PracticePlayerList) {
-	Button::IteratePressed(
-		buttons, point,
-		PlayerListTouchHandler<MelodyComparator>(
-			controller, env,
-			[&controller]() {
-				controller->set_route(Route::kPracticePlayerPlaying);
-			}));
+	PlayerListTouchHandler<MelodyPlayer>(state, [&state]() {
+		state.controller->set_route(Route::kPracticePlayerPlaying);
+	});
 }
 
 } // namespace synth::screen

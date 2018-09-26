@@ -37,7 +37,7 @@ void Controller::Touch(
 	const Point point = { point_vec.x, point_vec.y };
 	is_touched_ = true;
 
-#define V(ROUTE) RouteTouch ## ROUTE(this, window, buttons_, env, point);
+#define V(ROUTE) RouteTouch ## ROUTE({ this, window, buttons_, env, point });
 	SWITCH_ROUTE_TYPES(V)
 #undef V
 }

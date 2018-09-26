@@ -9,9 +9,7 @@ ROUTE_INIT(Player) {
 }
 
 ROUTE_TOUCH(Player) {
-	Button::IteratePressed(
-		buttons, point,
-		PlayerListTouchHandler<MelodyPlayer>(controller, env, []() {}));
+	PlayerListTouchHandler<MelodyPlayer>(state, []() {});
 }
 
 } // namespace screen

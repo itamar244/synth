@@ -26,17 +26,16 @@ ROUTE_INIT(Menu) {
 }
 
 ROUTE_TOUCH(Menu) {
-	Button::IteratePressed(buttons, point,
-			[&](uint8_t index) {
-				switch (Setting(index)) {
+	state.IteratePressedButtons([&state](uint8_t index) {
+		switch (Setting(index)) {
 #define V(TYPE)                                                                \
-					case Setting::k ## TYPE:                                             \
-						controller->set_route(Route::k ## TYPE);                           \
-						break;
-	SYNTH_MENU_ITEM_TYPES(V)
+			case Setting::k ## TYPE:                                                 \
+				state.controller->set_route(Route::k ## TYPE);                         \
+				break;
+			SYNTH_MENU_ITEM_TYPES(V)
 #undef V
-				}
-			});
+		}
+	});
 }
 
 } // namespace screen

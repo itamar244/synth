@@ -19,13 +19,13 @@ ROUTE_INIT(RecordsPlayer) {
 }
 
 ROUTE_TOUCH(RecordsPlayer) {
-	auto size = buttons.size();
+	auto size = state.buttons.size();
 
-	Button::IteratePressed(buttons, point, [&] (uint8_t index) {
+	state.IteratePressedButtons([&](uint8_t index) {
 		if (index == size - 1) {
-			controller->set_route(Route::kMenu);
+			state.controller->set_route(Route::kMenu);
 		} else if (index == size - 2) {
-			env.SetPlayer(new RecordsPlayer(keyboard_value));
+			state.env.SetPlayer(new RecordsPlayer(keyboard_value));
 			keyboard_value = 0;
 		} else {
 			keyboard_value = keyboard_value * 10 + index;

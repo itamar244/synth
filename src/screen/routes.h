@@ -30,22 +30,32 @@
 	WRAPPER(V, RecordsPlayer)                                                    \
 	/*WRAPPER(V, Settings)*/
 
-#define ROUTE_INIT(ROUTE)                                                      \
-	std::vector<Button> RouteInit ## ROUTE(sf::RenderWindow& window)
-
-#define ROUTE_TOUCH(ROUTE)                                                     \
-	void RouteTouch ## ROUTE(                                                    \
-			Controller* controller, sf::RenderWindow& window,                        \
-			std::vector<Button>& buttons, Environment& env, const Point& point)
-
-namespace synth {
-namespace screen {
+namespace synth::screen {
 
 enum class Route {
 #define V(ROUTE) k ## ROUTE,
 	ROUTE_TYPES(V)
 #undef V
 };
+
+struct RouteState {
+	Controller* controller;
+	sf::RenderWindow& window;
+	std::vector<Button>& buttons;
+	Environment& env;
+	const Point& point;
+
+	template<class Cb>
+	inline void IteratePressedButtons(const Cb& callback) {
+		Button::IteratePressed(buttons, point, callback);
+	}
+};
+
+#define ROUTE_INIT(ROUTE)                                                      \
+	std::vector<Button> RouteInit ## ROUTE(sf::RenderWindow& window)
+
+#define ROUTE_TOUCH(ROUTE)                                                     \
+	void RouteTouch ## ROUTE(RouteState state)
 
 #define V(ROUTE)                                                               \
 	ROUTE_INIT(ROUTE);                                                           \
@@ -78,7 +88,6 @@ std::vector<Button> PaintMenu(
  * Each line contains three buttons, up to 11 buttons total.
  */
 std::vector<Button> PaintKeyboard(
-		sf::RenderWindow& window, const char* names[], uint16_t size);
+		sf::RenderWindow& window, const PaintMenuNames&);
 
-} // namespace screen
-} // namespace synth
+} // namespace synth::screen

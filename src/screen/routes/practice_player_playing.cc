@@ -22,24 +22,23 @@ ROUTE_INIT(PracticePlayerPlaying) {
 }
 
 ROUTE_TOUCH(PracticePlayerPlaying) {
-	Button::IteratePressed(buttons, point,
-		[&](uint8_t index) {
-			switch (index) {
-				case 0: // Back
-					controller->set_route(Route::kPracticePlayerList);
-					env.DeletePlayer();
-					break;
-				case 1: // Start
-					env.StartPlaying();
-					break;
-				case 2: // Commit
-					auto status = env.ComparatorNextSection();
-					if (!status.first) {
-						PaintGrade(window, status.second);
-					}
-					break;
-			}
-		});
+	state.IteratePressedButtons([&state](uint8_t index) {
+		switch (index) {
+			case 0: // Back
+				state.controller->set_route(Route::kPracticePlayerList);
+				state.env.DeletePlayer();
+				break;
+			case 1: // Start
+				state.env.StartPlaying();
+				break;
+			case 2: // Commit
+				auto status = state.env.ComparatorNextSection();
+				if (!status.first) {
+					PaintGrade(state.window, status.second);
+				}
+				break;
+		}
+	});
 }
 
 } // namespace screen

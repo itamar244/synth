@@ -19,8 +19,8 @@ ROUTE_INIT(Index) {
 }
 
 ROUTE_TOUCH(Index) {
-	if (buttons[0].IsTapped(point)) {
-		controller->set_route(Route::kMenu);
+	if (state.buttons[0].IsTapped(state.point)) {
+		state.controller->set_route(Route::kMenu);
 	}
 }
 
