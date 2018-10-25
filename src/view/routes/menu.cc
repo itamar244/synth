@@ -1,5 +1,5 @@
-#include "screen/routes.h"
-#include "screen/button.h"
+#include "view/routes.h"
+#include "view/button.h"
 
 #define SYNTH_MENU_ITEM_TYPES(V)                                               \
 	V(Player)                                                                    \
@@ -7,8 +7,7 @@
 	V(RecordsPlayer)                                                             \
 	/*(Settings)*/
 
-namespace synth {
-namespace screen {
+namespace synth::view {
 
 #define V(TYPE) k ## TYPE,
 enum class Setting {
@@ -38,5 +37,4 @@ ROUTE_TOUCH(Menu) {
 	});
 }
 
-} // namespace screen
-} // namespace synth
+} // namespace view::view

@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
-#include "screen/routes.h"
+#include "view/routes.h"
 
 namespace synth {
-namespace screen {
+namespace view {
 
 ROUTE_INIT(Index) {
 	const auto dimensions = window.getSize();
@@ -24,5 +24,5 @@ ROUTE_TOUCH(Index) {
 	}
 }
 
-} // namespace screen
+} // namespace view
 } // namespace synth

@@ -5,10 +5,10 @@
 #include <functional>
 #include <string>
 #include <atic/iterables.h>
-#include "screen/routes.h"
-#include "screen/button.h"
+#include "view/routes.h"
+#include "view/button.h"
 
-namespace synth::screen {
+namespace synth::view {
 
 static const std::initializer_list<const std::string> kMelodyNames = {
 	"seven-nation-army",
@@ -37,4 +37,4 @@ inline auto PlayerListTouchHandler(
 	});
 }
 
-} // namespace synth::screen
+} // namespace synth::view

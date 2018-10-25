@@ -1,8 +1,7 @@
-#include "screen/routes.h"
+#include "view/routes.h"
 #include "recorder.h"
 
-namespace synth {
-namespace screen {
+namespace synth::view {
 
 namespace {
 
@@ -33,5 +32,4 @@ ROUTE_TOUCH(RecordsPlayer) {
 	});
 }
 
-} // namespace screen
-} // namespace synth
+} // namespace synth::view

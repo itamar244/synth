@@ -1,8 +1,7 @@
-#include "screen/routes.h"
-#include "screen/routes/player_list_component.h"
+#include "view/routes.h"
+#include "view/routes/player_list_component.h"
 
-namespace synth {
-namespace screen {
+namespace synth::view {
 
 ROUTE_INIT(Player) {
 	return PlayerListInit(window);
@@ -14,5 +13,4 @@ ROUTE_TOUCH(Player) {
 	});
 }
 
-} // namespace screen
-} // namespace synth
+} // namespace synth::view

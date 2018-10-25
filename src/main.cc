@@ -4,16 +4,16 @@
 #include "store.h"
 #include "env.h"
 #include "keyboard.h"
-#include "screen/screen.h"
+#include "view/controller.h"
 
 namespace store = synth::store;
 
 using synth::Environment;
 using synth::ListenToKeyboardInput;
-using ScreenController = synth::screen::Controller;
+using ViewController = synth::view::Controller;
 
 Environment env;
-ScreenController screen_controller;
+ViewController view_controller;
 
 void TickLoop() {
 	for (;;) {
@@ -23,16 +23,16 @@ void TickLoop() {
 }
 
 inline void Loop(sf::RenderWindow& window, sf::Event& event) {
-	screen_controller.Paint(env, window);
+	view_controller.Paint(env, window);
 	if (event.type == sf::Event::KeyPressed ||
 			event.type == sf::Event::KeyReleased) {
 		ListenToKeyboardInput(env);
 	}
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		screen_controller.Touch(env, window, sf::Mouse::getPosition(window));
-	} else if (screen_controller.is_touched()) {
-		screen_controller.Touchend(env, window);
+		view_controller.Touch(env, window, sf::Mouse::getPosition(window));
+	} else if (view_controller.is_touched()) {
+		view_controller.Touchend(env, window);
 	}
 }
 

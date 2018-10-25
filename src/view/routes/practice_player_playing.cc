@@ -1,9 +1,8 @@
-#include "screen/routes.h"
+#include "view/routes.h"
 #include <string>
 #include <SFML/Graphics.hpp>
 
-namespace synth {
-namespace screen {
+namespace synth::view {
 
 inline void PaintGrade(sf::RenderWindow& window, float grade) {
 	uint16_t x = window.getSize().x / 2 + 50;
@@ -41,5 +40,4 @@ ROUTE_TOUCH(PracticePlayerPlaying) {
 	});
 }
 
-} // namespace screen
-} // namespace synth
+} // namespace synth::view

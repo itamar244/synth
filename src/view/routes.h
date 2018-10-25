@@ -1,7 +1,7 @@
-// Responsible for screen's painting and touch responses.
+// Responsible for view's painting and touch responses.
 // RouteInit<ROUTE> and PageTouch<TYPE><ROUTE> are generated and are being used
-// in "screen/screen.cc".
-// each ROUTE is implemented in `screen/pages/ROUTE.cc`.
+// in "view/view.cc".
+// each ROUTE is implemented in `view/pages/ROUTE.cc`.
 #pragma once
 
 #include <initializer_list>
@@ -9,8 +9,8 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "env.h"
-#include "screen/button.h"
-#include "screen/screen.h"
+#include "view/button.h"
+#include "view/controller.h"
 
 #define ROUTE_TYPES(V)                                                         \
 	V(Index)                                                                     \
@@ -30,7 +30,7 @@
 	WRAPPER(V, RecordsPlayer)                                                    \
 	/*WRAPPER(V, Settings)*/
 
-namespace synth::screen {
+namespace synth::view {
 
 enum class Route {
 #define V(ROUTE) k ## ROUTE,
@@ -90,4 +90,4 @@ std::vector<Button> PaintMenu(
 std::vector<Button> PaintKeyboard(
 		sf::RenderWindow& window, const PaintMenuNames&);
 
-} // namespace synth::screen
+} // namespace synth::view

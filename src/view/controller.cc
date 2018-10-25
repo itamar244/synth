@@ -1,6 +1,6 @@
-#include "screen/screen.h"
+#include "view/controller.h"
 #include <iostream>
-#include "screen/routes.h"
+#include "view/routes.h"
 
 #define CASE_ROUTE_TYPES(V, ROUTE)                                             \
 	case Route::k ## ROUTE:                                                      \
@@ -13,7 +13,7 @@
 		WRAPPED_ROUTE_TYPES(CASE_ROUTE_TYPES, V)                                   \
 	}
 
-namespace synth::screen {
+namespace synth::view {
 
 Controller::Controller()
 		: route_(Route::kIndex) {}
@@ -52,4 +52,4 @@ void Controller::Touchend(Environment& env, sf::RenderWindow& window) {
 	}
 }
 
-} // namespace synth::screen
+} // namespace synth::view

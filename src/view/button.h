@@ -1,8 +1,8 @@
 #pragma once
 
-#include "screen/point.h"
+#include "view/point.h"
 
-namespace synth::screen {
+namespace synth::view {
 
 struct Button : public Point {
 	float width, height;
@@ -40,4 +40,4 @@ struct Button : public Point {
 	}
 };
 
-} // namespace synth::screen
+} // namespace synth::view

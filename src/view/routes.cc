@@ -1,14 +1,14 @@
 /**
  * exported functions for repeated patterns
- * that are used in `screen/pages/` files to
- * generate screen output.
+ * that are used in `view/pages/` files to
+ * generate view output.
  */
-#include "screen/routes.h"
+#include "view/routes.h"
 #include <cstring>
 #include <SFML/Graphics.hpp>
-#include "screen/button.h"
+#include "view/button.h"
 
-namespace synth::screen {
+namespace synth::view {
 
 void ClearButtonClicks(std::vector<Button>& buttons) {
 	for (auto& button : buttons) {
@@ -118,4 +118,4 @@ std::vector<Button> PaintKeyboard(
 	return buttons;
 }
 
-} // namespace synth::screen
+} // namespace synth::view

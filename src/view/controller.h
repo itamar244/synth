@@ -1,15 +1,15 @@
 /**
- * the main logic of the screen module.
- * Controller is the screen controller
+ * the main logic of the view module.
+ * Controller is the view controller
  */
 #pragma once
 
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "env.h"
-#include "screen/button.h"
+#include "view/button.h"
 
-namespace synth::screen {
+namespace synth::view {
 
 enum class Route;
 
@@ -35,4 +35,4 @@ private:
 	bool is_painted_ = false, is_touched_ = false;
 };
 
-} // namespace synth::screen
+} // namespace synth::view

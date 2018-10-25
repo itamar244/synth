@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace synth::screen {
+namespace synth::view {
 
 struct Point {
 	float x, y;
@@ -16,4 +16,4 @@ struct Point {
 			, y(static_cast<float>(y)) {}
 };
 
-} // namespace synth::screen
+} // namespace synth::view

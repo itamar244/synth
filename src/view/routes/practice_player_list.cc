@@ -1,8 +1,8 @@
-#include "screen/routes.h"
+#include "view/routes.h"
 #include "melody_player/melody_comparator.h"
-#include "screen/routes/player_list_component.h"
+#include "view/routes/player_list_component.h"
 
-namespace synth::screen {
+namespace synth::view {
 
 ROUTE_INIT(PracticePlayerList) {
 	return PlayerListInit(window);
@@ -15,4 +15,4 @@ ROUTE_TOUCH(PracticePlayerList) {
 	});
 }
 
-} // namespace synth::screen
+} // namespace synth::view
