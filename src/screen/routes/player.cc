@@ -9,7 +9,9 @@ ROUTE_INIT(Player) {
 }
 
 ROUTE_TOUCH(Player) {
-	PlayerListTouchHandler<MelodyPlayer>(state, []() {});
+	PlayerListTouchHandler(state, [&](auto& path) {
+		state.env.SetPlayer<MelodyPlayer>(path);
+	});
 }
 
 } // namespace screen

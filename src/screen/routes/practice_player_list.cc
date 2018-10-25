@@ -9,7 +9,8 @@ ROUTE_INIT(PracticePlayerList) {
 }
 
 ROUTE_TOUCH(PracticePlayerList) {
-	PlayerListTouchHandler<MelodyPlayer>(state, [&state]() {
+	PlayerListTouchHandler(state, [&state](auto& path) {
+		state.env.SetPlayer<MelodyPlayer>(path);
 		state.controller->set_route(Route::kPracticePlayerPlaying);
 	});
 }

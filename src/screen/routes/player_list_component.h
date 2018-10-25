@@ -21,10 +21,9 @@ inline std::vector<Button> PlayerListInit(sf::RenderWindow& window) {
 	});
 }
 
-template<typename PlayerType>
 inline auto PlayerListTouchHandler(
 		RouteState& state,
-		const std::function<void(void)>& on_melody_set) {
+		const std::function<void(const std::string&)>& set_player) {
 	state.IteratePressedButtons([&](uint8_t index) {
 		auto& env = state.env;
 
@@ -32,10 +31,8 @@ inline auto PlayerListTouchHandler(
 			state.controller->set_route(Route::kMenu);
 			env.DeletePlayer();
 		} else {
-			const std::string file_name =
-					atic::Advance(kMelodyNames.begin(), index - 1);
-			env.SetPlayer<PlayerType>("melodies-data/" + file_name + ".melo");
-			on_melody_set();
+			auto file_name = atic::Advance(kMelodyNames.begin(), index - 1);
+			set_player("melodies-data/" + file_name + ".melo");
 		}
 	});
 }
