@@ -1,7 +1,6 @@
 #include "audio.h"
 #include <cstdint>
 #include <atic/iterables.h>
-#include "messages.h"
 #include "sound.h"
 
 namespace synth {
@@ -42,8 +41,8 @@ bool Audio::RemoveNote(Note note) {
 	NOTE_LIFECYLCES(Builtin, V)
 #undef V
 
-#define V(FUNC) messages::Send(messages::k ## FUNC ## Note, note);
-	NOTE_LIFECYLCES(Messaging, V)
-#undef V
+// #define V(FUNC) messages::Send(messages::k ## FUNC ## Note, note);
+// 	NOTE_LIFECYLCES(Messaging, V)
+// #undef V
 
 } // namespace synth
