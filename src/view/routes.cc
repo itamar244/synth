@@ -7,42 +7,9 @@
 #include <cstring>
 #include <SFML/Graphics.hpp>
 #include "view/button.h"
+#include "view/elements.h"
 
 namespace synth::view {
-
-void ClearButtonClicks(std::vector<Button>& buttons) {
-	for (auto& button : buttons) {
-		if (button.is_pressed) {
-			button.is_pressed = false;
-		}
-	}
-}
-
-sf::RectangleShape CreateRectShape(
-		const Button& button, sf::Color color) {
-	sf::RectangleShape shape{ sf::Vector2f{ button.width, button.height } };
-	shape.setPosition(button.x, button.y);
-	shape.setFillColor(color);
-	return shape;
-}
-
-sf::Text CreateText(const std::string& str, float x, float y) {
-	// TODO: might fix this ugly trick
-	static sf::Font font;
-	static bool loaded = false;
-	if (!loaded) {
-		font.loadFromFile("/usr/share/fonts/truetype/tlwg/Loma.ttf");
-		loaded = true;
-	}
-	sf::Text text(str, font);
-
-	text.setFont(font);
-	text.setString(str);
-	text.setPosition(x, y - 5);
-	text.setCharacterSize(20);
-	text.setFillColor(sf::Color::White);
-	return text;
-}
 
 void PaintMenuLoop(
 		sf::RenderWindow& window,
@@ -61,8 +28,8 @@ void PaintMenuLoop(
 		Button button = { x, y, width, height };
 		buttons.push_back(button);
 
-		window.draw(CreateRectShape(button, sf::Color::Red));
-		window.draw(CreateText(name, x + 10, y + 10));
+		window.draw(RectElement(button, sf::Color::Red));
+		window.draw(TextElement(name, x + 10, y + 10));
 	}
 }
 
@@ -104,16 +71,16 @@ std::vector<Button> PaintKeyboard(
 		Button button = { x, y, width, height };
 
 		buttons.push_back(button);
-		window.draw(CreateRectShape(button, sf::Color::Red));
+		window.draw(RectElement(button, sf::Color::Red));
 		window.draw(
-			CreateText(*name_it, x + (21 - (*name_it).size() * 3), y + 10));
+			TextElement(*name_it, x + (21 - (*name_it).size() * 3), y + 10));
 	}
 
 	auto dimensions = window.getSize();
 	Button menu = { dimensions.x - 100, dimensions.y - 50, 100, 40 };
 	buttons.push_back(menu);
-	window.draw(CreateRectShape(menu, sf::Color::Red));
-	window.draw(CreateText("Back", menu.x + 18, menu.y + 10));
+	window.draw(RectElement(menu, sf::Color::Red));
+	window.draw(TextElement("Back", menu.x + 18, menu.y + 10));
 
 	return buttons;
 }

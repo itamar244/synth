@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "view/point.h"
 
 namespace synth::view {

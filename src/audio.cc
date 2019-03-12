@@ -1,6 +1,7 @@
 #include "audio.h"
 #include <cstdint>
 #include <atic/iterables.h>
+#include "messages.h"
 #include "sound.h"
 
 namespace synth {
@@ -23,12 +24,6 @@ bool Audio::RemoveNote(Note note) {
 	return false;
 }
 
-// wrapper for all note lifecycles. receives a audio class's prefix name
-// and a macro method to call on update with the lifecycle type
-#define NOTE_LIFECYLCES(CLASS, V)                                              \
-	__CREATOR(CLASS, Add, V)                                                     \
-	__CREATOR(CLASS, Remove, V)
-
 #define __CREATOR(CLASS, FUNC, V)                                              \
 	bool CLASS ## Audio::FUNC ## Note(Note note) {                               \
 		bool updated_notes = Audio::FUNC ## Note(note);                            \
@@ -37,12 +32,18 @@ bool Audio::RemoveNote(Note note) {
 		return updated_notes;                                                      \
 	}
 
+// wrapper for all note lifecycles. receives a audio class's prefix name
+// and a macro method to call on update with the lifecycle type
+#define NOTE_LIFECYLCES(CLASS, V)                                              \
+	__CREATOR(CLASS, Add, V)                                                     \
+	__CREATOR(CLASS, Remove, V)
+
 #define V(_) sine_synth_.SetPlayedNotes(current_notes_);
 	NOTE_LIFECYLCES(Builtin, V)
 #undef V
 
-// #define V(FUNC) serial::Send(serial::k ## FUNC ## Note, note);
-// 	NOTE_LIFECYLCES(SerialPort, V)
-// #undef V
+#define V(FUNC) messages::Send(messages::k ## FUNC ## Note, note);
+	NOTE_LIFECYLCES(Messaging, V)
+#undef V
 
 } // namespace synth

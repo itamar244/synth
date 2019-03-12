@@ -33,15 +33,15 @@ inline float NoteToFrequency(types::Note note) {
 	return BaseOctaveNoteToFrequency(note % 12) * std::pow(2, note / 12);
 }
 
-constexpr uint16_t WAVE_PRECISION = 100;
+constexpr uint16_t kWavePrecision = 2000;
 constexpr double k2PI = M_PI * 2;
 
 inline int16_t* GetWave(uint8_t amount_of_notes) {
-	static int16_t raw_wave[WAVE_PRECISION];
+	static int16_t raw_wave[kWavePrecision];
 
-	uint16_t amplitude = (4 - std::log(amount_of_notes + M_E)) * 1e4;
-	for (uint16_t i = 0; i < WAVE_PRECISION; i++) {
-		raw_wave[i] = amplitude * std::sin(k2PI * (float(i) / WAVE_PRECISION));
+	uint16_t amplitude = 32762;
+	for (uint16_t i = 0; i < kWavePrecision; i++) {
+		raw_wave[i] = amplitude * std::sin(k2PI * (float(i) / kWavePrecision));
 	}
 
 	return raw_wave;
@@ -50,7 +50,7 @@ inline int16_t* GetWave(uint8_t amount_of_notes) {
 inline sf::SoundBuffer WaveToBuffer(int16_t* raw_wave, float frequency) {
 	sf::SoundBuffer buffer;
 	buffer.loadFromSamples(
-			raw_wave, WAVE_PRECISION, 1, WAVE_PRECISION * frequency);
+			raw_wave, kWavePrecision, 1, kWavePrecision * frequency);
 	return buffer;
 }
 

@@ -64,7 +64,7 @@ public:
 	void SetAudioType(Audio::AudioType type);
 
 private:
-  Audio* audio_ = new BuiltinAudio();
+	Audio* audio_ = new BuiltinAudio();
 	Player* player_ = nullptr;
 	std::unique_ptr<Recorder> recorder_ = nullptr;
 	bool is_song_played_ = false;

@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <list>
 #include <algorithm>
+#include "types.h"
 #include "sound.h"
 
 namespace synth {
@@ -19,13 +20,13 @@ class Audio {
 public:
 	const static uint8_t kMaxNotes = 4;
 
-  enum AudioType {
-    kBuiltin,
-    kSerialPort,
-  };
+	enum AudioType {
+		kBuiltin,
+		kMessaging,
+	};
 
-  using Note = uint8_t;
-  using NoteList = std::list<Note>;
+	using Note = types::Note;
+	using NoteList = types::NoteList;
 
 	virtual ~Audio() {}
 	virtual AudioType Type() const = 0;
@@ -58,14 +59,17 @@ protected:
 		bool AddNote(Note note) override;                                          \
 		bool RemoveNote(Note note) override;
 
-// class SineWavesSynth; // forward declaration from "sound.h"
-
 class BuiltinAudio : public Audio {
 public:
 	AUDIO_INHERIT_FUNCTIONS(Builtin)
 
 private:
 	SineWavesSynth sine_synth_;
+};
+
+class MessagingAudio : public Audio {
+public:
+	AUDIO_INHERIT_FUNCTIONS(Messaging)
 };
 
 } // namespace synth

@@ -1,6 +1,7 @@
-#include "view/routes.h"
 #include <string>
 #include <SFML/Graphics.hpp>
+#include "view/elements.h"
+#include "view/routes.h"
 
 namespace synth::view {
 
@@ -8,8 +9,8 @@ inline void PaintGrade(sf::RenderWindow& window, float grade) {
 	uint16_t x = window.getSize().x / 2 + 50;
 	uint16_t y = window.getSize().y / 2 - 40;
 
-	window.draw(CreateRectShape({x, y, 100, 40}, sf::Color::White));
-	window.draw(CreateText(std::to_string(grade), x + 20, y + 15));
+	window.draw(RectElement({x, y, 100, 40}, sf::Color::White));
+	window.draw(TextElement(std::to_string(grade), x + 20, y + 15));
 }
 
 ROUTE_INIT(PracticePlayerPlaying) {

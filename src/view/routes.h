@@ -65,8 +65,6 @@ struct RouteState {
 
 using PaintMenuNames = std::initializer_list<const std::string>;
 
-sf::RectangleShape CreateRectShape(const Button& button, sf::Color color);
-sf::Text CreateText(const std::string& str, float x, float y);
 /*
  * Paints a menu with buttons for each name, and a `back` button.
  * Returns the buttons representing the names with the same order,

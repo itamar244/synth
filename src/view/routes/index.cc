@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "view/elements.h"
 #include "view/routes.h"
 
 namespace synth {
@@ -11,9 +12,8 @@ ROUTE_INIT(Index) {
 	const float y = dimensions.y / 2 - height / 2;
 	Button button = { x, y, width, height };
 
-	window.draw(CreateText("Itamar Yatom Project", x - 40, y - 30));
-	window.draw(CreateRectShape(button, sf::Color::Blue));
-	window.draw(CreateText("Continue", x + 15, y + 10));
+	window.draw(TextElement("Itamar Yatom Project", x - 40, y - 30));
+	window.draw(ButtonElement("Continue", sf::Color::Blue, x, y));
 
 	return {button};
 }
