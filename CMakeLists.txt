@@ -27,6 +27,7 @@ add_subdirectory(${PROJECT_LIB_DIR}/atic)
 add_executable(${PROJECT_NAME} ${Synth_SRC})
 
 find_package(Boost COMPONENTS system filesystem REQUIRED)
+find_package(zmq)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
 
@@ -34,6 +35,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
 target_link_libraries(${PROJECT_NAME}
   PRIVATE ${Boost_FILESYSTEM_LIBRARY}
   PRIVATE ${Boost_SYSTEM_LIBRARY}
+	PRIVATE zmq
 	PRIVATE Atic
 	PRIVATE MeloLang
 )

@@ -14,7 +14,6 @@ export default class App extends HTMLElement {
     this.env = env
     this.button = new ToggleButton(['port', 'synth'], {
       synth: this.changeKeyboardType(keyboard.localSynthKeyboard),
-
       port: this.changeKeyboardType(keyboard.serialPortSynthKeyboard),
     });
 

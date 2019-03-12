@@ -1,6 +1,5 @@
 // @flow
-import os from 'os';
-import SerialPortClass, { parsers } from 'serialport';
+import zmq from 'zeromq';
 
 type RequestHandler = (type: number, data: number) => mixed;
 
@@ -9,21 +8,13 @@ export type SerialPort = {
   +subscribe: (listener: RequestHandler) => mixed,
 }
 
-function createSerialPortForPath(path: string): SerialPort {
-  const port = new SerialPortClass(path);
-  const parser = port.pipe(new parsers.ByteLength({ length: 2 }));
+export default function createSerialPort(): SerialPort {
+  const puller = zmq.socket('pull');
+  puller.connect('tcp://127.0.0.1:1234');
 
   return {
-    send: (type, data) => port.write([type, data]),
+    send: (type, data) => {},
     subscribe: listener =>
-      parser.on('data', data => listener(data[0], data[1])),
+      puller.on('message', data => listener(data[0], data[1])),
   };
-}
-
-export default function createSerialPort(): SerialPort {
-  const platform = os.platform();
-
-  return createSerialPortForPath(
-    platform === 'win32' ? 'COM5' : '/dev/ttyACM0',
-  );
 }

@@ -7,10 +7,7 @@ export default class ToggleButton<Option: string> extends HTMLElement {
   handlers: Handlers<Option>;
   button = document.createElement('button');
 
-  constructor(
-    options: Option[],
-    handlers: Handlers<Option>,
-  ) {
+  constructor(options: Option[], handlers: Handlers<Option>) {
     super();
     this.options = options;
     this.handlers = handlers;

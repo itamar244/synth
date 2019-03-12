@@ -1,12 +1,14 @@
 #include <chrono>
 #include <thread>
 #include <SFML/Graphics.hpp>
-#include "store.h"
 #include "env.h"
 #include "keyboard.h"
+#include "messages.h"
 #include "view/controller.h"
+#include "store.h"
 
 namespace store = synth::store;
+namespace messages = synth::messages;
 
 using synth::Environment;
 using synth::ListenToKeyboardInput;
@@ -40,9 +42,6 @@ int main(int argc, char const *argv[]) {
 	store::MaybeInit();
 
 	sf::RenderWindow window(sf::VideoMode(500, 300), "Synth", sf::Style::None);
-
-	window.setVerticalSyncEnabled(true);
-	window.clear(sf::Color::Black);
 
 	std::thread tickerLoop(TickLoop);
 
